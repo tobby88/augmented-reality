@@ -1,30 +1,38 @@
 package eu.tobby.momentanpol;
 
+import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 public class OpenGL_Renderer extends ActionBarActivity {
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_gl__renderer);
-    }*/
-    private GLSurfaceView mGLView;
+    private GLSurfaceView glView;
+    private RelativeLayout rl;
+    private View androidView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Create a GLSurfaceView instance and set it
-        // as the ContentView for this Activity.
-        mGLView = new MyGLSurfaceView(this);
-        //setContentView(R.layout.activity_open_gl__renderer);
-        setContentView(mGLView);
+        // Create a new relative layout to make a stack of views
+        rl = new RelativeLayout(this);
+        // Create object of an OpenGL-Viewer and add this view to the layout
+        glView = new MyGLSurfaceView(this);
+        rl.addView(glView);
+        // Make a view out of the Designer-XML and add this view on top of the OpenGL-Viewer
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        androidView = inflater.inflate(R.layout.activity_open_gl__renderer, null);
+        rl.addView(androidView);
+        // Show this layout
+        setContentView(rl);
     }
 
     @Override
