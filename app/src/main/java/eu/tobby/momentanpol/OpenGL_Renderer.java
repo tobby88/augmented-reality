@@ -17,7 +17,6 @@ public class OpenGL_Renderer extends ActionBarActivity {
     private RelativeLayout rl;
     private View androidView;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
