@@ -16,33 +16,27 @@ import com.qualcomm.vuforia.Vuforia;
 
 
 public class OpenGL_Renderer extends ActionBarActivity implements SampleApplicationControl {
-    //private GLSurfaceView glView;
+
     private View androidView;
-
     SampleApplicationSession vuforiaAppSession;
-
     private SampleApplicationGLView mGlView;
     private FrameMarkerRenderer mRenderer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Create Vuforia instance and initialize it
         vuforiaAppSession = new SampleApplicationSession(this);
         vuforiaAppSession.initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        // Create object of an OpenGL-Viewer and show this view
-        //glView = new MyGLSurfaceView(this);
+        // Create object of an OpenGL-Viewer
         int depthSize = 16;
         int stencilSize = 0;
         boolean translucent = Vuforia.requiresAlpha();
         mGlView = new SampleApplicationGLView(this);
         mGlView.init(translucent, depthSize, stencilSize);
+        // Create Renderer for OpenGL and add it to the view
         mRenderer = new FrameMarkerRenderer(this, vuforiaAppSession);
         mGlView.setRenderer(mRenderer);
-        setContentView(mGlView);
-        // Make a view out of the Designer-XML and add this view on top of the OpenGL-Viewer
-        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        androidView = inflater.inflate(R.layout.activity_open_gl__renderer, null);
-        addContentView(androidView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
 
@@ -108,10 +102,16 @@ public class OpenGL_Renderer extends ActionBarActivity implements SampleApplicat
         return false;
     }
 
-
     @Override
     public void onInitARDone(SampleApplicationException e) {
+        // Activate renderer and show the OpenGL-Viewer
         mRenderer.mIsActive = true;
+        setContentView(mGlView);
+        // Make a view out of the Designer-XML and add this view on top of the OpenGL-Viewer
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        androidView = inflater.inflate(R.layout.activity_open_gl__renderer, null);
+        addContentView(androidView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        // Start Camera
         try {
             vuforiaAppSession.startAR(CameraDevice.CAMERA.CAMERA_DEFAULT);
         } catch (SampleApplicationException e1) {
