@@ -187,9 +187,9 @@ public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallback
     {
         mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_Q.png",
                 getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_C.png",
-                getAssets()));
         mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_A.png",
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_C.png",
                 getAssets()));
         mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_R.png",
                 getAssets()));
