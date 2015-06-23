@@ -59,22 +59,8 @@ public abstract class MeshObject
         return bb;
         
     }
-    
-    
-    protected Buffer fillBuffer(float[] array)
-    {
-        // Each float takes 4 bytes
-        ByteBuffer bb = ByteBuffer.allocateDirect(4 * array.length);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        for (float d : array)
-            bb.putFloat(d);
-        bb.rewind();
-        
-        return bb;
-        
-    }
-    
-    
+
+
     protected Buffer fillBuffer(short[] array)
     {
         // Each short takes 2 bytes
@@ -90,9 +76,6 @@ public abstract class MeshObject
     
     
     public abstract Buffer getBuffer(BUFFER_TYPE bufferType);
-    
-    
-    public abstract int getNumObjectVertex();
     
     
     public abstract int getNumObjectIndex();
