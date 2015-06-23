@@ -50,8 +50,10 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
 
     // Constants:
-    static private float kLetterScale = 2.5f;
-    static private float kLetterTranslate = 0.0f;
+    static private float kLetterScale = 25.0f;
+    static private float kLetterTranslate = 25.0f;
+    static private float kLetterTranslateX = 150.0f;
+    static private float kLetterTranslateY = 250.0f;
 
     private QObject qObject = new QObject();
     private CObject cObject = new CObject();
@@ -90,9 +92,6 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
         // Get the state from Vuforia and mark the beginning of a rendering
         // section
         State state = Renderer.getInstance().begin();
-
-        // Get the state from Vuforia and mark the beginning of a rendering section
-
         // Explicitly render the Video Background
         Renderer.getInstance().drawVideoBackground();
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -146,10 +145,11 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             }
             float[] modelViewProjection = new float[16];
 
-            Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
-            Matrix.translateM(modelViewMatrix, 0, -kLetterTranslate,
-                    -kLetterTranslate, 0.f);
 
+            Matrix.translateM(modelViewMatrix, 0, kLetterTranslateX,
+                    -kLetterTranslateY, 0.f);
+            Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
+            Matrix.translateM(modelViewMatrix,0, -kLetterScale,-kLetterScale,0);
             Matrix.scaleM(modelViewMatrix, 0, kLetterScale, kLetterScale,
                     kLetterScale);
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
@@ -182,7 +182,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
         }
 
-        //GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
 
         Renderer.getInstance().end();
 

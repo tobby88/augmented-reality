@@ -1,27 +1,19 @@
 package eu.tobby.momentanpol;
 
+import android.app.Activity;
 import android.content.Context;
-import android.opengl.GLSurfaceView;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-/*import android.view.Menu;
-import android.view.MenuItem;*/
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-
-import com.qualcomm.vuforia.CameraCalibration;
 import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.Marker;
 import com.qualcomm.vuforia.MarkerTracker;
-import com.qualcomm.vuforia.Matrix44F;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
-import com.qualcomm.vuforia.Tool;
 import com.qualcomm.vuforia.Tracker;
 import com.qualcomm.vuforia.TrackerManager;
 import com.qualcomm.vuforia.Vec2F;
@@ -32,12 +24,11 @@ import com.qualcomm.vuforia.Vuforia;
 import com.qualcomm.vuforia.Vuforia.UpdateCallbackInterface;
 
 import java.util.Vector;
-import java.util.concurrent.locks.Lock;
 
 import eu.tobby.momentanpol.utils.Texture;
 
 
-public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallbackInterface {
+public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface {
 
     private static final String LOGTAG = "OpenGL_renderer";
 
@@ -46,7 +37,6 @@ public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallback
     OpenGL_View glSurfaceView;
     private Marker dataSet[];
     private Vector<Texture> mTextures;
-    private Object mShutdownLock = new Object();
 
 
 
@@ -70,10 +60,6 @@ public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallback
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         androidView = inflater.inflate(R.layout.activity_open_gl__renderer, null);
         addContentView(androidView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
-
-
-
     }
 
     @Override
