@@ -50,8 +50,8 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
 
     // Constants:
-    static private float kLetterScale = 2.5f;
-    static private float kLetterTranslate = 0.0f;
+    static private float kLetterScale = 25.0f;
+    static private float kLetterTranslate = 25.0f;
 
     private QObject qObject = new QObject();
     private CObject cObject = new CObject();
@@ -130,11 +130,11 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
                     numIndices = cObject.getNumObjectIndex();
                     break;
                 case 2:
-                    vertices =  cObject.getVertices();
-                    normals = cObject.getNormals();
-                    indices = cObject.getIndices();
-                    texCoords = cObject.getTexCoords();
-                    numIndices = cObject.getNumObjectIndex();
+                    vertices =  aObject.getVertices();
+                    normals = aObject.getNormals();
+                    indices = aObject.getIndices();
+                    texCoords = aObject.getTexCoords();
+                    numIndices = aObject.getNumObjectIndex();
                     break;
                 default:
                     vertices = rObject.getVertices();
