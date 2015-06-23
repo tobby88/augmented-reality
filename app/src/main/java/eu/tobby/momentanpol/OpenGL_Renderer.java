@@ -43,7 +43,7 @@ public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallback
 
     private View androidView;
     private MomentanpolGLRenderer mRenderer;
-    GLSurfaceView glSurfaceView;
+    OpenGL_View glSurfaceView;
     private Marker dataSet[];
     private Vector<Texture> mTextures;
     private Object mShutdownLock = new Object();
@@ -56,12 +56,12 @@ public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallback
         // Create Vuforia instance, initialize it and start the camera
         mTextures = new Vector<>();
         loadTextures();
+        mRenderer = new MomentanpolGLRenderer();
 
         // Create object of an OpenGL-Viewer with OpenGL2.0
-        glSurfaceView = new GLSurfaceView(this);
+        glSurfaceView = new OpenGL_View(this, mRenderer);
         glSurfaceView.setEGLContextClientVersion(2);
         // Create Renderer for OpenGL, add it to the view and show it
-        mRenderer = new MomentanpolGLRenderer();
         mRenderer.setTextures(mTextures);
         glSurfaceView.setRenderer(mRenderer);
         setContentView(glSurfaceView);

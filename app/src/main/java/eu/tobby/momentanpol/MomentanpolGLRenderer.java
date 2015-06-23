@@ -57,6 +57,16 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
     private CObject cObject = new CObject();
     private AObject aObject = new AObject();
     private RObject rObject = new RObject();
+    public volatile float mAngle=0;
+
+    public float getAngle() {
+        return mAngle;
+    }
+
+    public void setAngle(float angle) {
+        mAngle = angle;
+    }
+
 
     public MomentanpolGLRenderer(){
         //mTextures = new Vector<Texture>();
@@ -136,9 +146,10 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             }
             float[] modelViewProjection = new float[16];
 
-
+            Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
             Matrix.translateM(modelViewMatrix, 0, -kLetterTranslate,
                     -kLetterTranslate, 0.f);
+
             Matrix.scaleM(modelViewMatrix, 0, kLetterScale, kLetterScale,
                     kLetterScale);
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
