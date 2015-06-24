@@ -22,6 +22,7 @@ import com.qualcomm.vuforia.TrackableResult;
 
 import eu.tobby.momentanpol.objects.AObject;
 import eu.tobby.momentanpol.objects.CObject;
+import eu.tobby.momentanpol.objects.Plane;
 import eu.tobby.momentanpol.objects.QObject;
 import eu.tobby.momentanpol.objects.RObject;
 import eu.tobby.momentanpol.utils.Texture;
@@ -50,15 +51,16 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
 
     // Constants:
-    static private float kLetterScale = 25.0f;
-    static private float kLetterTranslate = 25.0f;
-    static private float kLetterTranslateX = 150.0f;
-    static private float kLetterTranslateY = 250.0f;
+    static private float kLetterScale = 1.0f;
+    static private float kLetterTranslate = 0.0f;
+    static private float kLetterTranslateX = 50.0f;
+    static private float kLetterTranslateY = -84.0f;
 
     private QObject qObject = new QObject();
     private CObject cObject = new CObject();
     private AObject aObject = new AObject();
     private RObject rObject = new RObject();
+    private Plane plane = new Plane();
     public volatile float mAngle=0;
 
     public float getAngle() {
@@ -135,27 +137,33 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
                     texCoords = cObject.getTexCoords();
                     numIndices = cObject.getNumObjectIndex();
                     break;
-                default:
+                case 3:
                     vertices = rObject.getVertices();
                     normals = rObject.getNormals();
                     indices = rObject.getIndices();
                     texCoords = rObject.getTexCoords();
                     numIndices = rObject.getNumObjectIndex();
                     break;
+                default:
+                    vertices = plane.getVertices();
+                    normals = plane.getNormals();
+                    indices = plane.getIndices();
+                    texCoords = plane.getTexCoords();
+                    numIndices = plane.getNumObjectIndex();
             }
             float[] modelViewProjection = new float[16];
 
 
             Matrix.translateM(modelViewMatrix, 0, kLetterTranslateX,
-                    -kLetterTranslateY, 0.f);
+                    kLetterTranslateY, 0.f);
             Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
-            Matrix.translateM(modelViewMatrix,0, -kLetterScale,-kLetterScale,0);
+            Matrix.translateM(modelViewMatrix,0, -kLetterScale, -kLetterScale, 0);
             Matrix.scaleM(modelViewMatrix, 0, kLetterScale, kLetterScale,
                     kLetterScale);
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
 
             GLES20.glUseProgram(shaderProgramID);
-
+            //Hot Fix
             GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
                     false, 0, vertices);
             GLES20.glVertexAttribPointer(normalHandle, 3, GLES20.GL_FLOAT,
@@ -168,10 +176,8 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             GLES20.glEnableVertexAttribArray(textureCoordHandle);
 
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                    thisTexture.mTextureID[0]);
-            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
-                    modelViewProjection, 0);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, thisTexture.mTextureID[0]);
+            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,modelViewProjection, 0);
             GLES20.glUniform1i(texSampler2DHandle, 0);
             GLES20.glDrawElements(GLES20.GL_TRIANGLES, numIndices,
                     GLES20.GL_UNSIGNED_SHORT, indices);
