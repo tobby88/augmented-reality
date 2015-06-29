@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import com.qualcomm.vuforia.CameraDevice;
+import com.qualcomm.vuforia.Frame;
 import com.qualcomm.vuforia.Marker;
 import com.qualcomm.vuforia.MarkerTracker;
 import com.qualcomm.vuforia.Renderer;
@@ -168,7 +169,7 @@ public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface
 
     // Callback called every cycle
     @Override
-    public void QCAR_onUpdate(State s) {}
+    public void QCAR_onUpdate(State s){}
 
     private void loadTextures()
     {
