@@ -52,8 +52,4 @@ public class OpenGL_View extends GLSurfaceView{
         mPreviousY = y;
         return true;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> tobby-tests
 }

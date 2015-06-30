@@ -7,7 +7,6 @@ import java.util.Vector;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.util.Log;
 
 import com.qualcomm.vuforia.CameraCalibration;
 import com.qualcomm.vuforia.CameraDevice;
@@ -53,10 +52,6 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
     // Constants:
     static private float kLetterScale = 1.0f;
-<<<<<<< HEAD
-    static private float kLetterTranslate = 0.0f;
-=======
->>>>>>> tobby-tests
     static private float kLetterTranslateX = 50.0f;
     static private float kLetterTranslateY = -84.0f;
 
@@ -194,39 +189,14 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
         Renderer.getInstance().end();
     }
 
-<<<<<<< HEAD
-        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-=======
-    private void findObject() {
-        State state = Renderer.getInstance().begin();
-        Log.e("findObject", "frame: " + state.getFrame());
-        Frame frame = state.getFrame();
-        for(int i=0;i<frame.getNumImages();i++) {
-            //Log.e("findObject", "Height : " + frame.getImage(i).getWidth() + "x" + frame.getImage(i).getHeight());
-            Image image = frame.getImage(i);
-            ByteBuffer bb = image.getPixels();
-        }
->>>>>>> tobby-tests
-
-
-
-
-        Renderer.getInstance().end();
-    }
 
     private void findObject() {
         State state = Renderer.getInstance().begin();
-        Log.e("findObject", "frame: " + state.getFrame());
         Frame frame = state.getFrame();
         for(int i=0;i<frame.getNumImages();i++) {
-            //Log.e("findObject", "Height : " + frame.getImage(i).getWidth() + "x" + frame.getImage(i).getHeight());
             Image image = frame.getImage(i);
             ByteBuffer bb = image.getPixels();
         }
-
-
-
-
         Renderer.getInstance().end();
     }
 

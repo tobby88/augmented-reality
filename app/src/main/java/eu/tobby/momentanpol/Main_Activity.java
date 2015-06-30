@@ -1,6 +1,5 @@
 package eu.tobby.momentanpol;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,20 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
-=======
 
->>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
 import com.qualcomm.vuforia.CameraDevice;
-import com.qualcomm.vuforia.Frame;
 import com.qualcomm.vuforia.Marker;
 import com.qualcomm.vuforia.MarkerTracker;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
-<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
-import com.qualcomm.vuforia.Tracker;
-=======
->>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
 import com.qualcomm.vuforia.TrackerManager;
 import com.qualcomm.vuforia.Vec2F;
 import com.qualcomm.vuforia.Vec2I;
@@ -36,24 +27,13 @@ import java.util.Vector;
 import eu.tobby.momentanpol.utils.Texture;
 
 
-<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
-public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface {
-
-    private static final String LOGTAG = "OpenGL_renderer";
-=======
 public class Main_Activity extends ActionBarActivity implements UpdateCallbackInterface {
->>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
 
     private View androidView;
     private MomentanpolGLRenderer mRenderer;
     OpenGL_View glSurfaceView;
     private Marker dataSet[];
-<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
-    private Vector<Texture> mTextures;
-
-=======
     private Vector<Texture> textures;
->>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
 
 
     @Override
@@ -169,25 +149,12 @@ public class Main_Activity extends ActionBarActivity implements UpdateCallbackIn
     @Override
     public void QCAR_onUpdate(State s){}
 
-<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
-    private void loadTextures()
-    {
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_Q.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_A.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_C.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_R.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/bart.jpg", getAssets()));
-=======
     private void loadTextures() {
         textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_Q.png", getAssets()));
         textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_A.png", getAssets()));
         textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_C.png", getAssets()));
         textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_R.png", getAssets()));
->>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", getAssets()));
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/bart.jpg", getAssets()));
     }
 }
