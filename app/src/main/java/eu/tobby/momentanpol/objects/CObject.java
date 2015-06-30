@@ -648,14 +648,7 @@ public class CObject extends MeshObject
         }
         return result;
     }
-    
-    
-    @Override
-    public int getNumObjectVertex()
-    {
-        return letterVertices.length / 3;
-    }
-    
+
     
     @Override
     public int getNumObjectIndex()

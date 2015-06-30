@@ -3,19 +3,26 @@ package eu.tobby.momentanpol;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
+=======
+
+>>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
 import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.Frame;
 import com.qualcomm.vuforia.Marker;
 import com.qualcomm.vuforia.MarkerTracker;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
+<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
 import com.qualcomm.vuforia.Tracker;
+=======
+>>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
 import com.qualcomm.vuforia.TrackerManager;
 import com.qualcomm.vuforia.Vec2F;
 import com.qualcomm.vuforia.Vec2I;
@@ -29,33 +36,42 @@ import java.util.Vector;
 import eu.tobby.momentanpol.utils.Texture;
 
 
+<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
 public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface {
 
     private static final String LOGTAG = "OpenGL_renderer";
+=======
+public class Main_Activity extends ActionBarActivity implements UpdateCallbackInterface {
+>>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
 
     private View androidView;
     private MomentanpolGLRenderer mRenderer;
     OpenGL_View glSurfaceView;
     private Marker dataSet[];
+<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
     private Vector<Texture> mTextures;
 
+=======
+    private Vector<Texture> textures;
+>>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Create Vuforia instance, initialize it and start the camera
-        mTextures = new Vector<>();
+        // Create Textures-vector and load the textures into it
+        textures = new Vector<>();
         loadTextures();
+        // Create Renderer for OpenGL
         mRenderer = new MomentanpolGLRenderer();
-
         // Create object of an OpenGL-Viewer with OpenGL2.0
         glSurfaceView = new OpenGL_View(this, mRenderer);
         glSurfaceView.setEGLContextClientVersion(2);
-        // Create Renderer for OpenGL, add it to the view and show it
-        mRenderer.setTextures(mTextures);
+        //, add it to the view and show it
+        mRenderer.setTextures(textures);
         glSurfaceView.setRenderer(mRenderer);
         setContentView(glSurfaceView);
+        // Create Vuforia instance, initialize it and start the camera
         initAR();
         // Make a view out of the Designer-XML and add this view on top of the OpenGL-Viewer
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -100,33 +116,18 @@ public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface
         Vuforia.setInitParameters(this, Vuforia.GL_20, "AcCmXLj/////AAAAAWn4W4WOD0/up7Ehu28I5VBQq6sv1WL7JaOAAvhmS98exI+JmpBsPdHy4GnaLxhmgOq3BSpWKFZR4eh6xL2K2NIGN4kPDW8fQwwhKv+7uusQoE5Grc/DOTM0NMZ/G/UPJQC59Uj/SnYvr67zfibax4kVrv+tNzLkcqn+pvhLcdFX1HATddnCCb9IwC2QEc+qX2HSLwxDlS/87FVlhcsUB/NeICVSVTtB5+buqEwOGy+4ZLwJjW5RFrGWX9SLMWHffO9K7X4mn2JQqRt8ZBJXMbixO54BFT+wA7JAhtfznUN33z3QBiE8Uce3aCI8Fh6gBVUt6b35sv8IMmnbZGJ9iA6XurRBoNwJEm7bve2myxu/");
         while(Vuforia.init()<100){}
         boolean initTrackersResult;
-        initTrackersResult = doInitTrackers();
-        if(initTrackersResult) {
-            doLoadTrackersData();
-        }
+        TrackerManager.getInstance().initTracker(MarkerTracker.getClassType());
+        doLoadTrackersData();
         CameraDevice.getInstance().init(CameraDevice.CAMERA.CAMERA_DEFAULT);
         configureVideoBackground();
         CameraDevice.getInstance().selectVideoMode(CameraDevice.MODE.MODE_DEFAULT);
         CameraDevice.getInstance().start();
         CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
         mRenderer.setProjectionMatrix();
-
     }
 
-    public boolean doInitTrackers() {
-        boolean result = true;
-        TrackerManager trackerManager = TrackerManager.getInstance();
-        Tracker trackerBase = trackerManager.initTracker(MarkerTracker.getClassType());
-        MarkerTracker markerTracker = (MarkerTracker) (trackerBase);
-        if(markerTracker == null) {
-            result = false;
-            Log.e(LOGTAG, "MarkerTracker not initialized");
-        }
-        return result;
-    }
 
-    public boolean doLoadTrackersData(){
-
+    public boolean doLoadTrackersData() {
         TrackerManager tManager = TrackerManager.getInstance();
         MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
         if (markerTracker == null)
@@ -140,9 +141,6 @@ public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface
         markerTracker.start();
         return true;
         // Here Exception handling
-
-
-
     }
 
     private void configureVideoBackground() {
@@ -171,6 +169,7 @@ public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface
     @Override
     public void QCAR_onUpdate(State s){}
 
+<<<<<<< HEAD:app/src/main/java/eu/tobby/momentanpol/OpenGL_Renderer.java
     private void loadTextures()
     {
         mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_Q.png",
@@ -183,8 +182,12 @@ public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface
                 getAssets()));
         mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", getAssets()));
         mTextures.add(Texture.loadTextureFromApk("FrameMarkers/bart.jpg", getAssets()));
+=======
+    private void loadTextures() {
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_Q.png", getAssets()));
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_A.png", getAssets()));
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_C.png", getAssets()));
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_R.png", getAssets()));
+>>>>>>> tobby-tests:app/src/main/java/eu/tobby/momentanpol/Main_Activity.java
     }
-
-
-
 }
