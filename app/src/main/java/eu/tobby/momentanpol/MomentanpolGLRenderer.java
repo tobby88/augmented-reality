@@ -96,9 +96,9 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
         //Log.e("renderFrame","state.getFrame" + state.getFrame());
         // Explicitly render the Video Background
         Renderer.getInstance().drawVideoBackground();
-        /*GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);*/
+        GLES20.glCullFace(GLES20.GL_BACK);
 
         for(int trackingIndex = 0; trackingIndex < state.getNumTrackableResults(); trackingIndex++) {
             TrackableResult trackableResult = state.getTrackableResult(trackingIndex);

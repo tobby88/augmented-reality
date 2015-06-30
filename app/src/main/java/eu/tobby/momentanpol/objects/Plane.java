@@ -12,8 +12,7 @@ import java.nio.Buffer;
 import eu.tobby.momentanpol.utils.MeshObject;
 
 
-public class Plane extends MeshObject
-{
+public class Plane extends MeshObject {
     // Data for drawing the 3D plane as overlay
     private static final double letterVertices[] = { -73.5, -57.500000f, 0.000000f, 73.5f, -57.500000f, 0.000000f, 73.5f, 57.500000f, 0.000000f, -73.5000000f, 57.500000f, 0.000000f };
     
@@ -29,8 +28,7 @@ public class Plane extends MeshObject
     Buffer mIndBuff;
     
     
-    public Plane()
-    {
+    public Plane() {
         mVertBuff = fillBuffer(letterVertices);
         mTexCoordBuff = fillBuffer(letterTexcoords);
         mNormBuff = fillBuffer(letterNormals);
@@ -39,8 +37,7 @@ public class Plane extends MeshObject
     
     
     @Override
-    public Buffer getBuffer(BUFFER_TYPE bufferType)
-    {
+    public Buffer getBuffer(BUFFER_TYPE bufferType) {
         Buffer result = null;
         switch (bufferType)
         {
@@ -59,13 +56,6 @@ public class Plane extends MeshObject
                 break;
         }
         return result;
-    }
-    
-    
-    @Override
-    public int getNumObjectVertex()
-    {
-        return letterVertices.length / 3;
     }
     
     
