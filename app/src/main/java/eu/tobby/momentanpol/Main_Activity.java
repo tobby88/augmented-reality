@@ -114,12 +114,13 @@ public class Main_Activity extends ActionBarActivity implements UpdateCallbackIn
         MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
         if (markerTracker == null)
                 return false;
-        dataSet = new Marker[5];
+        dataSet = new Marker[6];
         dataSet[0] = markerTracker.createFrameMarker(0, "MarkerQ", new Vec2F(50, 50));
         dataSet[1] = markerTracker.createFrameMarker(1, "MarkerC", new Vec2F(50, 50));
         dataSet[2] = markerTracker.createFrameMarker(2, "MarkerA", new Vec2F(50, 50));
         dataSet[3] = markerTracker.createFrameMarker(3, "MarkerR", new Vec2F(50, 50));
         dataSet[4] = markerTracker.createFrameMarker(4, "Momentanpol", new Vec2F(50, 50));
+        dataSet[5] = markerTracker.createFrameMarker(5, "Bart", new Vec2F(50, 50));
         markerTracker.start();
         return true;
         // Here Exception handling
