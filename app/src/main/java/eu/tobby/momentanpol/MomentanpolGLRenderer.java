@@ -7,6 +7,7 @@ import java.util.Vector;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import com.qualcomm.vuforia.CameraCalibration;
 import com.qualcomm.vuforia.CameraDevice;
@@ -51,15 +52,9 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
 
     // Constants:
-<<<<<<< .merge_file_S316m3
-    static private float kLetterScale = 25.0f;
-    static private float kLetterTranslate = 25.0f;
-=======
     static private float kLetterScale = 1.0f;
-    static private float kLetterTranslate = 0.0f;
     static private float kLetterTranslateX = 50.0f;
     static private float kLetterTranslateY = -84.0f;
->>>>>>> .merge_file_C9Ye12
 
     private QObject qObject = new QObject();
     private CObject cObject = new CObject();
@@ -191,12 +186,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             GLES20.glDisableVertexAttribArray(textureCoordHandle);
 
         }
-<<<<<<< .merge_file_S316m3
-=======
-
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-
->>>>>>> .merge_file_C9Ye12
         Renderer.getInstance().end();
     }
 

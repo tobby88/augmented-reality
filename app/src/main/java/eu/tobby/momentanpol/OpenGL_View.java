@@ -8,7 +8,7 @@ import android.view.MotionEvent;
  * Created by janna on 23.06.15.
  */
 public class OpenGL_View extends GLSurfaceView{
-    private final float TOUCH_SCALE_FACTOR = 0.15f;
+    private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
     private float mPreviousX;
     private float mPreviousY;
     private MomentanpolGLRenderer  mRenderer;
@@ -23,6 +23,7 @@ public class OpenGL_View extends GLSurfaceView{
         // MotionEvent reports input details from the touch screen
         // and other input controls. In this case, you are only
         // interested in events where the touch position changed.
+
         float x = e.getX();
         float y = e.getY();
 
@@ -52,8 +53,4 @@ public class OpenGL_View extends GLSurfaceView{
         mPreviousY = y;
         return true;
     }
-<<<<<<< .merge_file_MsshH5
-=======
-
->>>>>>> .merge_file_cZYiN5
 }
