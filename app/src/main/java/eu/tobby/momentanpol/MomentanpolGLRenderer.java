@@ -1,6 +1,7 @@
 package eu.tobby.momentanpol;
 
 import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.util.Vector;
 
 import android.opengl.GLES20;
@@ -9,6 +10,8 @@ import android.opengl.Matrix;
 
 import com.qualcomm.vuforia.CameraCalibration;
 import com.qualcomm.vuforia.CameraDevice;
+import com.qualcomm.vuforia.Frame;
+import com.qualcomm.vuforia.Image;
 import com.qualcomm.vuforia.Matrix44F;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.Vuforia;
@@ -20,6 +23,7 @@ import com.qualcomm.vuforia.TrackableResult;
 
 import eu.tobby.momentanpol.objects.AObject;
 import eu.tobby.momentanpol.objects.CObject;
+import eu.tobby.momentanpol.objects.Plane;
 import eu.tobby.momentanpol.objects.QObject;
 import eu.tobby.momentanpol.objects.RObject;
 import eu.tobby.momentanpol.utils.Texture;
@@ -47,13 +51,21 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
 
     // Constants:
+<<<<<<< .merge_file_S316m3
     static private float kLetterScale = 25.0f;
     static private float kLetterTranslate = 25.0f;
+=======
+    static private float kLetterScale = 1.0f;
+    static private float kLetterTranslate = 0.0f;
+    static private float kLetterTranslateX = 50.0f;
+    static private float kLetterTranslateY = -84.0f;
+>>>>>>> .merge_file_C9Ye12
 
     private QObject qObject = new QObject();
     private CObject cObject = new CObject();
     private AObject aObject = new AObject();
     private RObject rObject = new RObject();
+    private Plane plane = new Plane();
     public volatile float mAngle=0;
 
     public float getAngle() {
@@ -75,6 +87,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
     public void onDrawFrame(GL10 gl) {
 
         renderFrame();
+        findObject();
     }
 
     private void renderFrame() {
@@ -85,9 +98,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
         // Get the state from Vuforia and mark the beginning of a rendering
         // section
         State state = Renderer.getInstance().begin();
-
-        // Get the state from Vuforia and mark the beginning of a rendering section
-
+        //Log.e("renderFrame","state.getFrame" + state.getFrame());
         // Explicitly render the Video Background
         Renderer.getInstance().drawVideoBackground();
         /*GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -131,26 +142,33 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
                     texCoords = aObject.getTexCoords();
                     numIndices = aObject.getNumObjectIndex();
                     break;
-                default:
+                case 3:
                     vertices = rObject.getVertices();
                     normals = rObject.getNormals();
                     indices = rObject.getIndices();
                     texCoords = rObject.getTexCoords();
                     numIndices = rObject.getNumObjectIndex();
                     break;
+                default:
+                    vertices = plane.getVertices();
+                    normals = plane.getNormals();
+                    indices = plane.getIndices();
+                    texCoords = plane.getTexCoords();
+                    numIndices = plane.getNumObjectIndex();
             }
             float[] modelViewProjection = new float[16];
 
-            Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
-            Matrix.translateM(modelViewMatrix, 0, -kLetterTranslate,
-                    -kLetterTranslate, 0.f);
 
+            Matrix.translateM(modelViewMatrix, 0, kLetterTranslateX,
+                    kLetterTranslateY, 0.f);
+            Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
+            Matrix.translateM(modelViewMatrix, 0, -kLetterScale, -kLetterScale, 0);
             Matrix.scaleM(modelViewMatrix, 0, kLetterScale, kLetterScale,
                     kLetterScale);
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
 
             GLES20.glUseProgram(shaderProgramID);
-
+            //Hot Fix
             GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
                     false, 0, vertices);
             GLES20.glVertexAttribPointer(normalHandle, 3, GLES20.GL_FLOAT,
@@ -161,12 +179,9 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             GLES20.glEnableVertexAttribArray(vertexHandle);
             GLES20.glEnableVertexAttribArray(normalHandle);
             GLES20.glEnableVertexAttribArray(textureCoordHandle);
-
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                    thisTexture.mTextureID[0]);
-            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
-                    modelViewProjection, 0);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, thisTexture.mTextureID[0]);
+            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
             GLES20.glUniform1i(texSampler2DHandle, 0);
             GLES20.glDrawElements(GLES20.GL_TRIANGLES, numIndices,
                     GLES20.GL_UNSIGNED_SHORT, indices);
@@ -176,6 +191,28 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             GLES20.glDisableVertexAttribArray(textureCoordHandle);
 
         }
+<<<<<<< .merge_file_S316m3
+=======
+
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+
+>>>>>>> .merge_file_C9Ye12
+        Renderer.getInstance().end();
+    }
+
+    private void findObject() {
+        State state = Renderer.getInstance().begin();
+        Log.e("findObject", "frame: " + state.getFrame());
+        Frame frame = state.getFrame();
+        for(int i=0;i<frame.getNumImages();i++) {
+            //Log.e("findObject", "Height : " + frame.getImage(i).getWidth() + "x" + frame.getImage(i).getHeight());
+            Image image = frame.getImage(i);
+            ByteBuffer bb = image.getPixels();
+        }
+
+
+
+
         Renderer.getInstance().end();
     }
 
