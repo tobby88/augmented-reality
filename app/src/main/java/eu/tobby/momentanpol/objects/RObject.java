@@ -662,13 +662,6 @@ public class RObject extends MeshObject
     
     
     @Override
-    public int getNumObjectVertex()
-    {
-        return letterVertices.length / 3;
-    }
-    
-    
-    @Override
     public int getNumObjectIndex()
     {
         return letterIndices.length;

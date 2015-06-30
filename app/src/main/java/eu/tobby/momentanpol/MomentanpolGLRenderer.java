@@ -6,7 +6,6 @@ import java.util.Vector;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.util.Log;
 
 import com.qualcomm.vuforia.CameraCalibration;
 import com.qualcomm.vuforia.CameraDevice;
@@ -15,7 +14,6 @@ import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.Vuforia;
 import com.qualcomm.vuforia.Marker;
 import com.qualcomm.vuforia.MarkerResult;
-import com.qualcomm.vuforia.MarkerTracker;
 import com.qualcomm.vuforia.State;
 import com.qualcomm.vuforia.Tool;
 import com.qualcomm.vuforia.TrackableResult;
@@ -37,7 +35,6 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 {
-//private Vector<Texture> mTextures;
     private Vector<Texture> mTextures;
 // OpenGL ES 2.0 specific:
     private int shaderProgramID = 0;
@@ -68,9 +65,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
     }
 
 
-    public MomentanpolGLRenderer(){
-        //mTextures = new Vector<Texture>();
-    }
+    public MomentanpolGLRenderer(){}
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         initRendering();
@@ -95,9 +90,9 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
         // Explicitly render the Video Background
         Renderer.getInstance().drawVideoBackground();
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        /*GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
+        GLES20.glCullFace(GLES20.GL_BACK);*/
 
         for(int trackingIndex = 0; trackingIndex < state.getNumTrackableResults(); trackingIndex++) {
             TrackableResult trackableResult = state.getTrackableResult(trackingIndex);
@@ -108,11 +103,11 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             int textureIndex = marker.getMarkerId();
             Texture thisTexture = mTextures.get(textureIndex);
 
-            Buffer vertices = null;
-            Buffer normals = null;
-            Buffer indices = null;
-            Buffer texCoords = null;
-            int numIndices = 0;
+            Buffer vertices;
+            Buffer normals;
+            Buffer indices;
+            Buffer texCoords;
+            int numIndices;
 
             switch (marker.getMarkerId()) {
                 case 0:
@@ -181,11 +176,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             GLES20.glDisableVertexAttribArray(textureCoordHandle);
 
         }
-
-        //GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-
         Renderer.getInstance().end();
-
     }
 
 
@@ -195,8 +186,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
         Vuforia.onSurfaceChanged(width, height);
     }
 
-    public void setProjectionMatrix()
-    {
+    public void setProjectionMatrix() {
         CameraCalibration camCal = CameraDevice.getInstance().getCameraCalibration();
         mProjectionMatrix = Tool.getProjectionGL(camCal, 10.0f, 5000.0f);
     }
@@ -208,7 +198,6 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
 
     private void initRendering() {
-
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
                 : 1.0f);
@@ -243,8 +232,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
     }
 
-    public void setTextures(Vector<Texture> textures)
-    {
+    public void setTextures(Vector<Texture> textures) {
         mTextures = textures;
 
     }

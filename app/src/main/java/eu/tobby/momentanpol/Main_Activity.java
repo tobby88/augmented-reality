@@ -1,10 +1,9 @@
 package eu.tobby.momentanpol;
 
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 /*import android.view.Menu;
 import android.view.MenuItem;*/
@@ -17,7 +16,6 @@ import com.qualcomm.vuforia.Marker;
 import com.qualcomm.vuforia.MarkerTracker;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
-import com.qualcomm.vuforia.Tracker;
 import com.qualcomm.vuforia.TrackerManager;
 import com.qualcomm.vuforia.Vec2F;
 import com.qualcomm.vuforia.Vec2I;
@@ -31,28 +29,28 @@ import java.util.Vector;
 import eu.tobby.momentanpol.utils.Texture;
 
 
-public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallbackInterface {
-
-    private static final String LOGTAG = "OpenGL_renderer";
+public class Main_Activity extends ActionBarActivity implements UpdateCallbackInterface {
 
     private View androidView;
     private MomentanpolGLRenderer mRenderer;
     OpenGL_View glSurfaceView;
     private Marker dataSet[];
-    private Vector<Texture> mTextures;
+    private Vector<Texture> textures;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTextures = new Vector<>();
+        // Create Textures-vector and load the textures into it
+        textures = new Vector<>();
         loadTextures();
+        // Create Renderer for OpenGL
         mRenderer = new MomentanpolGLRenderer();
         // Create object of an OpenGL-Viewer with OpenGL2.0
         glSurfaceView = new OpenGL_View(this, mRenderer);
         glSurfaceView.setEGLContextClientVersion(2);
-        // Create Renderer for OpenGL, add it to the view and show it
-        mRenderer.setTextures(mTextures);
+        //, add it to the view and show it
+        mRenderer.setTextures(textures);
         glSurfaceView.setRenderer(mRenderer);
         setContentView(glSurfaceView);
         // Create Vuforia instance, initialize it and start the camera
@@ -100,33 +98,18 @@ public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallback
         Vuforia.setInitParameters(this, Vuforia.GL_20, "AcCmXLj/////AAAAAWn4W4WOD0/up7Ehu28I5VBQq6sv1WL7JaOAAvhmS98exI+JmpBsPdHy4GnaLxhmgOq3BSpWKFZR4eh6xL2K2NIGN4kPDW8fQwwhKv+7uusQoE5Grc/DOTM0NMZ/G/UPJQC59Uj/SnYvr67zfibax4kVrv+tNzLkcqn+pvhLcdFX1HATddnCCb9IwC2QEc+qX2HSLwxDlS/87FVlhcsUB/NeICVSVTtB5+buqEwOGy+4ZLwJjW5RFrGWX9SLMWHffO9K7X4mn2JQqRt8ZBJXMbixO54BFT+wA7JAhtfznUN33z3QBiE8Uce3aCI8Fh6gBVUt6b35sv8IMmnbZGJ9iA6XurRBoNwJEm7bve2myxu/");
         while(Vuforia.init()<100){}
         boolean initTrackersResult;
-        initTrackersResult = doInitTrackers();
-        if(initTrackersResult) {
-            doLoadTrackersData();
-        }
+        TrackerManager.getInstance().initTracker(MarkerTracker.getClassType());
+        doLoadTrackersData();
         CameraDevice.getInstance().init(CameraDevice.CAMERA.CAMERA_DEFAULT);
         configureVideoBackground();
         CameraDevice.getInstance().selectVideoMode(CameraDevice.MODE.MODE_DEFAULT);
         CameraDevice.getInstance().start();
         CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
         mRenderer.setProjectionMatrix();
-
     }
 
-    public boolean doInitTrackers() {
-        boolean result = true;
-        TrackerManager trackerManager = TrackerManager.getInstance();
-        Tracker trackerBase = trackerManager.initTracker(MarkerTracker.getClassType());
-        MarkerTracker markerTracker = (MarkerTracker) (trackerBase);
-        if(markerTracker == null) {
-            result = false;
-            Log.e(LOGTAG, "MarkerTracker not initialized");
-        }
-        return result;
-    }
 
-    public boolean doLoadTrackersData(){
-
+    public boolean doLoadTrackersData() {
         TrackerManager tManager = TrackerManager.getInstance();
         MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
         if (markerTracker == null)
@@ -167,15 +150,10 @@ public class OpenGL_Renderer extends ActionBarActivity implements UpdateCallback
     @Override
     public void QCAR_onUpdate(State s) {}
 
-    private void loadTextures()
-    {
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_Q.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_A.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_C.png",
-                getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_R.png",
-                getAssets()));
+    private void loadTextures() {
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_Q.png", getAssets()));
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_A.png", getAssets()));
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_C.png", getAssets()));
+        textures.add(Texture.loadTextureFromApk("FrameMarkers/letter_R.png", getAssets()));
     }
 }

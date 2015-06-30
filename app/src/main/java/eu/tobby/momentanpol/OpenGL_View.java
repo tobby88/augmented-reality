@@ -53,14 +53,4 @@ public class OpenGL_View extends GLSurfaceView{
         mPreviousY = y;
         return true;
     }
-    public volatile float mAngle;
-
-    public float getAngle() {
-        return mAngle;
-    }
-
-    public void setAngle(float angle) {
-        mAngle = angle;
-    }
-
 }
