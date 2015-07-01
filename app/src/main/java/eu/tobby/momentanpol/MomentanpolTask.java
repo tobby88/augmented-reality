@@ -80,6 +80,18 @@ public class MomentanpolTask extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+   /* public void onResume()
+    {
+        Vuforia.onResume();
+    }
+
+
+    public void onPause()
+    {
+        Vuforia.onPause();
+    }*/
+
+
     public void initAR() {
         // As long as this window is visible to the user, keep the device's screen turned on and bright:
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
