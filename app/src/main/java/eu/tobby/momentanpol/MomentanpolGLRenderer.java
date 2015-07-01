@@ -23,6 +23,9 @@ import com.qualcomm.vuforia.State;
 import com.qualcomm.vuforia.Tool;
 import com.qualcomm.vuforia.TrackableResult;
 
+import org.opencv.core.*;
+
+import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.objects.AObject;
 import eu.tobby.momentanpol.objects.CObject;
 import eu.tobby.momentanpol.objects.Plane;
@@ -39,7 +42,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by tobby on 11.06.15.
  */
-public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
+public class MomentanpolGLRenderer implements MomentanpolRenderer
 {
 //private Vector<Texture> mTextures;
     private Vector<Texture> mTextures;
@@ -51,6 +54,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
     private int mvpMatrixHandle = 0;
     private int texSampler2DHandle = 0;
     private Matrix44F mProjectionMatrix;
+    private Mat test = new Mat();
 
 
     // Constants:
@@ -76,7 +80,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
 
 
     public MomentanpolGLRenderer(){
-        //mTextures = new Vector<Texture>();
+        //Textures = new Vector<Texture>();
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -87,7 +91,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
     public void onDrawFrame(GL10 gl) {
 
         renderFrame();
-        findObject();
+        //findObject();
     }
 
     private void renderFrame() {
@@ -127,13 +131,19 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
                     indices = qObject.getIndices();
                     texCoords = qObject.getTexCoords();
                     numIndices = qObject.getNumObjectIndex();
+                    kLetterScale = 25.0f;
+                    kLetterTranslateY = -25.0f;
+                    kLetterTranslateX = -25.0f;
                     break;
                 case 1:
-                    vertices = cObject.getVertices();
-                    normals = cObject.getNormals();
-                    indices = cObject.getIndices();
-                    texCoords = cObject.getTexCoords();
-                    numIndices = cObject.getNumObjectIndex();
+                    vertices = aObject.getVertices();
+                    normals = aObject.getNormals();
+                    indices = aObject.getIndices();
+                    texCoords = aObject.getTexCoords();
+                    numIndices = aObject.getNumObjectIndex();
+                    kLetterScale = 25.0f;
+                    kLetterTranslateY = -25.0f;
+                    kLetterTranslateX = -25.0f;
                     break;
                 case 2:
                     vertices =  cObject.getVertices();
@@ -141,6 +151,9 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
                     indices = cObject.getIndices();
                     texCoords = cObject.getTexCoords();
                     numIndices = cObject.getNumObjectIndex();
+                    kLetterScale = 25.0f;
+                    kLetterTranslateY = -25.0f;
+                    kLetterTranslateX = -25.0f;
                     break;
                 case 3:
                     vertices = rObject.getVertices();
@@ -148,6 +161,9 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
                     indices = rObject.getIndices();
                     texCoords = rObject.getTexCoords();
                     numIndices = rObject.getNumObjectIndex();
+                    kLetterScale = 25.0f;
+                    kLetterTranslateY = -25.0f;
+                    kLetterTranslateX = -25.0f;
                     break;
                 default:
                     vertices = plane.getVertices();
@@ -155,6 +171,9 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
                     indices = plane.getIndices();
                     texCoords = plane.getTexCoords();
                     numIndices = plane.getNumObjectIndex();
+                    kLetterScale = 1.0f;
+                    kLetterTranslateY = -84.0f;
+                    kLetterTranslateX = 50.0f;
             }
             float[] modelViewProjection = new float[16];
 
@@ -162,7 +181,7 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
             Matrix.translateM(modelViewMatrix, 0, kLetterTranslateX,
                     kLetterTranslateY, 0.f);
             Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
-            Matrix.translateM(modelViewMatrix, 0, -kLetterScale, -kLetterScale, 0);
+            //Matrix.translateM(modelViewMatrix, 0, -kLetterScale, -kLetterScale, 0);
             Matrix.scaleM(modelViewMatrix, 0, kLetterScale, kLetterScale,
                     kLetterScale);
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
@@ -202,15 +221,16 @@ public class MomentanpolGLRenderer implements GLSurfaceView.Renderer
         State state = Renderer.getInstance().begin();
         Log.e("findObject", "frame: " + state.getFrame());
         Frame frame = state.getFrame();
+        Image image;
+        ByteBuffer bb;
         for(int i=0;i<frame.getNumImages();i++) {
             //Log.e("findObject", "Height : " + frame.getImage(i).getWidth() + "x" + frame.getImage(i).getHeight());
-            Image image = frame.getImage(i);
-            ByteBuffer bb = image.getPixels();
+            image = frame.getImage(i);
+            bb = image.getPixels();
+            test.put(image.getBufferHeight(),image.getBufferWidth(),bb.get());
         }
 
-
-
-
+        //.put(image.getBufferHeight(),image.getBufferWidth(),bb.get());
         Renderer.getInstance().end();
     }
 

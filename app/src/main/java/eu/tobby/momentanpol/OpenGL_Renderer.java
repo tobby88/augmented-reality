@@ -24,12 +24,14 @@ import com.qualcomm.vuforia.VideoMode;
 import com.qualcomm.vuforia.Vuforia;
 import com.qualcomm.vuforia.Vuforia.UpdateCallbackInterface;
 
+import org.opencv.android.OpenCVLoader;
+
 import java.util.Vector;
 
 import eu.tobby.momentanpol.utils.Texture;
 
 
-public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface {
+public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface{
 
     private static final String LOGTAG = "OpenGL_renderer";
 
@@ -44,6 +46,7 @@ public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OpenCVLoader.initDebug();
         // Create Vuforia instance, initialize it and start the camera
         mTextures = new Vector<>();
         loadTextures();
@@ -125,18 +128,18 @@ public class OpenGL_Renderer extends Activity implements UpdateCallbackInterface
         return result;
     }
 
-    public boolean doLoadTrackersData(){
-
+    public boolean doLoadTrackersData() {
         TrackerManager tManager = TrackerManager.getInstance();
         MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
         if (markerTracker == null)
                 return false;
-        dataSet = new Marker[5];
+        dataSet = new Marker[6];
         dataSet[0] = markerTracker.createFrameMarker(0, "MarkerQ", new Vec2F(50, 50));
         dataSet[1] = markerTracker.createFrameMarker(1, "MarkerC", new Vec2F(50, 50));
         dataSet[2] = markerTracker.createFrameMarker(2, "MarkerA", new Vec2F(50, 50));
         dataSet[3] = markerTracker.createFrameMarker(3, "MarkerR", new Vec2F(50, 50));
         dataSet[4] = markerTracker.createFrameMarker(4, "Momentanpol", new Vec2F(50, 50));
+        dataSet[5] = markerTracker.createFrameMarker(5, "Bart", new Vec2F(50, 50));
         markerTracker.start();
         return true;
         // Here Exception handling

@@ -4,16 +4,18 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
+import eu.tobby.momentanpol.MomentanpolGLRenderer;
+
 /**
- * Created by janna on 23.06.15.
+ * Created by fabian on 30.06.15.
  */
-public class OpenGL_View extends GLSurfaceView{
+public class MomentanpolGLView extends GLSurfaceView {
     private final float TOUCH_SCALE_FACTOR = 0.15f;
     private float mPreviousX;
     private float mPreviousY;
-    private GLSurfaceView.Renderer  mRenderer;
+    private GLSurfaceView.Renderer mRenderer;
 
-    public OpenGL_View(Context context, GLSurfaceView.Renderer renderer){
+    public MomentanpolGLView(Context context, GLSurfaceView.Renderer renderer){
         super(context);
         mRenderer = renderer;
 
@@ -52,5 +54,6 @@ public class OpenGL_View extends GLSurfaceView{
         mPreviousY = y;
         return true;
     }
+
 
 }
