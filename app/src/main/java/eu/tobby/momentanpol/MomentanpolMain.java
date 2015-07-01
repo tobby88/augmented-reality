@@ -23,6 +23,8 @@ import com.qualcomm.vuforia.Vuforia;
 public class MomentanpolMain extends Activity {
 
 
+    Intent i;
+
     MomentanpolTask mTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,27 @@ public class MomentanpolMain extends Activity {
         setContentView(R.layout.activity_momentanpol_main);
         LinearLayout mMenu = (LinearLayout) findViewById(R.id.tableLayout);
         Button mFrameMarkerButton = (Button) findViewById(R.id.buttonFrameMarker);
+        Button mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
+        Button mOpenCVButton = (Button) findViewById(R.id.buttonOpenCV);
+        i =  new Intent(getApplicationContext(),MomentanpolTask.class);
         mFrameMarkerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i =  new Intent(getApplicationContext(),MomentanpolTask.class);
+                i.putExtra("button",0);
+                startActivity(i);
+            }
+        });
+        mImageTargetButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                i.putExtra("button",1);
+                startActivity(i);
+            }
+        });
+        mOpenCVButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("button",2);
                 startActivity(i);
             }
         });

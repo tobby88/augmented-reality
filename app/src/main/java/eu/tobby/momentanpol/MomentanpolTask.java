@@ -5,6 +5,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +47,19 @@ public class MomentanpolTask extends Activity {
         androidView = inflater.inflate(R.layout.activity_open_gl__renderer, null);
         addContentView(androidView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setContentView(R.layout.activity_momentanpol_task);
-        iState = new MomentanpolFrameMarkers(this);
+        switch (getIntent().getIntExtra("button",-1)) {
+            case 0:
+                iState = new MomentanpolFrameMarkers(this);
+                break;
+            case 1:
+                iState = new MomentanpolImageTarget();
+                break;
+            default:
+                Log.e("Fehler bei Auswahl","keine Auswahl getroffen");
+                break;
+
+        }
+
         iRenderer = iState.getRenderer();
         // Create object of an OpenGL-Viewer with OpenGL2.0
         glSurfaceView = new OpenGL_View(this,iRenderer);
@@ -132,5 +145,9 @@ public class MomentanpolTask extends Activity {
         Renderer.getInstance().setVideoBackgroundConfig(config);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Vuforia.deinit();
+    }
 }
