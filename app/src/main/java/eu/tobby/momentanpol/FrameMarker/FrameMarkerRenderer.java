@@ -1,4 +1,4 @@
-package eu.tobby.momentanpol;
+package eu.tobby.momentanpol.FrameMarker;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -42,7 +42,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by tobby on 11.06.15.
  */
-public class MomentanpolGLRenderer implements MomentanpolRenderer
+public class FrameMarkerRenderer implements MomentanpolRenderer
 {
 //private Vector<Texture> mTextures;
     private Vector<Texture> mTextures;
@@ -58,7 +58,9 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
 
 
     // Constants:
-    static private float kLetterScale = 1.0f;
+    static private float kLetterScaleX = 1.0f;
+    static private float kLetterScaleY = 1.0f;
+
     static private float kLetterTranslate = 0.0f;
     static private float kLetterTranslateX = 50.0f;
     static private float kLetterTranslateY = -84.0f;
@@ -79,7 +81,7 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
     }
 
 
-    public MomentanpolGLRenderer(){
+    public FrameMarkerRenderer(){
         //Textures = new Vector<Texture>();
     }
 
@@ -91,7 +93,6 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
     public void onDrawFrame(GL10 gl) {
 
         renderFrame();
-        //findObject();
     }
 
     private void renderFrame() {
@@ -131,7 +132,8 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
                     indices = qObject.getIndices();
                     texCoords = qObject.getTexCoords();
                     numIndices = qObject.getNumObjectIndex();
-                    kLetterScale = 25.0f;
+                    kLetterScaleX = 25.0f;
+                    kLetterScaleY = 25.0f;
                     kLetterTranslateY = -25.0f;
                     kLetterTranslateX = -25.0f;
                     break;
@@ -141,7 +143,8 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
                     indices = aObject.getIndices();
                     texCoords = aObject.getTexCoords();
                     numIndices = aObject.getNumObjectIndex();
-                    kLetterScale = 25.0f;
+                    kLetterScaleX = 25.0f;
+                    kLetterScaleY = 25.0f;
                     kLetterTranslateY = -25.0f;
                     kLetterTranslateX = -25.0f;
                     break;
@@ -151,7 +154,8 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
                     indices = cObject.getIndices();
                     texCoords = cObject.getTexCoords();
                     numIndices = cObject.getNumObjectIndex();
-                    kLetterScale = 25.0f;
+                    kLetterScaleX = 25.0f;
+                    kLetterScaleY = 25.0f;
                     kLetterTranslateY = -25.0f;
                     kLetterTranslateX = -25.0f;
                     break;
@@ -161,7 +165,8 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
                     indices = rObject.getIndices();
                     texCoords = rObject.getTexCoords();
                     numIndices = rObject.getNumObjectIndex();
-                    kLetterScale = 25.0f;
+                    kLetterScaleX = 25.0f;
+                    kLetterScaleY = 25.0f;
                     kLetterTranslateY = -25.0f;
                     kLetterTranslateX = -25.0f;
                     break;
@@ -171,9 +176,10 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
                     indices = plane.getIndices();
                     texCoords = plane.getTexCoords();
                     numIndices = plane.getNumObjectIndex();
-                    kLetterScale = 1.0f;
-                    kLetterTranslateY = -84.0f;
-                    kLetterTranslateX = 50.0f;
+                    kLetterScaleX = 14.7f;
+                    kLetterScaleY = 11.1f;
+                    kLetterTranslateY = -85.0f;
+                    kLetterTranslateX = 49.0f;
             }
             float[] modelViewProjection = new float[16];
 
@@ -182,8 +188,7 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
                     kLetterTranslateY, 0.f);
             Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
             //Matrix.translateM(modelViewMatrix, 0, -kLetterScale, -kLetterScale, 0);
-            Matrix.scaleM(modelViewMatrix, 0, kLetterScale, kLetterScale,
-                    kLetterScale);
+            Matrix.scaleM(modelViewMatrix, 0, kLetterScaleX, kLetterScaleY,25);
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
 
             GLES20.glUseProgram(shaderProgramID);
@@ -215,23 +220,6 @@ public class MomentanpolGLRenderer implements MomentanpolRenderer
 
         Renderer.getInstance().end();
 
-    }
-
-    private void findObject() {
-        State state = Renderer.getInstance().begin();
-        Log.e("findObject", "frame: " + state.getFrame());
-        Frame frame = state.getFrame();
-        Image image;
-        ByteBuffer bb;
-        for(int i=0;i<frame.getNumImages();i++) {
-            //Log.e("findObject", "Height : " + frame.getImage(i).getWidth() + "x" + frame.getImage(i).getHeight());
-            image = frame.getImage(i);
-            bb = image.getPixels();
-            test.put(image.getBufferHeight(),image.getBufferWidth(),bb.get());
-        }
-
-        //.put(image.getBufferHeight(),image.getBufferWidth(),bb.get());
-        Renderer.getInstance().end();
     }
 
 

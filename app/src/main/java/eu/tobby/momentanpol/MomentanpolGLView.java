@@ -4,7 +4,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
-import eu.tobby.momentanpol.MomentanpolGLRenderer;
+import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 
 /**
  * Created by fabian on 30.06.15.

@@ -30,7 +30,6 @@ public class MomentanpolMain extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_momentanpol_main);
-        LinearLayout mMenu = (LinearLayout) findViewById(R.id.tableLayout);
         Button mFrameMarkerButton = (Button) findViewById(R.id.buttonFrameMarker);
         Button mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
         Button mOpenCVButton = (Button) findViewById(R.id.buttonOpenCV);

@@ -1,7 +1,6 @@
-package eu.tobby.momentanpol;
+package eu.tobby.momentanpol.FrameMarker;
 
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 import com.qualcomm.vuforia.Marker;
@@ -13,6 +12,7 @@ import com.qualcomm.vuforia.Vec2F;
 
 import java.util.Vector;
 
+import eu.tobby.momentanpol.FrameMarker.FrameMarkerRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 import eu.tobby.momentanpol.utils.Texture;
@@ -26,11 +26,11 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
     private Marker[] dataSet;
     private Activity mActivity;
     private final String LOGTAG = "MomentanpolFrameMarkers";
-    private MomentanpolGLRenderer mRenderer;
+    private FrameMarkerRenderer mRenderer;
 
     public MomentanpolFrameMarkers(Activity activity){
         mActivity = activity;
-        mRenderer = new MomentanpolGLRenderer();
+        mRenderer = new FrameMarkerRenderer();
         mTextures = new Vector<>();
         loadTextures();
         mRenderer.setTextures(mTextures);

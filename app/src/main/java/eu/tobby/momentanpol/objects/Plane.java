@@ -15,7 +15,7 @@ import eu.tobby.momentanpol.utils.MeshObject;
 public class Plane extends MeshObject
 {
     // Data for drawing the 3D plane as overlay
-    private static final double letterVertices[] = { -73.5, -57.500000f, 0.000000f, 73.5f, -57.500000f, 0.000000f, 73.5f, 57.500000f, 0.000000f, -73.5000000f, 57.500000f, 0.000000f };
+    private static final double letterVertices[] = { -5.0f, -5.0f, 0.000000f, 5.0f, -5.0f, 0.000000f, 5.0f, 5.0f, 0.000000f, -5.0f, 5.0f, 0.000000f };
     
     private static final double letterNormals[] = { 0.000000f, 0.000000f, 1.000000f, 0.000000f, 0.000000f, 1.000000f, 0.000000f, 0.000000f, 1.000000f, 0.000000f, 0.000000f, 1.000000f };
     
@@ -27,6 +27,10 @@ public class Plane extends MeshObject
     Buffer mTexCoordBuff;
     Buffer mNormBuff;
     Buffer mIndBuff;
+
+    // Size of the plane in surface Units
+    float mHeight;
+    float mWidth;
     
     
     public Plane()
@@ -36,7 +40,16 @@ public class Plane extends MeshObject
         mNormBuff = fillBuffer(letterNormals);
         mIndBuff = fillBuffer(letterIndices);
     }
-    
+
+    public Plane(int width, int height)
+    {
+        mVertBuff = fillBuffer(letterVertices);
+        mTexCoordBuff = fillBuffer(letterTexcoords);
+        mNormBuff = fillBuffer(letterNormals);
+        mIndBuff = fillBuffer(letterIndices);
+        mWidth = width;
+        mHeight = height;
+    }
     
     @Override
     public Buffer getBuffer(BUFFER_TYPE bufferType)

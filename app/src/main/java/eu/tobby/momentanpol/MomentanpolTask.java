@@ -2,7 +2,6 @@ package eu.tobby.momentanpol;
 
 import android.app.Activity;
 import android.content.Context;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,6 +21,8 @@ import com.qualcomm.vuforia.Vuforia;
 
 import org.opencv.android.OpenCVLoader;
 
+import eu.tobby.momentanpol.FrameMarker.MomentanpolFrameMarkers;
+import eu.tobby.momentanpol.ImageTargets.MomentanpolImageTarget;
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 
@@ -31,15 +32,16 @@ public class MomentanpolTask extends Activity {
     private View androidView;
     private MomentanpolState iState;
     private MomentanpolRenderer iRenderer;
-    OpenGL_View glSurfaceView;
+    private boolean mIsOpenCVLoaded = false;
+    MomentanpolGLView glSurfaceView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         OpenCVLoader.initDebug();
-        // Create Vuforia instance, initialize it and start the camera
-        //iRenderer = new MomentanpolGLRenderer();
+        //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_11,this,openCVLoadCallback)
 
 
         // Make a view out of the Designer-XML and add this view on top of the OpenGL-Viewer
@@ -52,7 +54,7 @@ public class MomentanpolTask extends Activity {
                 iState = new MomentanpolFrameMarkers(this);
                 break;
             case 1:
-                iState = new MomentanpolImageTarget();
+                iState = new MomentanpolImageTarget(this);
                 break;
             default:
                 Log.e("Fehler bei Auswahl","keine Auswahl getroffen");
@@ -62,7 +64,7 @@ public class MomentanpolTask extends Activity {
 
         iRenderer = iState.getRenderer();
         // Create object of an OpenGL-Viewer with OpenGL2.0
-        glSurfaceView = new OpenGL_View(this,iRenderer);
+        glSurfaceView = new MomentanpolGLView(this,iRenderer);
         glSurfaceView.setEGLContextClientVersion(2);
         // Create Renderer for OpenGL, add it to the view and show it
         glSurfaceView.setRenderer(iRenderer);
@@ -149,5 +151,9 @@ public class MomentanpolTask extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         Vuforia.deinit();
+    }
+
+    private void openCVLoadCallback(){
+        mIsOpenCVLoaded = true;
     }
 }
