@@ -5,55 +5,31 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
+import eu.tobby.momentanpol.interfaces.MomentanpolState;
 
 /**
  * Created by fabian on 30.06.15.
  */
 public class MomentanpolGLView extends GLSurfaceView {
-    private final float TOUCH_SCALE_FACTOR = 0.15f;
-    private float mPreviousX;
-    private float mPreviousY;
     private GLSurfaceView.Renderer mRenderer;
+    private MomentanpolState mState;
 
-    public MomentanpolGLView(Context context, GLSurfaceView.Renderer renderer){
+    public MomentanpolGLView(Context context, GLSurfaceView.Renderer renderer,MomentanpolState state){
         super(context);
         mRenderer = renderer;
+        mState = state;
 
     }
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        // MotionEvent reports input details from the touch screen
-        // and other input controls. In this case, you are only
-        // interested in events where the touch position changed.
-        float x = e.getX();
-        float y = e.getY();
-
-        switch (e.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-
-                float dx = x - mPreviousX;
-                float dy = y - mPreviousY;
-
-                // reverse direction of rotation above the mid-line
-                if (y > getHeight() / 2) {
-                    dx = dx * -1 ;
-                }
-
-                // reverse direction of rotation to left of the mid-line
-                if (x < getWidth() / 2) {
-                    dy = dy * -1 ;
-                }
-
-                /*mRenderer.setAngle(
-                        mRenderer.getAngle() +
-                                ((dx + dy) * TOUCH_SCALE_FACTOR));
-                requestRender();*/
-                case Motio
+        boolean retVal = false;
+        if(e.getAction() == MotionEvent.ACTION_DOWN) {
+            //Aufruf falls Screen berührt wurde
+            mState.isActionDown();
+            retVal = true;
         }
 
-        mPreviousX = x;
-        mPreviousY = y;
-        return true;
+        return retVal;
     }
 
 

@@ -102,5 +102,9 @@ public class MomentanpolImageTarget implements MomentanpolState {
 
     public MomentanpolRenderer getRenderer() {return mRenderer;}
 
+    public void isActionDown() {
+        Log.d(LOGTAG,"ButtonDown");
+    }
+
 
 }

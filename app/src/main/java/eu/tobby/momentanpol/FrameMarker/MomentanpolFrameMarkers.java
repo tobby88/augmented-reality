@@ -86,4 +86,8 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
 
     public void QCAR_onUpdate(State s){}
 
+    public void isActionDown() {
+        Log.d(LOGTAG,"ButtonDown");
+    }
+
 }

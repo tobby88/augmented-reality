@@ -10,4 +10,5 @@ public interface MomentanpolState {
     boolean doInitTrackers();
     boolean doLoadTrackersData();
     MomentanpolRenderer getRenderer();
+    void isActionDown();
 }

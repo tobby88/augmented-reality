@@ -65,7 +65,7 @@ public class MomentanpolTask extends Activity {
 
         iRenderer = iState.getRenderer();
         // Create object of an OpenGL-Viewer with OpenGL2.0
-        glSurfaceView = new MomentanpolGLView(this,iRenderer);
+        glSurfaceView = new MomentanpolGLView(this,iRenderer,iState);
         glSurfaceView.setEGLContextClientVersion(2);
         // Create Renderer for OpenGL, add it to the view and show it
         glSurfaceView.setRenderer(iRenderer);
@@ -96,16 +96,18 @@ public class MomentanpolTask extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-   /* public void onResume()
+    public void onResume()
     {
+        super.onResume();
         Vuforia.onResume();
     }
 
 
     public void onPause()
     {
+        super.onPause();
         Vuforia.onPause();
-    }*/
+    }
 
 
     public void initAR() {
@@ -118,12 +120,15 @@ public class MomentanpolTask extends Activity {
         if(initTrackersResult) {
             iState.doLoadTrackersData();
         }
+        startCam();
+    }
+
+    public void startCam() {
         CameraDevice.getInstance().init(CameraDevice.CAMERA.CAMERA_DEFAULT);
         configureVideoBackground();
         CameraDevice.getInstance().selectVideoMode(CameraDevice.MODE.MODE_DEFAULT);
         CameraDevice.getInstance().start();
         CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
-
     }
 
     private void configureVideoBackground() {
