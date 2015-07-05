@@ -15,10 +15,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".OpenGL_Renderer"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name=".MomentanpolMain"
             android:label="@string/title_activity_momentanpol_main" >
             <intent-filter>

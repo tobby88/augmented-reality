@@ -48,6 +48,7 @@ public class MomentanpolImageTarget implements MomentanpolState {
         mRenderer.setTextures(mTextures);
 
     }
+
     public boolean doInitTrackers(){
         boolean result = true;
         TrackerManager trackerManager = TrackerManager.getInstance();
@@ -59,6 +60,7 @@ public class MomentanpolImageTarget implements MomentanpolState {
         }
         return result;
     }
+
     public boolean doLoadTrackersData(){
         if (mDataset == null) {
             mDataset = objectTracker.createDataSet();
