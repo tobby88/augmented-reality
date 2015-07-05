@@ -18,41 +18,33 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="112dp"
-                android:layout_height="89dp"
-                android:id="@+id/imageView"
-                android:src="@mipmap/imes"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_weight="0.55" />
-
-            <TextView
-                android:layout_gravity="bottom"
-                android:layout_width="158dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:text="Momentanpol"
-                android:id="@+id/textView"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/buttonImageTarget"
-                android:layout_alignEnd="@+id/buttonImageTarget"
-                android:textAlignment="gravity" />
-
-        </LinearLayout>
-
         <View android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="#2B497B"
             android:paddingTop="10px"
             />
 
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:id="@+id/imageView"
+            android:src="@mipmap/coverlogos"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:text="Momentanpol"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/buttonImageTarget"
+            android:layout_alignEnd="@+id/buttonImageTarget"
+            android:textAlignment="gravity" />
 
         <Button
             android:layout_width="match_parent"

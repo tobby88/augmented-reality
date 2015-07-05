@@ -48,6 +48,7 @@ public class MomentanpolGLView extends GLSurfaceView {
                         mRenderer.getAngle() +
                                 ((dx + dy) * TOUCH_SCALE_FACTOR));
                 requestRender();*/
+                case Motio
         }
 
         mPreviousX = x;
