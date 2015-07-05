@@ -23,6 +23,7 @@ import org.opencv.android.OpenCVLoader;
 
 import eu.tobby.momentanpol.FrameMarker.MomentanpolFrameMarkers;
 import eu.tobby.momentanpol.ImageTargets.MomentanpolImageTarget;
+import eu.tobby.momentanpol.OpenCVMarker.MomentanpolOpenCVMarker;
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 
@@ -57,7 +58,7 @@ public class MomentanpolTask extends Activity {
                 iState = new MomentanpolImageTarget(this);
                 break;
             default:
-                Log.e("Fehler bei Auswahl","keine Auswahl getroffen");
+                iState = new MomentanpolOpenCVMarker(this);
                 break;
 
         }
