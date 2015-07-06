@@ -18,12 +18,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <View android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="#2B497B"
-            android:paddingTop="10px"
-            />
-
 
         <ImageView
             android:layout_width="match_parent"
@@ -45,6 +39,12 @@
             android:layout_alignRight="@+id/buttonImageTarget"
             android:layout_alignEnd="@+id/buttonImageTarget"
             android:textAlignment="gravity" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#2B497B"
+            android:paddingTop="10px"
+            />
 
         <Button
             android:layout_width="match_parent"
@@ -105,6 +105,26 @@
             android:layout_height="1dip"
             android:background="#000000"
             />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:id="@+id/buttonAbout"
+            android:layout_below="@+id/buttonOpenCV"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10px"
+            android:background="#00ffffff"
+            android:gravity="fill_vertical|center_horizontal"
+            android:textAlignment="center"
+            android:singleLine="false" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#000000"
+            />
+
 
 
     </LinearLayout>

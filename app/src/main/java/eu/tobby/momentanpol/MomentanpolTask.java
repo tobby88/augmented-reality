@@ -96,20 +96,6 @@ public class MomentanpolTask extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onResume()
-    {
-        super.onResume();
-        Vuforia.onResume();
-    }
-
-
-    public void onPause()
-    {
-        super.onPause();
-        Vuforia.onPause();
-    }
-
-
     public void initAR() {
         // As long as this window is visible to the user, keep the device's screen turned on and bright:
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -123,13 +109,18 @@ public class MomentanpolTask extends Activity {
         startCam();
     }
 
-    public void startCam() {
+    private void startCam() {
         CameraDevice.getInstance().init(CameraDevice.CAMERA.CAMERA_DEFAULT);
         configureVideoBackground();
         CameraDevice.getInstance().selectVideoMode(CameraDevice.MODE.MODE_DEFAULT);
         CameraDevice.getInstance().start();
         CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
     }
+
+    private void stopCam(){
+        CameraDevice.getInstance().stop();
+    }
+
 
     private void configureVideoBackground() {
         // Query display dimensions:
@@ -157,6 +148,7 @@ public class MomentanpolTask extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         Vuforia.deinit();
+        stopCam();
     }
 
     private void openCVLoadCallback(){

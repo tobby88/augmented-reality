@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -23,17 +26,25 @@ import com.qualcomm.vuforia.Vuforia;
 public class MomentanpolMain extends Activity {
 
 
-    Intent i;
+    private Intent i;
+    private Button mFrameMarkerButton;
+    private Button mImageTargetButton;
+    private Button mOpenCVButton;
+    private Button mAboutButton;
+
 
     MomentanpolTask mTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_momentanpol_main);
-        Button mFrameMarkerButton = (Button) findViewById(R.id.buttonFrameMarker);
-        Button mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
-        Button mOpenCVButton = (Button) findViewById(R.id.buttonOpenCV);
+        mFrameMarkerButton = (Button) findViewById(R.id.buttonFrameMarker);
+        mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
+        mOpenCVButton = (Button) findViewById(R.id.buttonOpenCV);
+        mAboutButton = (Button) findViewById(R.id.buttonAbout);
+
         i =  new Intent(getApplicationContext(),MomentanpolTask.class);
+
         mFrameMarkerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +66,12 @@ public class MomentanpolMain extends Activity {
                 startActivity(i);
             }
         });
+        mAboutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
 
     }
 
@@ -78,29 +95,5 @@ public class MomentanpolMain extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    // Initializes Vufo
-
-    private void configureVideoBackground() {
-        // Query display dimensions:
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        // Configures the video mode and sets offsets for the camera's image
-        CameraDevice cameraDevice = CameraDevice.getInstance();
-        VideoMode vm = cameraDevice.getVideoMode(CameraDevice.MODE.MODE_DEFAULT);
-        VideoBackgroundConfig config = new VideoBackgroundConfig();
-        config.setEnabled(true);
-        config.setSynchronous(true);
-        config.setPosition(new Vec2I(0, 0));
-        int xSize, ySize;
-        xSize = (int) (vm.getHeight() * (metrics.heightPixels / (float) vm.getWidth()));
-        ySize = metrics.heightPixels;
-        if (xSize < metrics.widthPixels) {
-            xSize = metrics.widthPixels;
-            ySize = (int) (metrics.widthPixels * (vm.getWidth() / (float) vm.getHeight()));
-        }
-        config.setSize(new Vec2I(xSize, ySize));
-        Renderer.getInstance().setVideoBackgroundConfig(config);
     }
 }
