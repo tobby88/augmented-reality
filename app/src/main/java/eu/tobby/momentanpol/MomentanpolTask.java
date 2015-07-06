@@ -46,6 +46,8 @@ public class MomentanpolTask extends Activity {
 
 
         // Make a view out of the Designer-XML and add this view on top of the OpenGL-Viewer
+
+
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         androidView = inflater.inflate(R.layout.activity_open_gl__renderer, null);
         addContentView(androidView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -65,6 +67,7 @@ public class MomentanpolTask extends Activity {
 
         iRenderer = iState.getRenderer();
         // Create object of an OpenGL-Viewer with OpenGL2.0
+
         glSurfaceView = new MomentanpolGLView(this,iRenderer,iState);
         glSurfaceView.setEGLContextClientVersion(2);
         // Create Renderer for OpenGL, add it to the view and show it

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/home/fabian/StudioProjects/tobby-test/libraries/opencv/src/main/assets"/></dataSet><dataSet config="release"><source path="/home/fabian/StudioProjects/tobby-test/libraries/opencv/src/release/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/home/janna/StudioProjects/augmented-reality/libraries/opencv/src/main/assets"/></dataSet><dataSet config="release"><source path="/home/janna/StudioProjects/augmented-reality/libraries/opencv/src/release/assets"/></dataSet></merger>
