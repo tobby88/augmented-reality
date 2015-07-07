@@ -1,0 +1,131 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="eu.tobby.momentanpol.MomentanpolMain"
+    android:id="@+id/relativeLayout">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:id="@+id/imageView"
+            android:src="@mipmap/coverlogos"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:text="Momentanpol"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/buttonImageTarget"
+            android:layout_alignEnd="@+id/buttonImageTarget"
+            android:textAlignment="gravity" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#2B497B"
+            android:paddingTop="10px"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FrameMarker"
+            android:id="@+id/buttonFrameMarker"
+            android:layout_below="@+id/imageView"
+            android:layout_alignLeft="@+id/buttonImageTarget"
+            android:layout_alignStart="@+id/buttonImageTarget"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="30px"
+            android:background="#00000000"
+            android:gravity="center_horizontal"
+            android:singleLine="false" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#000000"/>
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ImageTarget"
+            android:id="@+id/buttonImageTarget"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/buttonOpenCV"
+            android:layout_alignEnd="@+id/buttonOpenCV"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10px"
+            android:background="#00ffffff"
+            android:textAlignment="center"
+            android:singleLine="true" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#000000"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OpenCVMarker"
+            android:id="@+id/buttonOpenCV"
+            android:layout_below="@+id/buttonImageTarget"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10px"
+            android:background="#00ffffff"
+            android:gravity="fill_vertical|center_horizontal"
+            android:textAlignment="center"
+            android:singleLine="false" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#000000"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:id="@+id/buttonAbout"
+            android:layout_below="@+id/buttonOpenCV"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10px"
+            android:background="#00ffffff"
+            android:gravity="fill_vertical|center_horizontal"
+            android:textAlignment="center"
+            android:singleLine="false" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#000000"
+            />
+
+
+
+    </LinearLayout>
+</RelativeLayout>
