@@ -32,7 +32,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+
             android:text="Momentanpol"
             android:id="@+id/textView"
             android:layout_alignParentTop="true"
