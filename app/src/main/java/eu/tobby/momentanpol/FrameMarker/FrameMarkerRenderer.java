@@ -111,6 +111,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_BACK);
 
+
         for(int trackingIndex = 0; trackingIndex < state.getNumTrackableResults(); trackingIndex++) {
             TrackableResult trackableResult = state.getTrackableResult(trackingIndex);
 
@@ -189,11 +190,11 @@ public class FrameMarkerRenderer implements MomentanpolRenderer
                     kLetterTranslateY, 0.f);
             Matrix.rotateM(modelViewMatrix, 0, mAngle, 0.f, 0.f, -1);
             //Matrix.translateM(modelViewMatrix, 0, -kLetterScale, -kLetterScale, 0);
-            Matrix.scaleM(modelViewMatrix, 0, kLetterScaleX, kLetterScaleY,25);
+            Matrix.scaleM(modelViewMatrix, 0, kLetterScaleX, kLetterScaleY, 25);
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
 
             GLES20.glUseProgram(shaderProgramID);
-            //Hot Fix
+
             GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
                     false, 0, vertices);
             GLES20.glVertexAttribPointer(normalHandle, 3, GLES20.GL_FLOAT,
@@ -216,9 +217,9 @@ public class FrameMarkerRenderer implements MomentanpolRenderer
             GLES20.glDisableVertexAttribArray(textureCoordHandle);
 
         }
-        GLES20.glDisable(GLES20.GL_BLEND);
-        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
 
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        GLES20.glDisable(GLES20.GL_BLEND);
         Renderer.getInstance().end();
 
     }
