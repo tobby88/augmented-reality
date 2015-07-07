@@ -1,5 +1,6 @@
 package eu.tobby.momentanpol.OpenCVMarker;
 
+import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.qualcomm.vuforia.Trackable;
 import com.qualcomm.vuforia.TrackableResult;
 import com.qualcomm.vuforia.Vuforia;
 
+import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
@@ -23,6 +25,7 @@ import org.opencv.core.MatOfKeyPoint;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
+import org.opencv.imgproc.Imgproc;
 
 import java.nio.ByteBuffer;
 import java.util.Vector;
@@ -60,7 +63,9 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
     private MatOfDMatch matches = new MatOfDMatch();
     private Image image;
     private ByteBuffer bb;
-    public Mat test;
+    public Mat mImage = new Mat();
+    public Bitmap viewTest;
+
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config){
         initRendering();
@@ -157,32 +162,33 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         //for(int i=0;i<frame.getNumImages();i++) {
 
             image = frame.getImage(0);
+            Log.d("Bildformat"," "+image.getFormat());
 
-            Byte[] testByte = new Byte[];
+
+            bb = image.getPixels();
+            byte[] testByte = new byte[bb.remaining()];
             bb.get(testByte);
-            test = new Mat(image.getBufferHeight(),image.getBufferWidth(), CvType.CV_8UC1);
-            test.put(image.getBufferHeight(), image.getBufferWidth(), bb.duplicate().array());
-            Log.e("Groesse von Test", "Test"+test.cols() + "x" + test.rows());
+            Log.d("OpenCV", " " + testByte.length);
+
+            mImage = new Mat(image.getBufferWidth(),image.getBufferHeight(), CvType.CV_8UC3);
+            mImage.put(image.getBufferHeight(), image.getBufferWidth(), testByte);
+            viewTest = Bitmap.createBitmap(mImage.cols(),mImage.rows(), Bitmap.Config.RGB_565);
+            Utils.matToBitmap(mImage,viewTest);
+            Log.d("Angezeigtes Bild"," "+viewTest.getByteCount());
+
+            Log.e("Groesse von Test", "Test" + mImage.cols() + "x" + mImage.rows());
             Log.d("findObject", "Height : " + frame.getImage(0).getWidth() + "x" + frame.getImage(0).getHeight());
             Log.d("template findObject", "Height : " + template.cols() + "x" + template.rows());
-          /*  if (i == 0){
-                break;
-            }*/
 
 
-
-        //}
-
-        Renderer.getInstance().end();
-
-        fast.detect(test, keypointstest);
+        fast.detect(mImage, keypointstest);
         fast.detect(template, keypointstemplate);
         Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstemplate.toList());
         Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstest.toList());
 
 
         DescriptorExtractor FastExtractor = DescriptorExtractor.create(FeatureDetector.SURF);
-        FastExtractor.compute(test, keypointstest, testDescriptors);
+        FastExtractor.compute(mImage, keypointstest, testDescriptors);
         FastExtractor.compute(template, keypointstemplate, templateDescriptors);
 
         DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
@@ -196,5 +202,6 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
 
 
         //Features2d.drawKeypoints(mRgba, keypointstest, mRgba, redcolor, 3);*/
+        Renderer.getInstance().end();
     }
 }

@@ -32,8 +32,6 @@ public class MomentanpolMain extends Activity {
     private Button mOpenCVButton;
     private Button mAboutButton;
 
-
-    MomentanpolTask mTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

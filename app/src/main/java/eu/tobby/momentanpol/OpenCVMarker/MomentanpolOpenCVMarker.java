@@ -5,6 +5,8 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.qualcomm.vuforia.Frame;
 import com.qualcomm.vuforia.Image;
@@ -92,50 +94,13 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
 
         //teste OpenCV-Funktionen zur Feature Detektion mit FAST mit dem geladenen Bild
         mRenderer.findObject1(matrix1);
+        showImage(mRenderer.viewTest);
 
     }
 
-
-
-    public void findObject1(Mat template){
-        FeatureDetector fast = FeatureDetector.create(FeatureDetector.FAST);
-        State state = Renderer.getInstance().begin();
-        Frame frame = state.getFrame();
-        Log.e("in findObject1","vor der Schleife");
-        for(int i=0;i<frame.getNumImages()-1;i++) {
-            Log.d("findObject", "Height : " + frame.getImage(i).getWidth() + "x" + frame.getImage(i).getHeight());
-            Log.d("template findObject", "Height : " + template.cols() + "x" + template.rows());
-
-            image = frame.getImage(i);
-            bb = image.getPixels();
-            test = new Mat(image.getBufferHeight(),image.getBufferWidth(), CvType.CV_8UC1);
-            test.put(image.getBufferHeight(), image.getBufferWidth(), bb.get());
-
-
-        }
-
-        Renderer.getInstance().end();
-
-        fast.detect(test, keypointstest);
-        fast.detect(template, keypointstemplate);
-        Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstemplate.toList());
-        Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstest.toList());
-
-
-        DescriptorExtractor FastExtractor = DescriptorExtractor.create(FeatureDetector.SURF);
-        FastExtractor.compute(test, keypointstest, testDescriptors);
-        FastExtractor.compute(template, keypointstemplate, templateDescriptors);
-
-        DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
-        matcher.match(templateDescriptors, testDescriptors, matches);
-        Log.e("Anzeige der Matches", "Gefundene Matches" + matches.toList());
-        /*Mat imageOut = test.clone();
-        Mat mRgba= test.clone();
-        Imgproc.cvtColor(test, mRgba, Imgproc.COLOR_RGBA2RGB, 4);
-        // Features2d.drawMatches(test, keypointstest, template, keypointstemplate, matches, imageOut);
-        Scalar redcolor = new Scalar(255,0,0);
-
-
-        //Features2d.drawKeypoints(mRgba, keypointstest, mRgba, redcolor, 3);*/
+    public void showImage(Bitmap bm) {
+        ImageView imageView = new ImageView(mActivity);
+        imageView.setImageBitmap(bm);
+        mActivity.addContentView(imageView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 }
