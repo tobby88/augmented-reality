@@ -65,7 +65,10 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         State state = Renderer.getInstance().begin();
+
         Renderer.getInstance().drawVideoBackground();
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -88,7 +91,7 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
 
 
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
-            Matrix.scaleM(modelViewProjection,0,11.0f,8.5f,0);
+            Matrix.scaleM(modelViewProjection, 0, 11.0f, 8.5f, 0);
 
             // activate the shader program and bind the vertex/normal/tex coords
             GLES20.glUseProgram(shaderProgramID);
@@ -118,7 +121,7 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
         }
 
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-
+        GLES20.glDisable(GLES20.GL_BLEND);
         Renderer.getInstance().end();
     }
 

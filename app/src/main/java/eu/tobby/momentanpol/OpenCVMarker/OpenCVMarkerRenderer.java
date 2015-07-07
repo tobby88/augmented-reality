@@ -162,6 +162,7 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         //for(int i=0;i<frame.getNumImages();i++) {
 
             image = frame.getImage(0);
+
             Log.d("Bildformat"," "+image.getFormat());
 
 

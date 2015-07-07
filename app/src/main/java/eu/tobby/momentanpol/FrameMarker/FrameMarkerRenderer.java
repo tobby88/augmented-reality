@@ -103,9 +103,10 @@ public class FrameMarkerRenderer implements MomentanpolRenderer
         // Get the state from Vuforia and mark the beginning of a rendering
         // section
         State state = Renderer.getInstance().begin();
-        //Log.e("renderFrame","state.getFrame" + state.getFrame());
         // Explicitly render the Video Background
         Renderer.getInstance().drawVideoBackground();
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_BACK);
@@ -215,7 +216,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer
             GLES20.glDisableVertexAttribArray(textureCoordHandle);
 
         }
-
+        GLES20.glDisable(GLES20.GL_BLEND);
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
 
         Renderer.getInstance().end();
