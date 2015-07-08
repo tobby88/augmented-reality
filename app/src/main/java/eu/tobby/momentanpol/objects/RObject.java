@@ -8,11 +8,11 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 package eu.tobby.momentanpol.objects;
 
 import java.nio.Buffer;
+
 import eu.tobby.momentanpol.utils.MeshObject;
 
 
-public class RObject extends MeshObject
-{
+public class RObject extends MeshObject {
     // Data for drawing the 3D plane as overlay
     private static final double letterVertices[] = { 2.008290, -0.050000,
             0.882192, 1.931250, 0.000000, 0.982192, 1.818130, -0.050000,
@@ -626,10 +626,9 @@ public class RObject extends MeshObject
     Buffer mTexCoordBuff;
     Buffer mNormBuff;
     Buffer mIndBuff;
-    
-    
-    public RObject()
-    {
+
+
+        public RObject() {
         mVertBuff = fillBuffer(letterVertices);
         mTexCoordBuff = fillBuffer(letterTexcoords);
         mNormBuff = fillBuffer(letterNormals);
@@ -638,11 +637,9 @@ public class RObject extends MeshObject
     
     
     @Override
-    public Buffer getBuffer(BUFFER_TYPE bufferType)
-    {
+    public Buffer getBuffer(BUFFER_TYPE bufferType) {
         Buffer result = null;
-        switch (bufferType)
-        {
+            switch (bufferType) {
             case BUFFER_TYPE_VERTEX:
                 result = mVertBuff;
                 break;
@@ -666,4 +663,5 @@ public class RObject extends MeshObject
     {
         return letterIndices.length;
     }
+
 }

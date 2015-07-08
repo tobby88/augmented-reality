@@ -12,8 +12,10 @@ import eu.tobby.momentanpol.utils.Texture;
  * Created by fabian on 01.07.15.
  */
 public interface MomentanpolRenderer extends GLSurfaceView.Renderer {
-    public Matrix44F getProjectionMatrix();
-    public void setProjectionMatrix();
-    public void setTextures(Vector<Texture> textures);
+    Matrix44F getProjectionMatrix();
+
+    void setProjectionMatrix();
+
+    void setTextures(Vector<Texture> textures);
 
 }

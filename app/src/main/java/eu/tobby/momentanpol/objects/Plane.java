@@ -12,15 +12,11 @@ import java.nio.Buffer;
 import eu.tobby.momentanpol.utils.MeshObject;
 
 
-public class Plane extends MeshObject
-{
+public class Plane extends MeshObject {
     // Data for drawing the 3D plane as overlay
     private static final double letterVertices[] = { -5.0f, -5.0f, 0.000000f, 5.0f, -5.0f, 0.000000f, 5.0f, 5.0f, 0.000000f, -5.0f, 5.0f, 0.000000f };
-    
     private static final double letterNormals[] = { 0.000000f, 0.000000f, 1.000000f, 0.000000f, 0.000000f, 1.000000f, 0.000000f, 0.000000f, 1.000000f, 0.000000f, 0.000000f, 1.000000f };
-    
     private static final double letterTexcoords[] = { 0.000000f, 0.000000f, 1.000000f, 0.000000f, 1.000000f, 1.000000f, 0.000000f, 1.000000f, };
-    
     private static final short letterIndices[] = { 0, 1, 2, 0, 2, 3 };
     
     Buffer mVertBuff;
@@ -31,18 +27,17 @@ public class Plane extends MeshObject
     // Size of the plane in surface Units
     float mHeight;
     float mWidth;
-    
-    
-    public Plane()
-    {
+
+
+    public Plane() {
         mVertBuff = fillBuffer(letterVertices);
         mTexCoordBuff = fillBuffer(letterTexcoords);
         mNormBuff = fillBuffer(letterNormals);
         mIndBuff = fillBuffer(letterIndices);
     }
 
-    public Plane(int width, int height)
-    {
+
+    public Plane(int width, int height) {
         mVertBuff = fillBuffer(letterVertices);
         mTexCoordBuff = fillBuffer(letterTexcoords);
         mNormBuff = fillBuffer(letterNormals);
@@ -50,13 +45,12 @@ public class Plane extends MeshObject
         mWidth = width;
         mHeight = height;
     }
-    
+
+
     @Override
-    public Buffer getBuffer(BUFFER_TYPE bufferType)
-    {
+    public Buffer getBuffer(BUFFER_TYPE bufferType) {
         Buffer result = null;
-        switch (bufferType)
-        {
+        switch (bufferType) {
             case BUFFER_TYPE_VERTEX:
                 result = mVertBuff;
                 break;
@@ -80,4 +74,5 @@ public class Plane extends MeshObject
     {
         return letterIndices.length;
     }
+
 }

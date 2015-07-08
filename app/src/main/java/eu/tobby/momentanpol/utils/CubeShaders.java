@@ -7,8 +7,7 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 
 package eu.tobby.momentanpol.utils;
 
-public class CubeShaders
-{
+public class CubeShaders {
     
     public static final String CUBE_MESH_VERTEX_SHADER = " \n" + "\n"
         + "attribute vec4 vertexPosition; \n"
@@ -27,5 +26,5 @@ public class CubeShaders
         + "uniform sampler2D texSampler2D; \n" + " \n" + "void main() \n"
         + "{ \n" + "   gl_FragColor = texture2D(texSampler2D, texCoord); \n"
         + "} \n";
-    
+
 }

@@ -3,25 +3,22 @@ package eu.tobby.momentanpol;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-
 public class MomentanpolMain extends Activity {
 
-
     private Intent i;
-    private Button mFrameMarkerButton;
-    private Button mImageTargetButton;
-    private Button mOpenCVButton;
-    private Button mAboutButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_momentanpol_main);
+        Button mFrameMarkerButton;
+        Button mImageTargetButton;
+        Button mOpenCVButton;
+        Button mAboutButton;
         mFrameMarkerButton = (Button) findViewById(R.id.buttonFrameMarker);
         mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
         mOpenCVButton = (Button) findViewById(R.id.buttonOpenCV);
@@ -55,7 +52,6 @@ public class MomentanpolMain extends Activity {
             public void onClick(View v) {
             }
         });
-
-
     }
+
 }

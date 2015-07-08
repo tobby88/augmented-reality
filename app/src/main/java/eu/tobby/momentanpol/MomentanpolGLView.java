@@ -4,22 +4,24 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
-import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 
 /**
  * Created by fabian on 30.06.15.
  */
 public class MomentanpolGLView extends GLSurfaceView {
+
     private GLSurfaceView.Renderer mRenderer;
     private MomentanpolState mState;
 
-    public MomentanpolGLView(Context context, GLSurfaceView.Renderer renderer,MomentanpolState state){
+
+    public MomentanpolGLView(Context context, GLSurfaceView.Renderer renderer, MomentanpolState state) {
         super(context);
         mRenderer = renderer;
         mState = state;
-
     }
+
+
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         boolean retVal = false;
@@ -28,9 +30,7 @@ public class MomentanpolGLView extends GLSurfaceView {
             mState.isActionDown();
             retVal = true;
         }
-
         return retVal;
     }
-
 
 }
