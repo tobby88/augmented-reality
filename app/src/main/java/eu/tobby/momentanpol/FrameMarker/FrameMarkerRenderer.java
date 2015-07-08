@@ -1,5 +1,6 @@
 package eu.tobby.momentanpol.FrameMarker;
 
+import android.app.Activity;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
@@ -20,6 +21,8 @@ import java.util.Vector;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import eu.tobby.momentanpol.exercises.Exercise1;
+import eu.tobby.momentanpol.interfaces.ExerciseSheet;
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.objects.Plane;
 import eu.tobby.momentanpol.utils.CubeShaders;
@@ -32,7 +35,6 @@ import eu.tobby.momentanpol.utils.Texture;
  */
 public class FrameMarkerRenderer implements MomentanpolRenderer {
     public volatile float mAngle = 0;
-    private Vector<Texture> mTextures;
     // OpenGL ES 2.0 specific:
     private int shaderProgramID = 0;
     private int vertexHandle = 0;
@@ -42,9 +44,11 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
     private int texSampler2DHandle = 0;
     private Matrix44F mProjectionMatrix;
     private Plane plane = new Plane();
+    private Vector<ExerciseSheet> exercises = new Vector<>();
 
 
-    public FrameMarkerRenderer() {
+    public FrameMarkerRenderer(Activity activity) {
+        exercises.add(new Exercise1(activity));
     }
 
 
@@ -78,31 +82,34 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
             float[] modelViewMatrix = Tool.convertPose2GLMatrix(trackableResult.getPose()).getData();
             MarkerResult markerResult = (MarkerResult) (trackableResult);
             Marker marker = (Marker) markerResult.getTrackable();
-            int textureIndex = marker.getMarkerId();
-            Texture thisTexture = mTextures.get(textureIndex);
 
-            Buffer vertices;
-            Buffer normals;
-            Buffer indices;
-            Buffer texCoords;
-            int numIndices;
             float kLetterScaleX;
             float kLetterScaleY;
             float kLetterTranslateX;
             float kLetterTranslateY;
+            Buffer vertices = plane.getVertices();
+            Buffer normals = plane.getNormals();
+            Buffer indices = plane.getIndices();
+            Buffer texCoords = plane.getTexCoords();
+            int numIndices = plane.getNumObjectIndex();
+            Texture texture;
 
             switch (marker.getMarkerId()) {
                 case 4:
+                    kLetterScaleX = exercises.get(0).getScaleX();
+                    kLetterScaleY = exercises.get(0).getScaleY();
+                    kLetterTranslateX = exercises.get(0).getTranslateX();
+                    kLetterTranslateY = exercises.get(0).getTranslateY();
+                    texture = exercises.get(0).getCurrentTexture();
+                    break;
                 default:
-                    vertices = plane.getVertices();
-                    normals = plane.getNormals();
-                    indices = plane.getIndices();
-                    texCoords = plane.getTexCoords();
-                    numIndices = plane.getNumObjectIndex();
                     kLetterScaleX = 14.7f;
                     kLetterScaleY = 11.1f;
                     kLetterTranslateY = -85.0f;
                     kLetterTranslateX = 49.0f;
+
+                    // just for testing purposes - please change this line!
+                    texture = exercises.get(0).getCurrentTexture();
             }
             float[] modelViewProjection = new float[16];
 
@@ -119,7 +126,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
             GLES20.glEnableVertexAttribArray(normalHandle);
             GLES20.glEnableVertexAttribArray(textureCoordHandle);
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, thisTexture.mTextureID[0]);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.mTextureID[0]);
             GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
             GLES20.glUniform1i(texSampler2DHandle, 0);
             GLES20.glDrawElements(GLES20.GL_TRIANGLES, numIndices, GLES20.GL_UNSIGNED_SHORT, indices);
@@ -146,8 +153,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
     }
 
 
-    public Matrix44F getProjectionMatrix()
-    {
+    public Matrix44F getProjectionMatrix() {
         return mProjectionMatrix;
     }
 
@@ -155,25 +161,28 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
     private void initRendering() {
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        // Now generate the OpenGL texture objects and add settings
-        for (Texture t : mTextures) {
-            GLES20.glGenTextures(1, t.mTextureID, 0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, t.mTextureID[0]);
-            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, t.mWidth, t.mHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, t.mData);
-        }
         shaderProgramID = SampleUtils.createProgramFromShaderSrc(CubeShaders.CUBE_MESH_VERTEX_SHADER, CubeShaders.CUBE_MESH_FRAGMENT_SHADER);
         vertexHandle = GLES20.glGetAttribLocation(shaderProgramID, "vertexPosition");
         normalHandle = GLES20.glGetAttribLocation(shaderProgramID, "vertexNormal");
         textureCoordHandle = GLES20.glGetAttribLocation(shaderProgramID, "vertexTexCoord");
         mvpMatrixHandle = GLES20.glGetUniformLocation(shaderProgramID, "modelViewProjectionMatrix");
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID, "texSampler2D");
+        setTextureSettings(exercises.get(0));
     }
 
-
-    public void setTextures(Vector<Texture> textures) {
-        mTextures = textures;
+    private void setTextureSettings(ExerciseSheet exercise) {
+        Texture texture;
+        for (int i = 1; i <= exercise.getSteps(); i++) {
+            exercise.setCurrentStep(i);
+            texture = exercise.getCurrentTexture();
+            // Now generate the OpenGL texture object and add settings
+            GLES20.glGenTextures(1, texture.mTextureID, 0);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.mTextureID[0]);
+            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, texture.mWidth, texture.mHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, texture.mData);
+        }
+        exercise.setCurrentStep(1);
     }
 
 }

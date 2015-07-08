@@ -8,11 +8,8 @@ import com.qualcomm.vuforia.Tracker;
 import com.qualcomm.vuforia.TrackerManager;
 import com.qualcomm.vuforia.Vec2F;
 
-import java.util.Vector;
-
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
-import eu.tobby.momentanpol.utils.Texture;
 
 /**
  * Created by fabian on 30.06.15.
@@ -20,17 +17,11 @@ import eu.tobby.momentanpol.utils.Texture;
 public class MomentanpolFrameMarkers implements MomentanpolState {
 
     private final String LOGTAG = "MomentanpolFrameMarkers";
-    private Vector<Texture> mTextures;
-    private Activity mActivity;
     private FrameMarkerRenderer mRenderer;
 
 
     public MomentanpolFrameMarkers(Activity activity) {
-        mActivity = activity;
-        mRenderer = new FrameMarkerRenderer();
-        mTextures = new Vector<>();
-        loadTextures();
-        mRenderer.setTextures(mTextures);
+        mRenderer = new FrameMarkerRenderer(activity);
     }
 
 
@@ -52,28 +43,17 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
         MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
         if (markerTracker == null)
             return false;
-        markerTracker.createFrameMarker(4, "Momentanpol1", new Vec2F(50, 50));
+        markerTracker.createFrameMarker(4, "Exercise1", new Vec2F(50, 50));
         markerTracker.createFrameMarker(5, "Bart", new Vec2F(50, 50));
         markerTracker.start();
         return true;
     }
 
 
-    private void loadTextures() {
-        // 0-3 are not used at the moment but have to be initialized
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
-
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/bart.jpg", mActivity.getAssets()));
-    }
-
-
     public MomentanpolRenderer getRenderer() {
         return mRenderer;
     }
+
 
     public void isActionDown() {
         Log.d(LOGTAG,"ButtonDown");

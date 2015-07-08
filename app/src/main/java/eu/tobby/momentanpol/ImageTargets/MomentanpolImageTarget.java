@@ -78,7 +78,7 @@ public class MomentanpolImageTarget implements MomentanpolState {
 
 
     public void loadTextures() {
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("solutions/Exercise1_step1.png", mActivity.getAssets()));
     }
 
 
