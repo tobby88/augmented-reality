@@ -3,4 +3,10 @@
 
     <string name="title_activity_momentanpol_main">MomentanpolMain</string>
     <string name="title_activity_momentanpol_task">MomentanpolTask</string>
+
+    <string name="header_description">Header Logos</string>
+    <string name="framemarker">FrameMarker</string>
+    <string name="imagetarget">ImageTarget</string>
+    <string name="opencvmarker">OpenCVMarker</string>
+    <string name="about">About</string>
 </resources>
