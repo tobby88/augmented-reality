@@ -16,13 +16,11 @@ import com.qualcomm.vuforia.TrackableResult;
 import com.qualcomm.vuforia.Vuforia;
 
 import java.nio.Buffer;
-import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import eu.tobby.momentanpol.exercises.Exercise1;
-import eu.tobby.momentanpol.interfaces.ExerciseSheet;
+import eu.tobby.momentanpol.Exercises;
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.objects.Plane;
 import eu.tobby.momentanpol.utils.CubeShaders;
@@ -44,11 +42,11 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
     private int texSampler2DHandle = 0;
     private Matrix44F mProjectionMatrix;
     private Plane plane = new Plane();
-    private Vector<ExerciseSheet> exercises = new Vector<>();
+    private Exercises exercises;
 
 
     public FrameMarkerRenderer(Activity activity) {
-        exercises.add(new Exercise1(activity));
+        exercises = new Exercises(activity);
     }
 
 
@@ -96,11 +94,11 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
 
             switch (marker.getMarkerId()) {
                 case 4:
-                    kLetterScaleX = exercises.get(0).getScaleX();
-                    kLetterScaleY = exercises.get(0).getScaleY();
-                    kLetterTranslateX = exercises.get(0).getTranslateX();
-                    kLetterTranslateY = exercises.get(0).getTranslateY();
-                    texture = exercises.get(0).getCurrentTexture();
+                    kLetterScaleX = exercises.getScaleX(4);
+                    kLetterScaleY = exercises.getScaleY(4);
+                    kLetterTranslateX = exercises.getTranslateX(4);
+                    kLetterTranslateY = exercises.getTranslateY(4);
+                    texture = exercises.getCurrentTexture(4);
                     break;
                 default:
                     kLetterScaleX = 14.7f;
@@ -109,7 +107,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
                     kLetterTranslateX = 49.0f;
 
                     // just for testing purposes - please change this line!
-                    texture = exercises.get(0).getCurrentTexture();
+                    texture = exercises.getCurrentTexture(4);
             }
             float[] modelViewProjection = new float[16];
 
@@ -167,22 +165,25 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
         textureCoordHandle = GLES20.glGetAttribLocation(shaderProgramID, "vertexTexCoord");
         mvpMatrixHandle = GLES20.glGetUniformLocation(shaderProgramID, "modelViewProjectionMatrix");
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID, "texSampler2D");
-        setTextureSettings(exercises.get(0));
+        setTextureSettings();
     }
 
-    private void setTextureSettings(ExerciseSheet exercise) {
+
+    private void setTextureSettings() {
         Texture texture;
-        for (int i = 1; i <= exercise.getSteps(); i++) {
-            exercise.setCurrentStep(i);
-            texture = exercise.getCurrentTexture();
-            // Now generate the OpenGL texture object and add settings
-            GLES20.glGenTextures(1, texture.mTextureID, 0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.mTextureID[0]);
-            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, texture.mWidth, texture.mHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, texture.mData);
+        for (int i = 0; i < exercises.getNrOfExercises(); i++) {
+            for (int j = 1; j <= exercises.getSteps(exercises.getID(i)); j++) {
+                exercises.setCurrentStep(exercises.getID(i), j);
+                texture = exercises.getCurrentTexture(exercises.getID(i));
+                // Now generate the OpenGL texture object and add settings
+                GLES20.glGenTextures(1, texture.mTextureID, 0);
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.mTextureID[0]);
+                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+                GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, texture.mWidth, texture.mHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, texture.mData);
+            }
+            exercises.setCurrentStep(exercises.getID(i), 1);
         }
-        exercise.setCurrentStep(1);
     }
 
 }

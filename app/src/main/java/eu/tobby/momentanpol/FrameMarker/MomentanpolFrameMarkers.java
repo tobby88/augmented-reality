@@ -43,7 +43,7 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
         MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
         if (markerTracker == null)
             return false;
-        markerTracker.createFrameMarker(4, "Exercise1", new Vec2F(50, 50));
+        markerTracker.createFrameMarker(4, "Exercise4", new Vec2F(50, 50));
         markerTracker.createFrameMarker(5, "Bart", new Vec2F(50, 50));
         markerTracker.start();
         return true;
