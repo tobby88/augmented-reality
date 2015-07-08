@@ -10,6 +10,7 @@ import com.qualcomm.vuforia.CameraDevice;
 import com.qualcomm.vuforia.Frame;
 import com.qualcomm.vuforia.Image;
 import com.qualcomm.vuforia.Matrix44F;
+import com.qualcomm.vuforia.PIXEL_FORMAT;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
 import com.qualcomm.vuforia.Tool;
@@ -18,10 +19,13 @@ import com.qualcomm.vuforia.TrackableResult;
 import com.qualcomm.vuforia.Vuforia;
 
 import org.opencv.android.Utils;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
@@ -61,7 +65,6 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
     private Mat testDescriptors = new Mat();
     private Mat templateDescriptors = new Mat();
     private MatOfDMatch matches = new MatOfDMatch();
-    private Image image;
     private ByteBuffer bb;
     public Mat mImage = new Mat();
     public Bitmap viewTest;
@@ -154,55 +157,25 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
 
     }
 
-    public void findObject1(Mat template){
-        FeatureDetector fast = FeatureDetector.create(FeatureDetector.FAST);
+    public Mat getCameraImage() {
         State state = Renderer.getInstance().begin();
         Frame frame = state.getFrame();
-        Log.e("in Funktion findObject1","vor der Schleife" + frame.getNumImages());
-        //for(int i=0;i<frame.getNumImages();i++) {
-
-            image = frame.getImage(0);
-
-            Log.d("Bildformat"," "+image.getFormat());
-
-
-            bb = image.getPixels();
-            byte[] testByte = new byte[bb.remaining()];
-            bb.get(testByte);
-            Log.d("OpenCV", " " + testByte.length);
-
-            mImage = new Mat(image.getBufferWidth(),image.getBufferHeight(), CvType.CV_8UC3);
-            mImage.put(image.getBufferHeight(), image.getBufferWidth(), testByte);
-            viewTest = Bitmap.createBitmap(mImage.cols(),mImage.rows(), Bitmap.Config.RGB_565);
-            Utils.matToBitmap(mImage,viewTest);
-            Log.d("Angezeigtes Bild"," "+viewTest.getByteCount());
-
-            Log.e("Groesse von Test", "Test" + mImage.cols() + "x" + mImage.rows());
-            Log.d("findObject", "Height : " + frame.getImage(0).getWidth() + "x" + frame.getImage(0).getHeight());
-            Log.d("template findObject", "Height : " + template.cols() + "x" + template.rows());
-
-
-        fast.detect(mImage, keypointstest);
-        fast.detect(template, keypointstemplate);
-        Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstemplate.toList());
-        Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstest.toList());
-
-
-        DescriptorExtractor FastExtractor = DescriptorExtractor.create(FeatureDetector.SURF);
-        FastExtractor.compute(mImage, keypointstest, testDescriptors);
-        FastExtractor.compute(template, keypointstemplate, templateDescriptors);
-
-        DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
-        //matcher.match(templateDescriptors, testDescriptors, matches);
-        //Log.e("Anzeige der Matches", "Gefundene Matches" + matches.toList());
-        /*Mat imageOut = test.clone();
-        Mat mRgba= test.clone();
-        Imgproc.cvtColor(test, mRgba, Imgproc.COLOR_RGBA2RGB, 4);
-        // Features2d.drawMatches(test, keypointstest, template, keypointstemplate, matches, imageOut);
-        Scalar redcolor = new Scalar(255,0,0);
-
-
-        //Features2d.drawKeypoints(mRgba, keypointstest, mRgba, redcolor, 3);*/
+        Image tempImage=null;
+        for(int i=0;i<frame.getNumImages();i++) {
+            tempImage = frame.getImage(i);
+            if(tempImage.getFormat() == PIXEL_FORMAT.RGB888) {
+                break;
+            }
+        }
+        Log.d("Bildformat", " " + tempImage.getFormat() + "Width: " + tempImage.getWidth() + "Height: " + tempImage.getHeight() + tempImage.getStride());
+        bb = tempImage.getPixels();
+        byte[] testByte = new byte[bb.remaining()];
+        bb.duplicate().get(testByte, 0, testByte.length);
+        Mat retImage = new Mat(tempImage.getHeight(),tempImage.getWidth(), CvType.CV_8UC3);
+        retImage.put(0, 0, testByte);
         Renderer.getInstance().end();
+        return retImage;
+
     }
+
 }

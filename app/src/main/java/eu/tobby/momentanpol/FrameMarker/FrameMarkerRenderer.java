@@ -172,7 +172,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer
                     kLetterTranslateY = -25.0f;
                     kLetterTranslateX = -25.0f;
                     break;
-                default:
+                case 4:
                     vertices = plane.getVertices();
                     normals = plane.getNormals();
                     indices = plane.getIndices();
@@ -182,6 +182,13 @@ public class FrameMarkerRenderer implements MomentanpolRenderer
                     kLetterScaleY = 11.1f;
                     kLetterTranslateY = -85.0f;
                     kLetterTranslateX = 49.0f;
+                    break;
+                default:
+                    vertices = plane.getVertices();
+                    normals = plane.getNormals();
+                    indices = plane.getIndices();
+                    texCoords = plane.getTexCoords();
+                    numIndices = plane.getNumObjectIndex();
             }
             float[] modelViewProjection = new float[16];
 

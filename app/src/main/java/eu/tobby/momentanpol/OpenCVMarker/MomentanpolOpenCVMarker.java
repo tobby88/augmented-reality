@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -59,48 +60,76 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
     }
     String string1 = "Festlager.png";
     public boolean doLoadTrackersData(){return false;}
+
     public void loadTextures(){}
+
     public boolean doInitTrackers(){return false;}
+
     public MomentanpolRenderer getRenderer() {return mRenderer;}
 
     public void isActionDown() {
+        doImageProcessing();
         Log.d(LOGTAG, "ButtonDown");
-        getimage(string1);
     }
 
-    public void getimage(String string1){
+    public Mat loadImageOpenCV(String filename) {
+        //Bild muss im Assets-Ordner sein!!
         AssetManager assets = mActivity.getAssets();
-        Log.e("Funktion getimage()", "Funktion wurde gestartet");
-        InputStream inputStream1 = null;
+        InputStream iStream = null;
         try {
-            inputStream1 = assets.open(string1);
+            iStream = assets.open(filename);
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            Log.d("get object", "Datei konnte nicht geoeffnet werden");
-
         }
-    Log.e("getimage()", "Bild wurde geladen");
-
-        BufferedInputStream bufferedInputStream1 = new BufferedInputStream(inputStream1);
-        Bitmap bitmap1 = BitmapFactory.decodeStream(bufferedInputStream1);
-
-
-        Mat matrix1 = new Mat();
-        Utils.bitmapToMat(bitmap1, matrix1);
-        Log.d("matrix findObject", "Height : " + matrix1.cols() + "x" + matrix1.rows());
-
-
-        //teste OpenCV-Funktionen zur Feature Detektion mit FAST mit dem geladenen Bild
-        mRenderer.findObject1(matrix1);
-        showImage(mRenderer.viewTest);
-
+        BufferedInputStream ioStream = new BufferedInputStream(iStream);
+        Bitmap tempImage = BitmapFactory.decodeStream(ioStream);
+        Mat retMat = new Mat();
+        Utils.bitmapToMat(tempImage, retMat);
+        return retMat;
     }
+
 
     public void showImage(Bitmap bm) {
         ImageView imageView = new ImageView(mActivity);
-        imageView.setImageBitmap(bm);
-        mActivity.addContentView(imageView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        Matrix rotation = new Matrix();
+        rotation.postRotate(90);
+        Bitmap rotatedBM = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),rotation,true);
+        imageView.setImageBitmap(rotatedBM);
+        mActivity.addContentView(imageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    }
+
+    public void doImageProcessing() {
+        Mat template = loadImageOpenCV(string1);
+        Mat cameraImage = mRenderer.getCameraImage();
+        FeatureDetector fast = FeatureDetector.create(FeatureDetector.FAST);
+        Bitmap viewTest = Bitmap.createBitmap(cameraImage.cols(),cameraImage.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(cameraImage, viewTest);
+        showImage(viewTest);
+
+
+
+        fast.detect(cameraImage, keypointstest);
+        fast.detect(template, keypointstemplate);
+        Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstemplate.toList());
+        Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstest.toList());
+
+
+        DescriptorExtractor FastExtractor = DescriptorExtractor.create(FeatureDetector.SURF);
+        FastExtractor.compute(cameraImage, keypointstest, testDescriptors);
+        FastExtractor.compute(template, keypointstemplate, templateDescriptors);
+
+        DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
+        //matcher.match(templateDescriptors, testDescriptors, matches);
+        //Log.e("Anzeige der Matches", "Gefundene Matches" + matches.toList());
+        /*Mat imageOut = test.clone();
+        Mat mRgba= test.clone();
+        Imgproc.cvtColor(test, mRgba, Imgproc.COLOR_RGBA2RGB, 4);
+        // Features2d.drawMatches(test, keypointstest, template, keypointstemplate, matches, imageOut);
+        Scalar redcolor = new Scalar(255,0,0);
+
+
+        //Features2d.drawKeypoints(mRgba, keypointstest, mRgba, redcolor, 3);*/
     }
 }
