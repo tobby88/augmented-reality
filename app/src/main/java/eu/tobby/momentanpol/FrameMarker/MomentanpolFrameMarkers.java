@@ -52,11 +52,7 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
         MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
         if (markerTracker == null)
             return false;
-        markerTracker.createFrameMarker(0, "MarkerQ", new Vec2F(50, 50));
-        markerTracker.createFrameMarker(1, "MarkerC", new Vec2F(50, 50));
-        markerTracker.createFrameMarker(2, "MarkerA", new Vec2F(50, 50));
-        markerTracker.createFrameMarker(3, "MarkerR", new Vec2F(50, 50));
-        markerTracker.createFrameMarker(4, "Momentanpol", new Vec2F(50, 50));
+        markerTracker.createFrameMarker(4, "Momentanpol1", new Vec2F(50, 50));
         markerTracker.createFrameMarker(5, "Bart", new Vec2F(50, 50));
         markerTracker.start();
         return true;
@@ -64,10 +60,12 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
 
 
     private void loadTextures() {
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_Q.png", mActivity.getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_A.png", mActivity.getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_C.png", mActivity.getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/letter_R.png", mActivity.getAssets()));
+        // 0-3 are not used at the moment but have to be initialized
+        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
+
         mTextures.add(Texture.loadTextureFromApk("FrameMarkers/Momentanpol1_Loesung.png", mActivity.getAssets()));
         mTextures.add(Texture.loadTextureFromApk("FrameMarkers/bart.jpg", mActivity.getAssets()));
     }

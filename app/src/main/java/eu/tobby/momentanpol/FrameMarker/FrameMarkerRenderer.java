@@ -21,11 +21,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
-import eu.tobby.momentanpol.objects.AObject;
-import eu.tobby.momentanpol.objects.CObject;
 import eu.tobby.momentanpol.objects.Plane;
-import eu.tobby.momentanpol.objects.QObject;
-import eu.tobby.momentanpol.objects.RObject;
 import eu.tobby.momentanpol.utils.CubeShaders;
 import eu.tobby.momentanpol.utils.SampleUtils;
 import eu.tobby.momentanpol.utils.Texture;
@@ -45,10 +41,6 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
     private int mvpMatrixHandle = 0;
     private int texSampler2DHandle = 0;
     private Matrix44F mProjectionMatrix;
-    private QObject qObject = new QObject();
-    private CObject cObject = new CObject();
-    private AObject aObject = new AObject();
-    private RObject rObject = new RObject();
     private Plane plane = new Plane();
 
 
@@ -100,50 +92,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
             float kLetterTranslateY;
 
             switch (marker.getMarkerId()) {
-                case 0:
-                    vertices = qObject.getVertices();
-                    normals = qObject.getNormals();
-                    indices = qObject.getIndices();
-                    texCoords = qObject.getTexCoords();
-                    numIndices = qObject.getNumObjectIndex();
-                    kLetterScaleX = 25.0f;
-                    kLetterScaleY = 25.0f;
-                    kLetterTranslateY = -25.0f;
-                    kLetterTranslateX = -25.0f;
-                    break;
-                case 1:
-                    vertices = aObject.getVertices();
-                    normals = aObject.getNormals();
-                    indices = aObject.getIndices();
-                    texCoords = aObject.getTexCoords();
-                    numIndices = aObject.getNumObjectIndex();
-                    kLetterScaleX = 25.0f;
-                    kLetterScaleY = 25.0f;
-                    kLetterTranslateY = -25.0f;
-                    kLetterTranslateX = -25.0f;
-                    break;
-                case 2:
-                    vertices =  cObject.getVertices();
-                    normals = cObject.getNormals();
-                    indices = cObject.getIndices();
-                    texCoords = cObject.getTexCoords();
-                    numIndices = cObject.getNumObjectIndex();
-                    kLetterScaleX = 25.0f;
-                    kLetterScaleY = 25.0f;
-                    kLetterTranslateY = -25.0f;
-                    kLetterTranslateX = -25.0f;
-                    break;
-                case 3:
-                    vertices = rObject.getVertices();
-                    normals = rObject.getNormals();
-                    indices = rObject.getIndices();
-                    texCoords = rObject.getTexCoords();
-                    numIndices = rObject.getNumObjectIndex();
-                    kLetterScaleX = 25.0f;
-                    kLetterScaleY = 25.0f;
-                    kLetterTranslateY = -25.0f;
-                    kLetterTranslateX = -25.0f;
-                    break;
+                case 4:
                 default:
                     vertices = plane.getVertices();
                     normals = plane.getNormals();
