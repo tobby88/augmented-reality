@@ -19,9 +19,11 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
+import org.opencv.core.Scalar;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
+import org.opencv.features2d.Features2d;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -52,7 +54,7 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
 
     public MomentanpolOpenCVMarker(Activity activity) {
         mActivity = activity;
-        mRenderer = new OpenCVMarkerRenderer();
+        mRenderer = new OpenCVMarkerRenderer(this);
         mTextures = new Vector<>();
         loadTextures();
         mRenderer.setTextures(mTextures);
@@ -94,6 +96,7 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
     public void showImage(Bitmap bm) {
         ImageView imageView = new ImageView(mActivity);
         Matrix rotation = new Matrix();
+        //Hotfix: weil Vuforia die Bilder immer 90° verdreht aufnimmt
         rotation.postRotate(90);
         Bitmap rotatedBM = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),rotation,true);
         imageView.setImageBitmap(rotatedBM);
@@ -105,8 +108,7 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         Mat cameraImage = mRenderer.getCameraImage();
         FeatureDetector fast = FeatureDetector.create(FeatureDetector.FAST);
         Bitmap viewTest = Bitmap.createBitmap(cameraImage.cols(),cameraImage.rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(cameraImage, viewTest);
-        showImage(viewTest);
+
 
 
 
@@ -121,15 +123,14 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         FastExtractor.compute(template, keypointstemplate, templateDescriptors);
 
         DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
-        //matcher.match(templateDescriptors, testDescriptors, matches);
-        //Log.e("Anzeige der Matches", "Gefundene Matches" + matches.toList());
-        /*Mat imageOut = test.clone();
-        Mat mRgba= test.clone();
-        Imgproc.cvtColor(test, mRgba, Imgproc.COLOR_RGBA2RGB, 4);
-        // Features2d.drawMatches(test, keypointstest, template, keypointstemplate, matches, imageOut);
+        if(matches.empty()) return;
+        matcher.match(templateDescriptors, testDescriptors, matches);
+        Log.e("Anzeige der Matches", "Gefundene Matches" + matches.toList());
+        Mat imageOut = new Mat();
+        Features2d.drawMatches(cameraImage, keypointstest, template, keypointstemplate, matches, imageOut);
         Scalar redcolor = new Scalar(255,0,0);
-
-
-        //Features2d.drawKeypoints(mRgba, keypointstest, mRgba, redcolor, 3);*/
+        Features2d.drawKeypoints(imageOut, keypointstest, imageOut, redcolor, 3);
+        Utils.matToBitmap(imageOut, viewTest);
+        showImage(viewTest);
     }
 }

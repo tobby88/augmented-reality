@@ -1,5 +1,6 @@
 package eu.tobby.momentanpol.OpenCVMarker;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
@@ -68,7 +69,11 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
     private ByteBuffer bb;
     public Mat mImage = new Mat();
     public Bitmap viewTest;
+    public MomentanpolOpenCVMarker mTask;
 
+    public OpenCVMarkerRenderer(MomentanpolOpenCVMarker task) {
+        mTask = task;
+    }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config){
         initRendering();
@@ -76,8 +81,8 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
     }
 
     public void onDrawFrame(GL10 gl) {
-
         renderFrame();
+        //mTask.doImageProcessing();
     }
 
     private void renderFrame()

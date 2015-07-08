@@ -161,7 +161,4 @@ public class MomentanpolTask extends Activity {
         stopCam();
     }
 
-    private void openCVLoadCallback(){
-        mIsOpenCVLoaded = true;
-    }
 }
