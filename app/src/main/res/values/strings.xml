@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Momentanpol</string>
 
-    <string name="title_activity_momentanpol_main">MomentanpolMain</string>
+    <string name="title_activity_momentanpol_main">Momentanpol</string>
     <string name="title_activity_momentanpol_task">MomentanpolTask</string>
 
     <string name="header_description">Header Logos</string>
