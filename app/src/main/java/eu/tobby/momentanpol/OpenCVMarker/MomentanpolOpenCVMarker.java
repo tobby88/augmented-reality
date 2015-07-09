@@ -9,13 +9,9 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.qualcomm.vuforia.Frame;
 import com.qualcomm.vuforia.Image;
-import com.qualcomm.vuforia.Renderer;
-import com.qualcomm.vuforia.State;
 
 import org.opencv.android.Utils;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
@@ -40,6 +36,7 @@ import eu.tobby.momentanpol.utils.Texture;
  */
 public class MomentanpolOpenCVMarker implements MomentanpolState {
     private final String LOGTAG = "MomentalpolOpenCV";
+    String string1 = "Festlager.png";
     private OpenCVMarkerRenderer mRenderer;
     private Vector<Texture> mTextures;
     private Activity mActivity;
@@ -51,7 +48,6 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
     private Image image;
     private ByteBuffer bb;
     private Mat test;
-
     public MomentanpolOpenCVMarker(Activity activity) {
         mActivity = activity;
         mRenderer = new OpenCVMarkerRenderer(this);
@@ -60,14 +56,21 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         mRenderer.setTextures(mTextures);
 
     }
-    String string1 = "Festlager.png";
-    public boolean doLoadTrackersData(){return false;}
 
-    public void loadTextures(){}
+    public boolean doLoadTrackersData() {
+        return false;
+    }
 
-    public boolean doInitTrackers(){return false;}
+    public void loadTextures() {
+    }
 
-    public MomentanpolRenderer getRenderer() {return mRenderer;}
+    public boolean doInitTrackers() {
+        return false;
+    }
+
+    public MomentanpolRenderer getRenderer() {
+        return mRenderer;
+    }
 
     public void isActionDown() {
         doImageProcessing();
@@ -80,9 +83,7 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         InputStream iStream = null;
         try {
             iStream = assets.open(filename);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         BufferedInputStream ioStream = new BufferedInputStream(iStream);
@@ -98,7 +99,7 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         Matrix rotation = new Matrix();
         //Hotfix: weil Vuforia die Bilder immer 90° verdreht aufnimmt
         rotation.postRotate(90);
-        Bitmap rotatedBM = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),rotation,true);
+        Bitmap rotatedBM = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), rotation, true);
         imageView.setImageBitmap(rotatedBM);
         mActivity.addContentView(imageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
@@ -107,9 +108,7 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         Mat template = loadImageOpenCV(string1);
         Mat cameraImage = mRenderer.getCameraImage();
         FeatureDetector fast = FeatureDetector.create(FeatureDetector.FAST);
-        Bitmap viewTest = Bitmap.createBitmap(cameraImage.cols(),cameraImage.rows(), Bitmap.Config.ARGB_8888);
-
-
+        Bitmap viewTest = Bitmap.createBitmap(cameraImage.cols(), cameraImage.rows(), Bitmap.Config.ARGB_8888);
 
 
         fast.detect(cameraImage, keypointstest);
@@ -123,12 +122,12 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         FastExtractor.compute(template, keypointstemplate, templateDescriptors);
 
         DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
-        if(matches.empty()) return;
+        if (matches.empty()) return;
         matcher.match(templateDescriptors, testDescriptors, matches);
         Log.e("Anzeige der Matches", "Gefundene Matches" + matches.toList());
         Mat imageOut = new Mat();
         Features2d.drawMatches(cameraImage, keypointstest, template, keypointstemplate, matches, imageOut);
-        Scalar redcolor = new Scalar(255,0,0);
+        Scalar redcolor = new Scalar(255, 0, 0);
         Features2d.drawKeypoints(imageOut, keypointstest, imageOut, redcolor, 3);
         Utils.matToBitmap(imageOut, viewTest);
         showImage(viewTest);

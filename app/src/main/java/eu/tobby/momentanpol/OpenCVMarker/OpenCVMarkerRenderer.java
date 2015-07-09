@@ -1,9 +1,7 @@
 package eu.tobby.momentanpol.OpenCVMarker;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 import android.util.Log;
 
 import com.qualcomm.vuforia.CameraCalibration;
@@ -15,22 +13,12 @@ import com.qualcomm.vuforia.PIXEL_FORMAT;
 import com.qualcomm.vuforia.Renderer;
 import com.qualcomm.vuforia.State;
 import com.qualcomm.vuforia.Tool;
-import com.qualcomm.vuforia.Trackable;
-import com.qualcomm.vuforia.TrackableResult;
 import com.qualcomm.vuforia.Vuforia;
 
-import org.opencv.android.Utils;
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.features2d.DescriptorExtractor;
-import org.opencv.features2d.DescriptorMatcher;
-import org.opencv.features2d.FeatureDetector;
-import org.opencv.imgproc.Imgproc;
 
 import java.nio.ByteBuffer;
 import java.util.Vector;
@@ -50,6 +38,9 @@ import eu.tobby.momentanpol.utils.Texture;
 public class OpenCVMarkerRenderer implements MomentanpolRenderer {
 
 
+    public Mat mImage = new Mat();
+    public Bitmap viewTest;
+    public MomentanpolOpenCVMarker mTask;
     //private Vector<Texture> mTextures;
     private Vector<Texture> mTextures;
     // OpenGL ES 2.0 specific:
@@ -60,22 +51,19 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
     private int mvpMatrixHandle = 0;
     private int texSampler2DHandle = 0;
     private Matrix44F mProjectionMatrix;
-    private Plane plane = new Plane(110,85);
+    private Plane plane = new Plane(110, 85);
     private MatOfKeyPoint keypointstest = new MatOfKeyPoint();
     private MatOfKeyPoint keypointstemplate = new MatOfKeyPoint();
     private Mat testDescriptors = new Mat();
     private Mat templateDescriptors = new Mat();
     private MatOfDMatch matches = new MatOfDMatch();
     private ByteBuffer bb;
-    public Mat mImage = new Mat();
-    public Bitmap viewTest;
-    public MomentanpolOpenCVMarker mTask;
 
     public OpenCVMarkerRenderer(MomentanpolOpenCVMarker task) {
         mTask = task;
     }
 
-    public void onSurfaceCreated(GL10 gl, EGLConfig config){
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         initRendering();
         Vuforia.onSurfaceCreated();
     }
@@ -85,8 +73,7 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         //mTask.doImageProcessing();
     }
 
-    private void renderFrame()
-    {
+    private void renderFrame() {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         State state = Renderer.getInstance().begin();
@@ -104,14 +91,12 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         Renderer.getInstance().end();
     }
 
-    private void initRendering()
-    {
+    private void initRendering() {
 
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
                 : 1.0f);
 
-        for (Texture t : mTextures)
-        {
+        for (Texture t : mTextures) {
             GLES20.glGenTextures(1, t.mTextureID, 0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, t.mTextureID[0]);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
@@ -140,8 +125,7 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
 
     }
 
-    public void setProjectionMatrix()
-    {
+    public void setProjectionMatrix() {
         CameraCalibration camCal = CameraDevice.getInstance().getCameraCalibration();
         mProjectionMatrix = Tool.getProjectionGL(camCal, 10.0f, 5000.0f);
     }
@@ -156,8 +140,7 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         Vuforia.onSurfaceChanged(width, height);
     }
 
-    public void setTextures(Vector<Texture> textures)
-    {
+    public void setTextures(Vector<Texture> textures) {
         mTextures = textures;
 
     }
@@ -165,10 +148,10 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
     public Mat getCameraImage() {
         State state = Renderer.getInstance().begin();
         Frame frame = state.getFrame();
-        Image tempImage=null;
-        for(int i=0;i<frame.getNumImages();i++) {
+        Image tempImage = null;
+        for (int i = 0; i < frame.getNumImages(); i++) {
             tempImage = frame.getImage(i);
-            if(tempImage.getFormat() == PIXEL_FORMAT.RGB888) {
+            if (tempImage.getFormat() == PIXEL_FORMAT.RGB888) {
                 break;
             }
         }
@@ -176,7 +159,7 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         bb = tempImage.getPixels();
         byte[] testByte = new byte[bb.remaining()];
         bb.duplicate().get(testByte, 0, testByte.length);
-        Mat retImage = new Mat(tempImage.getHeight(),tempImage.getWidth(), CvType.CV_8UC3);
+        Mat retImage = new Mat(tempImage.getHeight(), tempImage.getWidth(), CvType.CV_8UC3);
         retImage.put(0, 0, testByte);
         Renderer.getInstance().end();
         return retImage;
