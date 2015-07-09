@@ -21,7 +21,7 @@ public class Exercise {
     private Vector<Texture> textures = new Vector<>();
     private int currentStep = 1;
 
-    public Exercise(Activity activity, float imageSizeX, float imageSizeY, float markerSize, float offsetX, float offsetY, int steps, int id) {
+    public Exercise(Activity activity, int id, float imageSizeX, float imageSizeY, float markerSize, float offsetX, float offsetY, int steps) {
         this.steps = steps;
         this.id = id;
         // Calculate the resize and translation parameters

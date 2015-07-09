@@ -1,0 +1,20 @@
+[
+  {
+    "id": 4,
+    "imageSizeX": 147.5,
+    "imageSizeY": 115.2,
+    "markerSize": 50.0,
+    "offsetX": 1.0,
+    "offsetY": -53.0,
+    "steps": 1
+  },
+  {
+    "id": 5,
+    "imageSizeX": 147.5,
+    "imageSizeY": 115.2,
+    "markerSize": 50.0,
+    "offsetX": 1.0,
+    "offsetY": -53.0,
+    "steps": 1
+  }
+]

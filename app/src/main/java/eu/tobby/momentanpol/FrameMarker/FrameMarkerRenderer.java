@@ -92,23 +92,13 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
             int numIndices = plane.getNumObjectIndex();
             Texture texture;
 
-            switch (marker.getMarkerId()) {
-                case 4:
-                    kLetterScaleX = exercises.getExercise(4).getScaleX();
-                    kLetterScaleY = exercises.getExercise(4).getScaleY();
-                    kLetterTranslateX = exercises.getExercise(4).getTranslateX();
-                    kLetterTranslateY = exercises.getExercise(4).getTranslateY();
-                    texture = exercises.getExercise(4).getCurrentTexture();
-                    break;
-                default:
-                    kLetterScaleX = 14.7f;
-                    kLetterScaleY = 11.1f;
-                    kLetterTranslateY = -85.0f;
-                    kLetterTranslateX = 49.0f;
+            int id = marker.getMarkerId();
+            kLetterScaleX = exercises.getExercise(id).getScaleX();
+            kLetterScaleY = exercises.getExercise(id).getScaleY();
+            kLetterTranslateX = exercises.getExercise(id).getTranslateX();
+            kLetterTranslateY = exercises.getExercise(id).getTranslateY();
+            texture = exercises.getExercise(id).getCurrentTexture();
 
-                    // just for testing purposes - please change this line!
-                    texture = exercises.getExercise(4).getCurrentTexture();
-            }
             float[] modelViewProjection = new float[16];
 
             Matrix.translateM(modelViewMatrix, 0, kLetterTranslateX, kLetterTranslateY, 0.f);
