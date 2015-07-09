@@ -34,7 +34,6 @@ public class MomentanpolTask extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         OpenCVLoader.initDebug();
         // Make a view out of the Designer-XML and add this view on top of the OpenGL-Viewer
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,7 +56,6 @@ public class MomentanpolTask extends Activity {
         MomentanpolRenderer iRenderer;
         iRenderer = iState.getRenderer();
         // Create object of an OpenGL-Viewer with OpenGL2.0
-
         glSurfaceView = new MomentanpolGLView(this,iRenderer,iState);
         glSurfaceView.setEGLContextClientVersion(2);
         // Create Renderer for OpenGL, add it to the view and show it
@@ -91,6 +89,7 @@ public class MomentanpolTask extends Activity {
         configureVideoBackground();
         CameraDevice.getInstance().selectVideoMode(CameraDevice.MODE.MODE_DEFAULT);
         CameraDevice.getInstance().start();
+        Vuforia.setFrameFormat(PIXEL_FORMAT.RGB888, true);
         CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
     }
 
@@ -129,4 +128,5 @@ public class MomentanpolTask extends Activity {
         Vuforia.deinit();
         stopCam();
     }
+
 }
