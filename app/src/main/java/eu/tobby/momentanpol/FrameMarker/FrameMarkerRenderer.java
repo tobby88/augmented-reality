@@ -94,11 +94,11 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
 
             switch (marker.getMarkerId()) {
                 case 4:
-                    kLetterScaleX = exercises.getScaleX(4);
-                    kLetterScaleY = exercises.getScaleY(4);
-                    kLetterTranslateX = exercises.getTranslateX(4);
-                    kLetterTranslateY = exercises.getTranslateY(4);
-                    texture = exercises.getCurrentTexture(4);
+                    kLetterScaleX = exercises.getExercise(4).getScaleX();
+                    kLetterScaleY = exercises.getExercise(4).getScaleY();
+                    kLetterTranslateX = exercises.getExercise(4).getTranslateX();
+                    kLetterTranslateY = exercises.getExercise(4).getTranslateY();
+                    texture = exercises.getExercise(4).getCurrentTexture();
                     break;
                 default:
                     kLetterScaleX = 14.7f;
@@ -107,7 +107,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
                     kLetterTranslateX = 49.0f;
 
                     // just for testing purposes - please change this line!
-                    texture = exercises.getCurrentTexture(4);
+                    texture = exercises.getExercise(4).getCurrentTexture();
             }
             float[] modelViewProjection = new float[16];
 
@@ -172,9 +172,9 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
     private void setTextureSettings() {
         Texture texture;
         for (int i = 0; i < exercises.getNrOfExercises(); i++) {
-            for (int j = 1; j <= exercises.getSteps(exercises.getID(i)); j++) {
-                exercises.setCurrentStep(exercises.getID(i), j);
-                texture = exercises.getCurrentTexture(exercises.getID(i));
+            for (int j = 1; j <= exercises.getExercise(exercises.getID(i)).getSteps(); j++) {
+                exercises.getExercise(exercises.getID(i)).setCurrentStep(j);
+                texture = exercises.getExercise(exercises.getID(i)).getCurrentTexture();
                 // Now generate the OpenGL texture object and add settings
                 GLES20.glGenTextures(1, texture.mTextureID, 0);
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.mTextureID[0]);
@@ -182,7 +182,7 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
                 GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
                 GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, texture.mWidth, texture.mHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, texture.mData);
             }
-            exercises.setCurrentStep(exercises.getID(i), 1);
+            exercises.getExercise(exercises.getID(i)).setCurrentStep(1);
         }
     }
 
