@@ -41,6 +41,14 @@ public class Exercise {
     }
 
 
+    public void addStep() {
+        currentStep++;
+        if(currentStep>steps){
+            currentStep=1;
+        }
+    }
+
+
     public int getSteps() {
         return steps;
     }

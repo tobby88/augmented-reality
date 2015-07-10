@@ -57,6 +57,10 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
 
     public void isActionDown() {
         Log.d(LOGTAG,"ButtonDown");
+        int id = mRenderer.getLastID();
+        if (id >= 0) {
+            mRenderer.getExercises().getExercise(id).addStep();
+        }
     }
 
 }

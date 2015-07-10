@@ -32,6 +32,7 @@ import eu.tobby.momentanpol.utils.Texture;
  * Created by tobby on 11.06.15.
  */
 public class FrameMarkerRenderer implements MomentanpolRenderer {
+
     public volatile float mAngle = 0;
     // OpenGL ES 2.0 specific:
     private int shaderProgramID = 0;
@@ -43,10 +44,21 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
     private Matrix44F mProjectionMatrix;
     private Plane plane = new Plane();
     private Exercises exercises;
+    private int lastID = -1;
 
 
     public FrameMarkerRenderer(Activity activity) {
         exercises = new Exercises(activity);
+    }
+
+
+    public Exercises getExercises() {
+        return exercises;
+    }
+
+
+    public int getLastID() {
+        return lastID;
     }
 
 
@@ -74,8 +86,8 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_BACK);
 
-        for(int trackingIndex = 0; trackingIndex < state.getNumTrackableResults(); trackingIndex++) {
-            TrackableResult trackableResult = state.getTrackableResult(trackingIndex);
+        if (state.getNumTrackableResults() > 0) {
+            TrackableResult trackableResult = state.getTrackableResult(0);
 
             float[] modelViewMatrix = Tool.convertPose2GLMatrix(trackableResult.getPose()).getData();
             MarkerResult markerResult = (MarkerResult) (trackableResult);
@@ -92,12 +104,12 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
             int numIndices = plane.getNumObjectIndex();
             Texture texture;
 
-            int id = marker.getMarkerId();
-            kLetterScaleX = exercises.getExercise(id).getScaleX();
-            kLetterScaleY = exercises.getExercise(id).getScaleY();
-            kLetterTranslateX = exercises.getExercise(id).getTranslateX();
-            kLetterTranslateY = exercises.getExercise(id).getTranslateY();
-            texture = exercises.getExercise(id).getCurrentTexture();
+            lastID = marker.getMarkerId();
+            kLetterScaleX = exercises.getExercise(lastID).getScaleX();
+            kLetterScaleY = exercises.getExercise(lastID).getScaleY();
+            kLetterTranslateX = exercises.getExercise(lastID).getTranslateX();
+            kLetterTranslateY = exercises.getExercise(lastID).getTranslateY();
+            texture = exercises.getExercise(lastID).getCurrentTexture();
 
             float[] modelViewProjection = new float[16];
 

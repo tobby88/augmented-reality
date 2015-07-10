@@ -10,11 +10,8 @@ import com.qualcomm.vuforia.Trackable;
 import com.qualcomm.vuforia.Tracker;
 import com.qualcomm.vuforia.TrackerManager;
 
-import java.util.Vector;
-
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
-import eu.tobby.momentanpol.utils.Texture;
 
 /**
  * Created by fabian on 30.06.15.
@@ -23,19 +20,13 @@ import eu.tobby.momentanpol.utils.Texture;
 public class MomentanpolImageTarget implements MomentanpolState {
 
     private final String LOGTAG = "MomentanpolImageTargets";
-    private Activity mActivity;
     private ImageTargetRenderer mRenderer;
-    private Vector<Texture> mTextures;
     private DataSet mDataset;
     private ObjectTracker objectTracker;
 
 
     public MomentanpolImageTarget(Activity activity) {
-        mActivity = activity;
-        mRenderer = new ImageTargetRenderer();
-        mTextures = new Vector<>();
-        loadTextures();
-        mRenderer.setTextures(mTextures);
+        mRenderer = new ImageTargetRenderer(activity);
     }
 
 
@@ -77,11 +68,6 @@ public class MomentanpolImageTarget implements MomentanpolState {
     }
 
 
-    public void loadTextures() {
-        mTextures.add(Texture.loadTextureFromApk("solutions/Exercise4_step1.png", mActivity.getAssets()));
-    }
-
-
     public MomentanpolRenderer getRenderer() {
         return mRenderer;
     }
@@ -89,6 +75,11 @@ public class MomentanpolImageTarget implements MomentanpolState {
 
     public void isActionDown() {
         Log.d(LOGTAG,"ButtonDown");
+        int id = mRenderer.getLastID();
+        if (id >= 0) {
+            // Synchronize IDs of FrameMarker and ImageTargets (ID 1 of ImageTargets is ID 4 of FrameMarkers)
+            mRenderer.getExercises().getExercise(id + 3).addStep();
+        }
     }
 
 }
