@@ -6,10 +6,19 @@
     "markerSize": 50.0,
     "offsetX": 1.0,
     "offsetY": -53.0,
-    "steps": 2
+    "steps": 4
   },
   {
     "id": 5,
+    "imageSizeX": 96,
+    "imageSizeY": 96,
+    "markerSize": 50.0,
+    "offsetX": 1.0,
+    "offsetY": -53.0,
+    "steps": 4
+  },
+  {
+    "id": 6,
     "imageSizeX": 147.5,
     "imageSizeY": 115.2,
     "markerSize": 50.0,

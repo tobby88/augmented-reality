@@ -18,6 +18,9 @@ public class Exercise {
     private final float kLetterScaleY;
     private final float kLetterTranslateX;
     private final float kLetterTranslateY;
+    // Scale factors for the resize of the rendered plane
+    private final float kPlaneScaleX;
+    private final float kPlaneScaleY;
     private Vector<Texture> textures = new Vector<>();
     private int currentStep = 1;
 
@@ -27,6 +30,8 @@ public class Exercise {
         // Calculate the resize and translation parameters
         kLetterScaleX = imageSizeX * markerSize / 500.0f;
         kLetterScaleY = imageSizeY * markerSize / 500.0f;
+        kPlaneScaleX = imageSizeX/10.0f;
+        kPlaneScaleY = imageSizeY/10.0f;
         kLetterTranslateX = offsetX + (imageSizeX - markerSize) / 2.0f;
         kLetterTranslateY = offsetY - (imageSizeY - markerSize) / 2.0f;
         // Load the textures
@@ -82,5 +87,9 @@ public class Exercise {
     public int getID() {
         return id;
     }
+
+    public float getPlaneX() { return kPlaneScaleX;}
+
+    public float getPlaneY() { return kPlaneScaleY;}
 
 }
