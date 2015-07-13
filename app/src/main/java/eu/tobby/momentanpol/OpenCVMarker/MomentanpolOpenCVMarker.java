@@ -13,7 +13,8 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
-import org.opencv.core.Scalar;
+import org.opencv.features2d.DescriptorExtractor;
+import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
 import java.io.BufferedInputStream;
@@ -31,7 +32,7 @@ import eu.tobby.momentanpol.utils.Texture;
 public class MomentanpolOpenCVMarker implements MomentanpolState {
 
     private final String LOGTAG = "MomentalpolOpenCV";
-    //String string1 = "Festlager.png";
+    String string1 = "Festlager.png";
     private OpenCVMarkerRenderer mRenderer;
     private Vector<Texture> mTextures;
     private Activity mActivity;
@@ -104,29 +105,30 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
 
 
     public void doImageProcessing() {
-        //Mat template = loadImageOpenCV(string1);
+        Mat template = loadImageOpenCV(string1);
         Mat cameraImage = mRenderer.getCameraImage();
         FeatureDetector fast = FeatureDetector.create(FeatureDetector.FAST);
         Bitmap viewTest = Bitmap.createBitmap(cameraImage.cols(), cameraImage.rows(), Bitmap.Config.ARGB_8888);
 
         fast.detect(cameraImage, keypointstest);
-        //fast.detect(template, keypointstemplate);
-        Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstemplate.toList());
-        Log.e("Inhalt der Keypoints1", "Test ob leer" + keypointstest.toList());
+        fast.detect(template, keypointstemplate);
+        Log.i("Inhalt der Keypoints1", "Test ob leer" + keypointstemplate.toList());
+        Log.i("Inhalt der Keypoints1", "Test ob leer" + keypointstest.toList());
 
         //DescriptorExtractor FastExtractor = DescriptorExtractor.create(FeatureDetector.SURF);
-        //FastExtractor.compute(cameraImage, keypointstest, testDescriptors);
-        //FastExtractor.compute(template, keypointstemplate, templateDescriptors);
+        DescriptorExtractor FastExtractor = DescriptorExtractor.create(DescriptorExtractor.FREAK);
+        FastExtractor.compute(cameraImage, keypointstest, testDescriptors);
+        FastExtractor.compute(template, keypointstemplate, templateDescriptors);
 
-        /*DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
-        if (matches.empty()) return;
+        DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
         matcher.match(templateDescriptors, testDescriptors, matches);
-        Log.e("Anzeige der Matches", "Gefundene Matches" + matches.toList());*/
-        Mat imageOut = new Mat();
-        //Features2d.drawMatches(cameraImage, keypointstest, template, keypointstemplate, matches, imageOut);
+        if (matches.empty()) return;
+        Log.i("Anzeige der Matches", "Gefundene Matches" + matches.toList());
+        Mat imageOut = new Mat(cameraImage.rows(), cameraImage.cols(), cameraImage.type());
+        /*Features2d.drawMatches(cameraImage, keypointstest, template, keypointstemplate, matches, imageOut);
         Scalar redcolor = new Scalar(255, 0, 0);
-        //Features2d.drawKeypoints(imageOut, keypointstest, imageOut, redcolor, 3);
-        //Utils.matToBitmap(imageOut, viewTest);
+        Features2d.drawKeypoints(imageOut, keypointstest, imageOut, redcolor, 3);
+        Utils.matToBitmap(imageOut, viewTest);*/
         Utils.matToBitmap(cameraImage, viewTest);
         showImage(viewTest);
     }
