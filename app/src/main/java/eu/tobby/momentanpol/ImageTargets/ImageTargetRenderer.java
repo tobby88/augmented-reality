@@ -86,7 +86,10 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
             // deal with the modelview and projection matrices
             float[] modelViewProjection = new float[16];
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
-            Matrix.scaleM(modelViewProjection, 0, 11.0f, 8.5f, 0);
+            lastID = result.getTrackable().getId();
+
+
+            Matrix.scaleM(modelViewProjection, 0, exercises.getExercise(lastID+3).getPlaneX(), exercises.getExercise(lastID+3).getPlaneY(), 0);
             // activate the shader program and bind the vertex/normal/tex coords
             GLES20.glUseProgram(shaderProgramID);
             GLES20.glDisable(GLES20.GL_CULL_FACE);
@@ -97,7 +100,7 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
             GLES20.glEnableVertexAttribArray(normalHandle);
             GLES20.glEnableVertexAttribArray(textureCoordHandle);
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            lastID = result.getTrackable().getId();
+
             Texture texture;
             // Synchronize IDs of FrameMarker and ImageTargets (ID 1 of ImageTargets is ID 4 of FrameMarkers)
             texture = exercises.getExercise(lastID + 3).getCurrentTexture();
