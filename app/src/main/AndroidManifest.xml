@@ -30,6 +30,11 @@
             android:label="@string/title_activity_momentanpol_task"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".OpenCVTask.OpenCVTask"
+            android:label="@string/title_activity_open_cvtask"
+            android:screenOrientation="landscape" >
+        </activity>
     </application>
 
 </manifest>

@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import eu.tobby.momentanpol.OpenCVTask.OpenCVTask;
+
 public class MomentanpolMain extends Activity {
 
     private Intent i;
+    private Intent j;
 
 
     @Override
@@ -24,7 +27,8 @@ public class MomentanpolMain extends Activity {
         mOpenCVButton = (Button) findViewById(R.id.buttonOpenCV);
         mAboutButton = (Button) findViewById(R.id.buttonAbout);
 
-        i =  new Intent(getApplicationContext(),MomentanpolTask.class);
+        i = new Intent(getApplicationContext(),MomentanpolTask.class);
+        j = new Intent(getApplicationContext(), OpenCVTask.class);
 
         mFrameMarkerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,8 +47,7 @@ public class MomentanpolMain extends Activity {
         mOpenCVButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                i.putExtra("button",2);
-                startActivity(i);
+                startActivity(j);
             }
         });
         mAboutButton.setOnClickListener(new View.OnClickListener() {
