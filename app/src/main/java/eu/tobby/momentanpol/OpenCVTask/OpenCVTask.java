@@ -1,19 +1,14 @@
 package eu.tobby.momentanpol.OpenCVTask;
 
 import android.app.Activity;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
-import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -23,7 +18,11 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.Vector;
+
 import eu.tobby.momentanpol.R;
+import eu.tobby.momentanpol.utils.Line;
+import eu.tobby.momentanpol.utils.MLine;
 import eu.tobby.momentanpol.utils.MPoint;
 
 
@@ -158,7 +157,7 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
         Imgproc.cvtColor(intenseImg, intenseImg, Imgproc.COLOR_GRAY2RGBA);
         Log.d("Anzahl cols","cols= " + lines.cols());
         if(lines.cols()>0) {
-            Point starts[] = new Point[lines.cols()];
+            /*Point starts[] = new Point[lines.cols()];
             Point ends[] = new Point[lines.cols()];
             for (int x = 0; x < lines.cols(); x++) {
                 double[] vec = lines.get(0, x);
@@ -170,15 +169,49 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
                 ends[x] = new Point(x2, y2);
 
                 Core.line(temp, starts[x], ends[x], new Scalar(255, 0, 0), 3);
+            }*/
+
+            /*Vector<Point> starts = new Vector<>();
+            Vector<Point> ends = new Vector<>();
+            for (int x=0; x<lines.cols(); x++){
+                double[] vec = lines.get(0, x);
+                double x1 = vec[0],
+                        y1 = vec[1],
+                        x2 = vec[2],
+                        y2 = vec[3];
+                starts.add(new Point(x1, y1));
+                ends.add(new Point(x2, y2));
+            }*/
+            //starts = MPoint.reducePointVec(starts);
+            //ends = MPoint.reducePointVec(ends);
+
+            Vector<Line> lineVector = new Vector<>();
+            for (int x = 0; x < lines.cols(); x++) {
+                double[] vec = lines.get(0, x);
+                int x1 = (int) vec[0];
+                int y1 = (int) vec[1];
+                int x2 = (int) vec[2];
+                int y2 = (int) vec[3];
+                lineVector.add(new Line(x1, y1, x2, y2));
+            }
+            lineVector = MLine.reduceLineVec(lineVector);
+
+            for (int i = 0; i < lineVector.size(); i++) {
+                Core.line(temp, lineVector.get(i).start, lineVector.get(i).end, new Scalar(255, 0, 0), 4);
             }
 
-            for (int i=0;i<lines.cols()-1;i++) {
-                for(int j=i+1;j<lines.cols();j++) {
-                    Point intersec = getIntersection(starts[i], ends[i], starts[j], ends[j]);
+            Vector<Point> points = new Vector<>();
+            for (int i = 0; i < lineVector.size() - 1; i++) {
+                for (int j = i + 1; j < lineVector.size(); j++) {
+                    Point intersec = getIntersection(lineVector.get(i).start, lineVector.get(i).end, lineVector.get(j).start, lineVector.get(j).end);
                     if (intersec != null) {
-                        Core.circle(temp, intersec, 3, new Scalar(0, 255, 0), -1, 8, 0);
+                        points.add(intersec);
                     }
                 }
+            }
+            points = MPoint.reducePointVec(points);
+            for (int i = 0; i < points.size(); i++) {
+                Core.circle(temp, points.get(i), 6, new Scalar(0, 255, 0), -1, 8, 0);
             }
         }
 
@@ -203,7 +236,7 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
         }
 
         double t = MPoint.cross(diffStart, normVec2)/MPoint.cross(normVec1, normVec2);
-        if(t<1.05 && t>0){
+        if (t < 1.1 && t > 0) {
             return new Point(start1.x + t * normVec1.x, start1.y + t * normVec1.y);
         }
         else {
