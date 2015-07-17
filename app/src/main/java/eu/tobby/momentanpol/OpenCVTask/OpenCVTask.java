@@ -45,7 +45,7 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
     private TextView houghText;
     private int minThreshold=50;
     private int maxThreshold=300;
-    private int houghValue=120;
+    private int houghValue=100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +154,7 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
         Imgproc.cvtColor(temp, grayImg, Imgproc.COLOR_RGBA2GRAY);
         Imgproc.GaussianBlur(grayImg, grayImg, new Size(5, 5), 0, 0);
         Imgproc.Canny(grayImg, intenseImg, minThreshold, maxThreshold);
-        Imgproc.HoughLinesP(intenseImg, lines, 1, Math.PI / 180, houghValue, 130, 30);
+        Imgproc.HoughLinesP(intenseImg, lines, 1, Math.PI / 180, houghValue, 20, 10);
         Imgproc.cvtColor(intenseImg, intenseImg, Imgproc.COLOR_GRAY2RGBA);
         Log.d("Anzahl cols","cols= " + lines.cols());
         if(lines.cols()>0) {
@@ -203,7 +203,7 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
         }
 
         double t = MPoint.cross(diffStart, normVec2)/MPoint.cross(normVec1, normVec2);
-        if(t<1.02 && t>0){
+        if(t<1.05 && t>0){
             return new Point(start1.x + t * normVec1.x, start1.y + t * normVec1.y);
         }
         else {
