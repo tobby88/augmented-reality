@@ -72,11 +72,11 @@
         android:background="#000000" />
 
     <Button
-        android:id="@+id/buttonAbout"
+        android:id="@+id/buttonFarben"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00ffffff"
-        android:text="@string/about" />
+        android:text="@string/farben" />
 
     <View android:layout_width="match_parent"
         android:layout_height="1dp"

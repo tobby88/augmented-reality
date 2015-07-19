@@ -9,5 +9,5 @@
     <string name="imagetarget">ImageTarget</string>
     <string name="opencvmarker">OpenCVMarker</string>
     <string name="title_activity_open_cvtask">OpenCVTask</string>
-    <string name="about">About</string>
+    <string name="farben">Farberkennung</string>
 </resources>

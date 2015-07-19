@@ -25,7 +25,7 @@ public class MomentanpolMain extends Activity {
         mFrameMarkerButton = (Button) findViewById(R.id.buttonFrameMarker);
         mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
         mOpenCVButton = (Button) findViewById(R.id.buttonOpenCV);
-        mAboutButton = (Button) findViewById(R.id.buttonAbout);
+        mAboutButton = (Button) findViewById(R.id.buttonFarben);
 
         i = new Intent(getApplicationContext(),MomentanpolTask.class);
         j = new Intent(getApplicationContext(), OpenCVTask.class);
@@ -53,6 +53,8 @@ public class MomentanpolMain extends Activity {
         mAboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                i.putExtra("button", 2);
+                startActivity(i);
             }
         });
     }
