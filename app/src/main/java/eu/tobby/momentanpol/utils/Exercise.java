@@ -5,7 +5,11 @@ import android.app.Activity;
 import java.util.Vector;
 
 /**
- * Created by tobby on 09.07.15.
+ * Exercise class to add new exercises with additional information in a single process
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
  */
 public class Exercise {
 
@@ -24,6 +28,17 @@ public class Exercise {
     private Vector<Texture> textures = new Vector<>();
     private int currentStep = 1;
 
+    /**
+     * Constructor for Exercises
+     * @param activity: current activity
+     * @param id: unique id
+     * @param imageSizeX: Size of Image in Scene Units in X-direction
+     * @param imageSizeY: Size of Image in Scene Units in Y-direction
+     * @param markerSize: Size of a Frame Marker square
+     * @param offsetX: Difference between the top left corners of Frame Marker and image in X-Direction
+     * @param offsetY: Difference between the top left corners of Frame Marker and image in Y-Direction
+     * @param steps: Number of steps, which can be shown
+     */
     public Exercise(Activity activity, int id, float imageSizeX, float imageSizeY, float markerSize, float offsetX, float offsetY, int steps) {
         this.steps = steps;
         this.id = id;
@@ -40,12 +55,17 @@ public class Exercise {
         }
     }
 
-
+    /**
+     * Setter method for the possible steps of the solution
+     * @param step: Number of steps, which can be shown
+     */
     public void setCurrentStep(int step) {
         currentStep = step;
     }
 
-
+    /**
+     * Add a new Step
+     */
     public void addStep() {
         currentStep++;
         if(currentStep>steps){
@@ -53,43 +73,72 @@ public class Exercise {
         }
     }
 
-
+    /**
+     * Getter method for the number of steps
+     * @return: steps
+     */
     public int getSteps() {
         return steps;
     }
 
-
+    /**
+     * Getter method for X-Scale
+     * @return: value for the X-Scale
+     */
     public float getScaleX() {
         return kLetterScaleX;
     }
 
-
+    /**
+     * Getter method for Y-Scale
+     * @return: value for the Y-Scale
+     */
     public float getScaleY() {
         return kLetterScaleY;
     }
 
-
+    /**
+     * Getter method for X-Translation
+     * @return: value for X-Translation
+     */
     public float getTranslateX() {
         return kLetterTranslateX;
     }
 
-
+    /**
+     * Getter method for Y-Translation
+     * @return: value for Y-Translation
+     */
     public float getTranslateY() {
         return kLetterTranslateY;
     }
 
-
+    /**
+     * Getter method for current Texture
+     * @return: current Texture
+     */
     public Texture getCurrentTexture() {
         return textures.elementAt(currentStep - 1);
     }
 
-
+    /**
+     * Getter method for the current unique ID of the Marker
+     * @return: current ID
+     */
     public int getID() {
         return id;
     }
 
+    /**
+     * Getter method for the rendering plane scale in X-Direction
+     * @return: X-Scale of the rendering plane
+     */
     public float getPlaneX() { return kPlaneScaleX;}
 
+    /**
+     * Getter method for the rendering plane scale in Y-Direction
+     * @return: Y-Scale of the rendering plane
+     */
     public float getPlaneY() { return kPlaneScaleY;}
 
 }

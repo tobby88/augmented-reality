@@ -29,7 +29,12 @@ import eu.tobby.momentanpol.utils.Texture;
 
 
 /**
- * Created by tobby on 11.06.15.
+ * Specific Renderer for the Frame Marker Task
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
+ * @see MomentanpolRenderer
  */
 public class FrameMarkerRenderer implements MomentanpolRenderer {
 
@@ -42,16 +47,23 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
     private int mvpMatrixHandle = 0;
     private int texSampler2DHandle = 0;
     private Matrix44F mProjectionMatrix;
+    // Rendering Plane
     private Plane plane = new Plane();
     private Exercises exercises;
     private int lastID = -1;
 
-
+    /**
+     * Constructor which handles the activity context
+     * @param activity: current activity
+     */
     public FrameMarkerRenderer(Activity activity) {
         exercises = new Exercises(activity);
     }
 
-
+    /**
+     * Getter method for the exercises
+     * @return the set of exercises
+     */
     public Exercises getExercises() {
         return exercises;
     }
@@ -61,18 +73,20 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
         return lastID;
     }
 
-
+    @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         initRendering();
         Vuforia.onSurfaceCreated();
     }
 
-
+    @Override
     public void onDrawFrame(GL10 gl) {
         renderFrame();
     }
 
-
+    /**
+     * Method which gets the found markers and renders the objects relative to that
+     */
     private void renderFrame() {
         // Clear color and depth buffer
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -141,23 +155,26 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
 
 
     // Called when the surface changed size.
+    @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         // Call Vuforia function to handle render surface size changes:
         Vuforia.onSurfaceChanged(width, height);
     }
 
-
+    @Override
     public void setProjectionMatrix() {
         CameraCalibration camCal = CameraDevice.getInstance().getCameraCalibration();
         mProjectionMatrix = Tool.getProjectionGL(camCal, 10.0f, 5000.0f);
     }
 
-
+    @Override
     public Matrix44F getProjectionMatrix() {
         return mProjectionMatrix;
     }
 
-
+    /**
+     * Initialization of the OpenGL 2.0 renderer
+     */
     private void initRendering() {
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -170,7 +187,9 @@ public class FrameMarkerRenderer implements MomentanpolRenderer {
         setTextureSettings();
     }
 
-
+    /**
+     * Method that gets the exercise specific parameters and configures OpenGL for every exercise
+     */
     private void setTextureSettings() {
         Texture texture;
         for (int i = 0; i < exercises.getNrOfExercises(); i++) {

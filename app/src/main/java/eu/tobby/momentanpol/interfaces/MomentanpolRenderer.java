@@ -5,11 +5,22 @@ import android.opengl.GLSurfaceView;
 import com.qualcomm.vuforia.Matrix44F;
 
 /**
- * Created by fabian on 01.07.15.
+ * Interface for the Renderer of each Vuforia-Task
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
  */
 public interface MomentanpolRenderer extends GLSurfaceView.Renderer {
-
+    /**
+     * Getter method for the projection matrix of the marker
+     * @return: return matrix
+     */
     Matrix44F getProjectionMatrix();
+
+    /**
+     * gets the device specific camera calibration and stores it in the current Vuforia task
+     */
     void setProjectionMatrix();
 
 }

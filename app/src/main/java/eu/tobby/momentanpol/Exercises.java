@@ -13,7 +13,11 @@ import java.util.Vector;
 import eu.tobby.momentanpol.utils.Exercise;
 
 /**
- * Created by tobby on 08.07.15.
+ * Exercies-JSON-Reader
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
  */
 public final class Exercises {
 
@@ -52,7 +56,10 @@ public final class Exercises {
         */
     }
 
-
+    /**
+     * Exercise-Read-Method
+     * @param activity needed to get access to the assets-folder
+     */
     private void readExercisesJSON(Activity activity) {
         InputStream inputStream;
         AssetManager assets = activity.getAssets();
@@ -103,19 +110,30 @@ public final class Exercises {
     }
 
 
-    // Find an exercise (its array index) by a given ID
+    /**
+     *
+     * @param id: ID of the exercise and the Frame Marker
+     * @return: current Exercise
+     */
     public Exercise getExercise(int id) {
         int index;
         index = ids.get(id);
         return exercises.get(index);
     }
 
-
+    /**
+     * Getter function for the Numbers of exercises
+     * @return: number of exercise
+     */
     public int getNrOfExercises() {
         return exercises.size();
     }
 
-
+    /**
+     * Getter for Marker ID
+     * @param index: current index
+     * @return: ID of current exercise
+     */
     public int getID(int index) {
         return exercises.get(index).getID();
     }

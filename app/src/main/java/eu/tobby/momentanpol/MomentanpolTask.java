@@ -25,10 +25,20 @@ import eu.tobby.momentanpol.OpenCVMarker.MomentanpolOpenCVMarker;
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 
+/**
+ * Context for the Vuforia-statemachine for initializations of vuforia
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
+ * @see <a href="http://www.tutorialspoint.com/design_pattern/state_pattern.htm">State Design Pattern</a>
+ */
 
 public class MomentanpolTask extends Activity {
 
+    //View for the OpenGL rendering with Vuforia extensions
     MomentanpolGLView glSurfaceView;
+    // Interface for handling the Vuforia based states (like a pointer in C++)
     private MomentanpolState iState;
 
     @Override
@@ -41,6 +51,7 @@ public class MomentanpolTask extends Activity {
         androidView = inflater.inflate(R.layout.activity_open_gl__renderer, null);
         addContentView(androidView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setContentView(R.layout.activity_momentanpol_task);
+        // check which state is chosen and starts the chosen state
         switch (getIntent().getIntExtra("button",-1)) {
             case 0:
                 iState = new MomentanpolFrameMarkers(this);
@@ -52,7 +63,7 @@ public class MomentanpolTask extends Activity {
                 iState = new MomentanpolOpenCVMarker(this);
                 break;
         }
-
+        // Handles the different renderer types
         MomentanpolRenderer iRenderer;
         iRenderer = iState.getRenderer();
         // Create object of an OpenGL-Viewer with OpenGL2.0
@@ -65,7 +76,9 @@ public class MomentanpolTask extends Activity {
         iRenderer.setProjectionMatrix();
     }
 
-
+    /**
+     * Initialization method for Vuforia
+     */
     public void initAR() {
         // As long as this window is visible to the user, keep the device's screen turned on and bright:
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -77,13 +90,16 @@ public class MomentanpolTask extends Activity {
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGBA8888, true);
         boolean initTrackersResult;
         initTrackersResult = iState.doInitTrackers();
+        //Check if the trackers are initialized
         if(initTrackersResult) {
             iState.doLoadTrackersData();
         }
         startCam();
     }
 
-
+    /**
+     * Initialization and parametrization
+     */
     private void startCam() {
         CameraDevice.getInstance().init(CameraDevice.CAMERA.CAMERA_DEFAULT);
         configureVideoBackground();
@@ -98,7 +114,9 @@ public class MomentanpolTask extends Activity {
         CameraDevice.getInstance().stop();
     }
 
-
+    /**
+     * Sets up the display dimensions in according to your device's specification
+     */
     private void configureVideoBackground() {
         // Query display dimensions:
         DisplayMetrics metrics = new DisplayMetrics();

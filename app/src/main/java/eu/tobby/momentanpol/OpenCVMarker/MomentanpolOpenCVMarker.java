@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 
+import eu.tobby.momentanpol.OpenCVTask.MomentanpolOpenCVView;
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 import eu.tobby.momentanpol.utils.Line;
@@ -37,7 +39,11 @@ import eu.tobby.momentanpol.utils.MPoint;
 import eu.tobby.momentanpol.utils.Texture;
 
 /**
- * Created by fabian on 05.07.15.
+ * Farbererkennung/Color Detection
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
  */
 public class MomentanpolOpenCVMarker implements MomentanpolState {
 
@@ -51,58 +57,65 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
     private Mat testDescriptors = new Mat();
     private Mat templateDescriptors = new Mat();
     private MatOfDMatch matches = new MatOfDMatch();
-
-    private MomentanpolOpenCVView mOpenCvCameraView;
     private Mat temp;
     private Mat grayImg;
     private Mat intenseImg = new Mat();
     private Mat lines = new Mat();
     private Mat circles = new Mat();
-    private SeekBar minThresh;
-    private SeekBar maxThresh;
-    private SeekBar hough;
-    private TextView minThreshText;
-    private TextView maxThreshText;
-    private TextView houghText;
     private int minThreshold = 50;
     private int maxThreshold = 300;
     private int houghValue = 100;
 
+    /**
+     * Constructor
+     * @param activity: Current activity
+     */
 
     public MomentanpolOpenCVMarker(Activity activity) {
         mActivity = activity;
         mRenderer = new OpenCVMarkerRenderer(this);
         mTextures = new Vector<>();
-        loadTextures();
         mRenderer.setTextures(mTextures);
     }
 
+    /**
+     * @see MomentanpolState#doLoadTrackersData()
+     */
     public boolean doLoadTrackersData() {
         return false;
     }
 
 
-    public void loadTextures() {
-    }
-
-
+    /**
+     * @see MomentanpolState#doInitTrackers()
+     */
+    @Override
     public boolean doInitTrackers() {
         return false;
     }
 
-
+    /**
+     * @see MomentanpolState#getRenderer()
+     */
+    @Override
     public MomentanpolRenderer getRenderer() {
         return mRenderer;
     }
 
-
+    /**
+     * @see MomentanpolState#isActionDown()
+     */
+    @Override
     public void isActionDown() {
-        //doImageProcessing();
         findGreen();
         Log.d(LOGTAG, "ButtonDown");
     }
 
-
+    /**
+     * Method to load pictures from a file
+     * @param filename: filename of the loadable image
+     * @return: OpenCV Mat
+     */
     public Mat loadImageOpenCV(String filename) {
         //Bild muss im Assets-Ordner sein!!
         AssetManager assets = mActivity.getAssets();
@@ -119,7 +132,10 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         return retMat;
     }
 
-
+    /**
+     * Method to show bitmaps on an image view
+     * @param bm: temporary bitmap
+     */
     public void showImage(Bitmap bm) {
         ImageView imageView = new ImageView(mActivity);
         Matrix rotation = new Matrix();
@@ -130,36 +146,9 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         mActivity.addContentView(imageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
-
-    public void doImageProcessing() {
-        Mat template = loadImageOpenCV(string1);
-        Mat cameraImage = mRenderer.getCameraImage();
-        FeatureDetector fast = FeatureDetector.create(FeatureDetector.FAST);
-        Bitmap viewTest = Bitmap.createBitmap(cameraImage.cols(), cameraImage.rows(), Bitmap.Config.ARGB_8888);
-
-        fast.detect(cameraImage, keypointstest);
-        fast.detect(template, keypointstemplate);
-        Log.i("Inhalt der Keypoints1", "Test ob leer" + keypointstemplate.toList());
-        Log.i("Inhalt der Keypoints1", "Test ob leer" + keypointstest.toList());
-
-        //DescriptorExtractor FastExtractor = DescriptorExtractor.create(FeatureDetector.SURF);
-        DescriptorExtractor FastExtractor = DescriptorExtractor.create(DescriptorExtractor.FREAK);
-        FastExtractor.compute(cameraImage, keypointstest, testDescriptors);
-        FastExtractor.compute(template, keypointstemplate, templateDescriptors);
-
-        DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
-        matcher.match(templateDescriptors, testDescriptors, matches);
-        if (matches.empty()) return;
-        Log.i("Anzeige der Matches", "Gefundene Matches" + matches.toList());
-        Mat imageOut = new Mat(cameraImage.rows(), cameraImage.cols(), cameraImage.type());
-        /*Features2d.drawMatches(cameraImage, keypointstest, template, keypointstemplate, matches, imageOut);
-        Scalar redcolor = new Scalar(255, 0, 0);
-        Features2d.drawKeypoints(imageOut, keypointstest, imageOut, redcolor, 3);
-        Utils.matToBitmap(imageOut, viewTest);*/
-        Utils.matToBitmap(cameraImage, viewTest);
-        showImage(viewTest);
-    }
-
+    /**
+     * Method to find green arrows
+     */
     void findGreen() {
         Log.e("in findGreen", "starte Funktion");
         //Kamerabild laden
@@ -336,6 +325,9 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
         showImage(bmp);
     }
 
+    /**
+     * @see eu.tobby.momentanpol.OpenCVTask.OpenCVTask#onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame)
+     */
     public Mat onCameraFrame(Mat temp, Mat grayImg) {
         //temp = inputFrame.rgba();
         //Imgproc.cvtColor(temp, grayImg, Imgproc.COLOR_RGB2GRAY);
@@ -375,16 +367,6 @@ public class MomentanpolOpenCVMarker implements MomentanpolState {
                 Core.circle(temp, points.get(i), 6, new Scalar(0, 255, 0), -1, 8, 0);
             }
         }
-
-        /*for (int i = 0; i<circles.cols();i++)
-        {
-            double vCircle[]=circles.get(0,i);
-
-            Point center = new Point(Math.round(vCircle[0]), Math.round(vCircle[1]));
-            int radius = (int)Math.round(vCircle[2]);
-            Core.circle(intenseImg,center,3, new Scalar(0,255,0), -1, 8, 0);
-            Core.circle(intenseImg,center, radius, new Scalar(0,0,255), 3, 8, 0);
-        }*/
         return temp;
     }
 

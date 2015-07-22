@@ -24,7 +24,12 @@ import eu.tobby.momentanpol.utils.SampleUtils;
 import eu.tobby.momentanpol.utils.Texture;
 
 /**
- * Created by fabian on 02.07.15.
+ * Specific Renderer for the Image Target Task
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
+ * @see MomentanpolRenderer
  */
 public class ImageTargetRenderer implements MomentanpolRenderer {
 
@@ -36,37 +41,49 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
     private int mvpMatrixHandle = 0;
     private int texSampler2DHandle = 0;
     private Matrix44F mProjectionMatrix;
+    //Rendering Plane
     private Plane plane = new Plane();
     private Exercises exercises;
     private int lastID = -1;
 
-
+    /**
+     * Constructor which handles the acitivity context
+     * @param activity: current activity
+     */
     public ImageTargetRenderer(Activity activity) {
         exercises = new Exercises(activity);
     }
 
-
+    /**
+     * Getter method which returns the chosen exercise
+     * @return: current Exercise
+     */
     public Exercises getExercises() {
         return exercises;
     }
 
-
+    /**
+     * Getter method for the last ID
+     * @return: last ID
+     */
     public int getLastID() {
         return lastID;
     }
 
-
+    @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         initRendering();
         Vuforia.onSurfaceCreated();
     }
 
-
+    @Override
     public void onDrawFrame(GL10 gl) {
         renderFrame();
     }
 
-
+    /**
+     * Method which gets the found markers and renders the objects relative to that
+     */
     private void renderFrame() {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         State state = Renderer.getInstance().begin();
@@ -114,7 +131,9 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
         Renderer.getInstance().end();
     }
 
-
+    /**
+     * Initialization of the OpenGL 2.0 renderer
+     */
     private void initRendering() {
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -127,7 +146,9 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
         setTextureSettings();
     }
 
-
+    /**
+     * Method that gets the exercise specific parameters and configures OpenGL for every exercise
+     */
     private void setTextureSettings() {
         Texture texture;
         for (int i = 0; i < exercises.getNrOfExercises(); i++) {
@@ -145,18 +166,18 @@ public class ImageTargetRenderer implements MomentanpolRenderer {
         }
     }
 
-
+    @Override
     public void setProjectionMatrix() {
         CameraCalibration camCal = CameraDevice.getInstance().getCameraCalibration();
         mProjectionMatrix = Tool.getProjectionGL(camCal, 10.0f, 5000.0f);
     }
 
-
+    @Override
     public Matrix44F getProjectionMatrix() {
         return mProjectionMatrix;
     }
 
-
+    @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         // Call Vuforia function to handle render surface size changes:
         Vuforia.onSurfaceChanged(width, height);

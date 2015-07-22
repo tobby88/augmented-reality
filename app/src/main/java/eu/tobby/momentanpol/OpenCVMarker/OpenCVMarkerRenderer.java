@@ -30,7 +30,12 @@ import eu.tobby.momentanpol.utils.SampleUtils;
 import eu.tobby.momentanpol.utils.Texture;
 
 /**
- * Created by fabian on 05.07.15.
+ * OpenCVMarkerRender
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
+ * @see MomentanpolRenderer
  */
 public class OpenCVMarkerRenderer implements MomentanpolRenderer {
 
@@ -42,7 +47,10 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
     private Matrix44F mProjectionMatrix;
     private ByteBuffer bb;
 
-
+    /**
+     * Constructor
+     * @param task: chosen Task
+     */
     public OpenCVMarkerRenderer(MomentanpolOpenCVMarker task) {
         mTask = task;
     }
@@ -55,15 +63,24 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
+    /**
+     * @see MomentanpolRenderer#onSurfaceCreated(GL10, EGLConfig)
+     */
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         initRendering();
         Vuforia.onSurfaceCreated();
     }
 
+    /**
+     * @see MomentanpolRenderer#onDrawFrame(GL10)
+     */
+
     public void onDrawFrame(GL10 gl) {
         renderFrame();
     }
-
+    /**
+     * Method for rendering with OpenGL 2.0
+     */
     private void renderFrame() {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         Renderer.getInstance().begin();
@@ -77,6 +94,9 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         Renderer.getInstance().end();
     }
 
+    /**
+     * Method to initialize OpenGL 2.0 for rendering with a Vuforia compatible Setup
+     */
     private void initRendering() {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         for (Texture t : mTextures) {
@@ -89,15 +109,26 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         shaderProgramID = SampleUtils.createProgramFromShaderSrc(CubeShaders.CUBE_MESH_VERTEX_SHADER, CubeShaders.CUBE_MESH_FRAGMENT_SHADER);
     }
 
+    /**
+     * @see MomentanpolRenderer#setProjectionMatrix()
+     */
     public void setProjectionMatrix() {
         CameraCalibration camCal = CameraDevice.getInstance().getCameraCalibration();
         mProjectionMatrix = Tool.getProjectionGL(camCal, 10.0f, 5000.0f);
     }
 
+    /**
+     *
+     * @see MomentanpolRenderer#getProjectionMatrix()
+     */
+    @Override
     public Matrix44F getProjectionMatrix() {
         return mProjectionMatrix;
     }
 
+    /**
+     * @see MomentanpolRenderer#onSurfaceChanged(GL10, int, int)
+     */
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         // Call Vuforia function to handle render surface size changes:
         Vuforia.onSurfaceChanged(width, height);
@@ -107,17 +138,24 @@ public class OpenCVMarkerRenderer implements MomentanpolRenderer {
         mTextures = textures;
     }
 
+    /**
+     * Returns the cameraImage
+     * @return: CameraImage of Vuforia
+     */
     public Mat getCameraImage() {
         State state = Renderer.getInstance().begin();
         Frame frame = state.getFrame();
         Image tempImage = null;
+        // get Images in different formats
         for (int i = 0; i < frame.getNumImages(); i++) {
             tempImage = frame.getImage(i);
+            // check if the format is RGB
             if (tempImage.getFormat() == PIXEL_FORMAT.RGB888) {
                 break;
             }
         }
         Log.d("Bildformat", " " + tempImage.getFormat() + "Width: " + tempImage.getWidth() + "Height: " + tempImage.getHeight() + tempImage.getStride());
+        // Conversion from Image to Mat
         bb = tempImage.getPixels();
         byte[] testByte = new byte[bb.remaining()];
         bb.duplicate().get(testByte, 0, testByte.length);

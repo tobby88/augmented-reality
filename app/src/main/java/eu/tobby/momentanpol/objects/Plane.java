@@ -11,7 +11,14 @@ import java.nio.Buffer;
 
 import eu.tobby.momentanpol.utils.MeshObject;
 
-
+/**
+ * OpenGl 2.0 plane object for rendering
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
+ * @see MeshObject
+ */
 public class Plane extends MeshObject {
     // Data for drawing the 3D plane as overlay
     private static final double letterVertices[] = { -5.0f, -5.0f, 0.000000f, 5.0f, -5.0f, 0.000000f, 5.0f, 5.0f, 0.000000f, -5.0f, 5.0f, 0.000000f };
@@ -28,7 +35,9 @@ public class Plane extends MeshObject {
     float mHeight;
     float mWidth;
 
-
+    /**
+     * Constructor which reads the static data for the plane
+     */
     public Plane() {
         mVertBuff = fillBuffer(letterVertices);
         mTexCoordBuff = fillBuffer(letterTexcoords);
@@ -36,7 +45,12 @@ public class Plane extends MeshObject {
         mIndBuff = fillBuffer(letterIndices);
     }
 
-
+    /**
+     * Constructor which scales the plane
+     * @param width: Width of the plane in scene units
+     * @param height: Height of the plane in scene units
+     * @see Plane
+     */
     public Plane(int width, int height) {
         mVertBuff = fillBuffer(letterVertices);
         mTexCoordBuff = fillBuffer(letterTexcoords);
@@ -47,6 +61,10 @@ public class Plane extends MeshObject {
     }
 
 
+
+    /**
+     * @see MeshObject#getBuffer(BUFFER_TYPE)
+     */
     @Override
     public Buffer getBuffer(BUFFER_TYPE bufferType) {
         Buffer result = null;
@@ -67,8 +85,10 @@ public class Plane extends MeshObject {
         }
         return result;
     }
-    
-    
+
+    /**
+     * @see MeshObject#getNumObjectIndex()
+     */
     @Override
     public int getNumObjectIndex()
     {

@@ -19,12 +19,15 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
     private final String LOGTAG = "MomentanpolFrameMarkers";
     private FrameMarkerRenderer mRenderer;
 
-
+    /**
+     * Constructor
+     * @param activity: current activity context
+     */
     public MomentanpolFrameMarkers(Activity activity) {
         mRenderer = new FrameMarkerRenderer(activity);
     }
 
-
+    @Override
     public boolean doInitTrackers() {
         boolean result = true;
         TrackerManager trackerManager = TrackerManager.getInstance();
@@ -37,7 +40,7 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
         return result;
     }
 
-
+    @Override
     public boolean doLoadTrackersData() {
         TrackerManager tManager = TrackerManager.getInstance();
         MarkerTracker markerTracker = (MarkerTracker) tManager.getTracker(MarkerTracker.getClassType());
@@ -51,12 +54,15 @@ public class MomentanpolFrameMarkers implements MomentanpolState {
         return true;
     }
 
-
+    @Override
     public MomentanpolRenderer getRenderer() {
         return mRenderer;
     }
 
-
+    @Override
+    /**
+     * callback Method that carries that the next step of the solution will be shown
+     */
     public void isActionDown() {
         Log.d(LOGTAG,"ButtonDown");
         int id = mRenderer.getLastID();

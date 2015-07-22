@@ -28,8 +28,6 @@ import eu.tobby.momentanpol.utils.MPoint;
 
 public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
-
-
     private MomentanpolOpenCVView mOpenCvCameraView;
     private Mat temp;
     private Mat grayImg;
@@ -157,34 +155,6 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
         Imgproc.cvtColor(intenseImg, intenseImg, Imgproc.COLOR_GRAY2RGBA);
         Log.d("Anzahl cols","cols= " + lines.cols());
         if(lines.cols()>0) {
-            /*Point starts[] = new Point[lines.cols()];
-            Point ends[] = new Point[lines.cols()];
-            for (int x = 0; x < lines.cols(); x++) {
-                double[] vec = lines.get(0, x);
-                double x1 = vec[0],
-                        y1 = vec[1],
-                        x2 = vec[2],
-                        y2 = vec[3];
-                starts[x] = new Point(x1, y1);
-                ends[x] = new Point(x2, y2);
-
-                Core.line(temp, starts[x], ends[x], new Scalar(255, 0, 0), 3);
-            }*/
-
-            /*Vector<Point> starts = new Vector<>();
-            Vector<Point> ends = new Vector<>();
-            for (int x=0; x<lines.cols(); x++){
-                double[] vec = lines.get(0, x);
-                double x1 = vec[0],
-                        y1 = vec[1],
-                        x2 = vec[2],
-                        y2 = vec[3];
-                starts.add(new Point(x1, y1));
-                ends.add(new Point(x2, y2));
-            }*/
-            //starts = MPoint.reducePointVec(starts);
-            //ends = MPoint.reducePointVec(ends);
-
             Vector<Line> lineVector = new Vector<>();
             for (int x = 0; x < lines.cols(); x++) {
                 double[] vec = lines.get(0, x);
@@ -203,7 +173,7 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
             Vector<Point> points = new Vector<>();
             for (int i = 0; i < lineVector.size() - 1; i++) {
                 for (int j = i + 1; j < lineVector.size(); j++) {
-                    Point intersec = getIntersection(lineVector.get(i).start, lineVector.get(i).end, lineVector.get(j).start, lineVector.get(j).end);
+                    Point intersec = MPoint.getIntersection(lineVector.get(i).start, lineVector.get(i).end, lineVector.get(j).start, lineVector.get(j).end);
                     if (intersec != null) {
                         points.add(intersec);
                     }
@@ -215,34 +185,9 @@ public class OpenCVTask extends Activity implements CameraBridgeViewBase.CvCamer
             }
         }
 
-        /*for (int i = 0; i<circles.cols();i++)
-        {
-            double vCircle[]=circles.get(0,i);
-
-            Point center = new Point(Math.round(vCircle[0]), Math.round(vCircle[1]));
-            int radius = (int)Math.round(vCircle[2]);
-            Core.circle(intenseImg,center,3, new Scalar(0,255,0), -1, 8, 0);
-            Core.circle(intenseImg,center, radius, new Scalar(0,0,255), 3, 8, 0);
-        }*/
         return temp;
     }
 
-    private Point getIntersection(Point start1, Point end1, Point start2, Point end2) {
-        Point normVec1 = new Point(end1.x - start1.x, end1.y - start1.y);
-        Point normVec2 = new Point(end2.x - start2.x, end2.y - start2.y);
-        Point diffStart = new Point(start2.x - start1.x, start2.y - start1.y);
-        if(MPoint.cross(normVec1, normVec2)<0.7){
-            return null;
-        }
-
-        double t = MPoint.cross(diffStart, normVec2)/MPoint.cross(normVec1, normVec2);
-        if (t < 1.1 && t > 0) {
-            return new Point(start1.x + t * normVec1.x, start1.y + t * normVec1.y);
-        }
-        else {
-            return null;
-        }
-    }
 
 
 

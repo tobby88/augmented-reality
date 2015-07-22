@@ -7,10 +7,19 @@ import org.opencv.core.Point;
 import java.util.Vector;
 
 /**
- * Created by tobby on 17.07.15.
+ * Class for the algorithms for the datatype line
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
  */
 public class MLine {
-
+    /**
+     * This method checks if lines are parallel and then combines these to lines
+     * to get a single line for every rod
+     * @param lines: Vector of lines, which are detected in the scene
+     * @return: reduced Numbers of lines
+     */
     public static Vector<Line> reduceLineVec(Vector<Line> lines) {
         int before, after;
         before = lines.size();

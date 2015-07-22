@@ -14,8 +14,12 @@ import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 
 /**
- * Created by fabian on 30.06.15.
- * Hier entsteht gerade das ImageTarget-Beispiel
+ * Image Target Vuforia Task, which uses Images as targets to overlay transparent solutions of "Momentanpol"-Exercises
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
+ * @see MomentanpolState
  */
 public class MomentanpolImageTarget implements MomentanpolState {
 
@@ -24,12 +28,15 @@ public class MomentanpolImageTarget implements MomentanpolState {
     private DataSet mDataset;
     private ObjectTracker objectTracker;
 
-
+    /**
+     * Constructor
+     * @param activity: current activity context
+     */
     public MomentanpolImageTarget(Activity activity) {
         mRenderer = new ImageTargetRenderer(activity);
     }
 
-
+    @Override
     public boolean doInitTrackers() {
         boolean result = true;
         TrackerManager trackerManager = TrackerManager.getInstance();
@@ -42,7 +49,7 @@ public class MomentanpolImageTarget implements MomentanpolState {
         return result;
     }
 
-
+    @Override
     public boolean doLoadTrackersData() {
         if (mDataset == null) {
             mDataset = objectTracker.createDataSet();
@@ -50,10 +57,12 @@ public class MomentanpolImageTarget implements MomentanpolState {
         if (mDataset == null) {
             return false;
         }
+        // Load DataSet for the ImageTargets
         if (!mDataset.load("Marker.xml",STORAGE_TYPE.STORAGE_APPRESOURCE)){
             Log.e(LOGTAG,"Marker nicht gefunden");
             return false;
         }
+        // set DataSet as active DataSet
         if (!objectTracker.activateDataSet(mDataset))
             return false;
         int numTrackables = mDataset.getNumTrackables();
@@ -67,12 +76,15 @@ public class MomentanpolImageTarget implements MomentanpolState {
         return true;
     }
 
-
+    @Override
     public MomentanpolRenderer getRenderer() {
         return mRenderer;
     }
 
-
+    @Override
+    /**
+     * callback Method that carries that the next step of the solution will be shown
+     */
     public void isActionDown() {
         Log.d(LOGTAG,"ButtonDown");
         int id = mRenderer.getLastID();

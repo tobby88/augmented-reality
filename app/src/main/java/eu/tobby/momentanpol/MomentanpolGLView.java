@@ -7,11 +7,17 @@ import android.view.MotionEvent;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 
 /**
- * Created by fabian on 30.06.15.
+ * Extends GLSurfaceView to listen to TouchEvents
+ * @author janna
+ * @author tobby
+ * @author fabian
+ * @version 1.0
  */
 public class MomentanpolGLView extends GLSurfaceView {
 
+    // Handle for the current Renderer
     private GLSurfaceView.Renderer mRenderer;
+    // Habdle for the current State
     private MomentanpolState mState;
 
 
@@ -26,7 +32,7 @@ public class MomentanpolGLView extends GLSurfaceView {
     public boolean onTouchEvent(MotionEvent e) {
         boolean retVal = false;
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
-            //Aufruf falls Screen berührt wurde
+            //Callback if the action is action_down
             mState.isActionDown();
             retVal = true;
         }
