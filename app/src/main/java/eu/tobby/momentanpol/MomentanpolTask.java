@@ -17,11 +17,8 @@ import com.qualcomm.vuforia.VideoBackgroundConfig;
 import com.qualcomm.vuforia.VideoMode;
 import com.qualcomm.vuforia.Vuforia;
 
-import org.opencv.android.OpenCVLoader;
-
 import eu.tobby.momentanpol.FrameMarker.MomentanpolFrameMarkers;
 import eu.tobby.momentanpol.ImageTargets.MomentanpolImageTarget;
-import eu.tobby.momentanpol.OpenCVMarker.MomentanpolOpenCVMarker;
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;
 
@@ -44,7 +41,6 @@ public class MomentanpolTask extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        OpenCVLoader.initDebug();
         // Make a view out of the Designer-XML and add this view on top of the OpenGL-Viewer
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View androidView;
@@ -60,7 +56,6 @@ public class MomentanpolTask extends Activity {
                 iState = new MomentanpolImageTarget(this);
                 break;
             default:
-                iState = new MomentanpolOpenCVMarker(this);
                 break;
         }
         // Handles the different renderer types

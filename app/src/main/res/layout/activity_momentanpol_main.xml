@@ -59,27 +59,4 @@
         android:layout_height="1dip"
         android:background="#000000" />
 
-    <Button
-        android:id="@+id/buttonOpenCV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00ffffff"
-        android:text="@string/opencvmarker" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000" />
-
-    <Button
-        android:id="@+id/buttonFarben"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00ffffff"
-        android:text="@string/farben" />
-
-    <View android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000" />
-
 </LinearLayout>
