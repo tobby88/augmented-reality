@@ -2,7 +2,7 @@ package eu.tobby.momentanpol.interfaces;
 
 import android.opengl.GLSurfaceView;
 
-import com.qualcomm.vuforia.Matrix44F;
+import com.vuforia.Matrix44F;
 
 /**
  * Interface for the Renderer of each Vuforia-Task

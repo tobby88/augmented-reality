@@ -3,10 +3,10 @@ package eu.tobby.momentanpol.FrameMarker;
 import android.app.Activity;
 import android.util.Log;
 
-import com.qualcomm.vuforia.MarkerTracker;
-import com.qualcomm.vuforia.Tracker;
-import com.qualcomm.vuforia.TrackerManager;
-import com.qualcomm.vuforia.Vec2F;
+import com.vuforia.MarkerTracker;
+import com.vuforia.Tracker;
+import com.vuforia.TrackerManager;
+import com.vuforia.Vec2F;
 
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;

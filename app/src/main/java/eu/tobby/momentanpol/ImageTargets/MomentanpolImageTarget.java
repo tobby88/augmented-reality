@@ -3,12 +3,12 @@ package eu.tobby.momentanpol.ImageTargets;
 import android.app.Activity;
 import android.util.Log;
 
-import com.qualcomm.vuforia.DataSet;
-import com.qualcomm.vuforia.ObjectTracker;
-import com.qualcomm.vuforia.STORAGE_TYPE;
-import com.qualcomm.vuforia.Trackable;
-import com.qualcomm.vuforia.Tracker;
-import com.qualcomm.vuforia.TrackerManager;
+import com.vuforia.DataSet;
+import com.vuforia.ObjectTracker;
+import com.vuforia.STORAGE_TYPE;
+import com.vuforia.Trackable;
+import com.vuforia.Tracker;
+import com.vuforia.TrackerManager;
 
 import eu.tobby.momentanpol.interfaces.MomentanpolRenderer;
 import eu.tobby.momentanpol.interfaces.MomentanpolState;

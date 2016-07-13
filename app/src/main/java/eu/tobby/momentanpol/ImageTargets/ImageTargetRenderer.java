@@ -4,14 +4,14 @@ import android.app.Activity;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.qualcomm.vuforia.CameraCalibration;
-import com.qualcomm.vuforia.CameraDevice;
-import com.qualcomm.vuforia.Matrix44F;
-import com.qualcomm.vuforia.Renderer;
-import com.qualcomm.vuforia.State;
-import com.qualcomm.vuforia.Tool;
-import com.qualcomm.vuforia.TrackableResult;
-import com.qualcomm.vuforia.Vuforia;
+import com.vuforia.CameraCalibration;
+import com.vuforia.CameraDevice;
+import com.vuforia.Matrix44F;
+import com.vuforia.Renderer;
+import com.vuforia.State;
+import com.vuforia.Tool;
+import com.vuforia.TrackableResult;
+import com.vuforia.Vuforia;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

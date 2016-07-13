@@ -1,10 +1,16 @@
 package eu.tobby.momentanpol;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Main menu of this application with one button for each state
@@ -35,6 +41,21 @@ public class MomentanpolMain extends Activity {
 
         mFrameMarkerButton = (Button) findViewById(R.id.buttonFrameMarker);
         mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
+
+        // check if there is access to the camera
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // request access to the camera if there is no permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+            // wait-time-workaround, because the permission is not granted instantly
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // check again for camera permission and close app if there is still no access
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                finish();
+        }
 
         statemachine = new Intent(getApplicationContext(),MomentanpolTask.class);
         // set up some onClickListener

@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.qualcomm.vuforia.CameraDevice;
-import com.qualcomm.vuforia.PIXEL_FORMAT;
-import com.qualcomm.vuforia.Renderer;
-import com.qualcomm.vuforia.Vec2I;
-import com.qualcomm.vuforia.VideoBackgroundConfig;
-import com.qualcomm.vuforia.VideoMode;
-import com.qualcomm.vuforia.Vuforia;
+import com.vuforia.CameraDevice;
+import com.vuforia.PIXEL_FORMAT;
+import com.vuforia.Renderer;
+import com.vuforia.Vec2I;
+import com.vuforia.VideoBackgroundConfig;
+import com.vuforia.VideoMode;
+import com.vuforia.Vuforia;
 
 import eu.tobby.momentanpol.FrameMarker.MomentanpolFrameMarkers;
 import eu.tobby.momentanpol.ImageTargets.MomentanpolImageTarget;
@@ -77,7 +77,7 @@ public class MomentanpolTask extends Activity {
     public void initAR() {
         // As long as this window is visible to the user, keep the device's screen turned on and bright:
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        Vuforia.setInitParameters(this, Vuforia.GL_20, "AcCmXLj/////AAAAAWn4W4WOD0/up7Ehu28I5VBQq6sv1WL7JaOAAvhmS98exI+JmpBsPdHy4GnaLxhmgOq3BSpWKFZR4eh6xL2K2NIGN4kPDW8fQwwhKv+7uusQoE5Grc/DOTM0NMZ/G/UPJQC59Uj/SnYvr67zfibax4kVrv+tNzLkcqn+pvhLcdFX1HATddnCCb9IwC2QEc+qX2HSLwxDlS/87FVlhcsUB/NeICVSVTtB5+buqEwOGy+4ZLwJjW5RFrGWX9SLMWHffO9K7X4mn2JQqRt8ZBJXMbixO54BFT+wA7JAhtfznUN33z3QBiE8Uce3aCI8Fh6gBVUt6b35sv8IMmnbZGJ9iA6XurRBoNwJEm7bve2myxu/");
+        Vuforia.setInitParameters(this, Vuforia.GL_20, "AVynWNT/////AAAAGVVxHDOd2UItoZYY37jyXOZaYXvb0NZ3T6E+xRUZAeYD9DGud1yMR+8NYOViOv/OlGHdFw/f2TbZzDTZT0CDXL9ROSuoMqSTuh4uXiEiLMLzkHos4nrEswXJ/OVr1wJjclHvT5duw9fRbwzTaUxsp67IKRq9AsGtj4nlLbzSNmXdS3K/IA7t/ACxX9BNjlAYXJi6oCXgC89OArUAnjJ5LVwWNzz2DZJtvwycytQ6gUQ9Q1sIFoX0PeOJ05JaQ9uk7GsV82TXV714om7HBhZeyxc16iWJFQdpfXS4160zWRuuuozvdWizFUPMJhzK9Iq3MDdZjag8ogYLZD92xYxRJhVZRimWu2EuaGXHxMlNjL5u");
         int init = 0;
         while (init < 100) {
             init = Vuforia.init();
@@ -96,7 +96,7 @@ public class MomentanpolTask extends Activity {
      * Initialization and parametrization
      */
     private void startCam() {
-        CameraDevice.getInstance().init(CameraDevice.CAMERA.CAMERA_DEFAULT);
+        CameraDevice.getInstance().init(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
         configureVideoBackground();
         CameraDevice.getInstance().selectVideoMode(CameraDevice.MODE.MODE_DEFAULT);
         CameraDevice.getInstance().start();
@@ -121,7 +121,7 @@ public class MomentanpolTask extends Activity {
         VideoMode vm = cameraDevice.getVideoMode(CameraDevice.MODE.MODE_DEFAULT);
         VideoBackgroundConfig config = new VideoBackgroundConfig();
         config.setEnabled(true);
-        config.setSynchronous(true);
+        //config.setSynchronous(true);
         config.setPosition(new Vec2I(0, 0));
         int xSize, ySize;
         xSize = (int) (vm.getHeight() * (metrics.heightPixels / (float) vm.getWidth()));
