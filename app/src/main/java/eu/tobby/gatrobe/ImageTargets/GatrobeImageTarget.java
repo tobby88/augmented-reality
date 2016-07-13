@@ -14,7 +14,7 @@ import eu.tobby.gatrobe.interfaces.GatrobeRenderer;
 import eu.tobby.gatrobe.interfaces.GatrobeState;
 
 /**
- * Image Target Vuforia Task, which uses Images as targets to overlay tits
+ * Image Target Vuforia Task, which uses Images as targets to overlay
  * @author janna
  * @author tobby
  * @author fabian
@@ -83,13 +83,13 @@ public class GatrobeImageTarget implements GatrobeState {
 
     @Override
     /**
-     * callback Method that carries that the next titpic of the tits will be shown
+     * callback Method that carries that the next pic of will be shown
      */
     public void isActionDown() {
-        Log.d(LOGTAG,"ButtonDown");
+        //Log.d(LOGTAG,"ButtonDown");
         int id = mRenderer.getLastID();
         if (id >= 0) {
-            mRenderer.getTits().getTiddies(id).addTitpic();
+            mRenderer.getBooobs().getBooobObj(id).addPic();
         }
     }
 

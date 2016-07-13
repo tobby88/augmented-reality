@@ -10,38 +10,38 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import eu.tobby.gatrobe.utils.Tiddies;
+import eu.tobby.gatrobe.utils.BooobObj;
 
 /**
- * Tits-JSON-Reader
+ * Booobs-JSON-Reader
  *
  * @author janna
  * @author tobby
  * @author fabian
  * @version 2.0
  */
-public final class Tits {
+public final class Booobs {
 
     Map<Integer, Integer> ids = new HashMap<>();
-    Vector<Tiddies> tits = new Vector<>();
+    Vector<BooobObj> booobs = new Vector<>();
 
 
-    public Tits(Activity activity) {
-        readTitsJSON(activity);
+    public Booobs(Activity activity) {
+        readJSON(activity);
         /*// Example for the JSON file:
         // Right hand coordinate system: x to the right, y going up, z pointing towards the viewer
         // Begin JSON file
         [
-        // Begin tits element
+        // Begin pic element
           {
-        // (Marker-) ID for the tits (unique!)
+        // (Marker-) ID for the pic-set (unique!)
             "id": 4,
-        // Size of the tits in mm
+        // Size of the pic in mm
             "imageSizeX": 147.5,
             "imageSizeY": 115.2,
-        // Number of tit-images for the tits-element
-            "titpics": 0
-        // End tits element and begin new one
+        // Number of images for the element
+            "pics": 0
+        // End element and begin new one
           },
           {
         // Next element here
@@ -53,15 +53,15 @@ public final class Tits {
     }
 
     /**
-     * Tits-Read-Method
+     * JSON-Read-Method
      *
      * @param activity needed to get access to the assets-folder
      */
-    private void readTitsJSON(Activity activity) {
+    private void readJSON(Activity activity) {
         InputStream inputStream;
         AssetManager assets = activity.getAssets();
         try {
-            inputStream = assets.open("tits/tits.json", AssetManager.ACCESS_BUFFER);
+            inputStream = assets.open("t/ts.json", AssetManager.ACCESS_BUFFER);
             JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
             reader.beginArray();
             while (reader.hasNext()) {
@@ -69,10 +69,7 @@ public final class Tits {
                 int id = -1;
                 float imageSizeX = 0.0f;
                 float imageSizeY = 0.0f;
-                float markerSize = 0.0f;
-                float offsetX = 0.0f;
-                float offsetY = 0.0f;
-                int titpics = 0;
+                int pics = 0;
                 while (reader.hasNext()) {
                     String name = reader.nextName();
                     if (name.equals("id")) {
@@ -81,16 +78,16 @@ public final class Tits {
                         imageSizeX = (float) reader.nextDouble();
                     } else if (name.equals("imageSizeY")) {
                         imageSizeY = (float) reader.nextDouble();
-                    } else if (name.equals("titpics")) {
-                        titpics = reader.nextInt();
+                    } else if (name.equals("pics")) {
+                        pics = reader.nextInt();
                     } else {
                         reader.skipValue();
                     }
                 }
                 reader.endObject();
-                if (id > -1 && imageSizeX > 0 && imageSizeY > 0 && titpics > 0) {
-                    tits.add(new Tiddies(activity, id, imageSizeX, imageSizeY, titpics));
-                    ids.put(id, tits.size() - 1);
+                if (id > -1 && imageSizeX > 0 && imageSizeY > 0 && pics > 0) {
+                    booobs.add(new BooobObj(activity, id, imageSizeX, imageSizeY, pics));
+                    ids.put(id, booobs.size() - 1);
                 }
             }
             reader.endArray();
@@ -102,32 +99,32 @@ public final class Tits {
 
 
     /**
-     * @param id: ID of the tits and the Frame Marker
-     * @return: current tits
+     * @param id: ID of the pic-set
+     * @return: current booob-object
      */
-    public Tiddies getTiddies(int id) {
+    public BooobObj getBooobObj(int id) {
         int index;
         index = ids.get(id);
-        return tits.get(index);
+        return booobs.get(index);
     }
 
     /**
-     * Getter function for the Numbers of tits
+     * Getter function for the numbers of pic-sets
      *
-     * @return: number of tits
+     * @return: number of pic-sets
      */
-    public int getNrOfTits() {
-        return tits.size();
+    public int getNrOfBooobs() {
+        return booobs.size();
     }
 
     /**
-     * Getter for Marker ID
+     * Getter for ID
      *
      * @param index: current index
-     * @return: ID of current tits
+     * @return: ID of current pic-set
      */
     public int getID(int index) {
-        return tits.get(index).getID();
+        return booobs.get(index).getID();
     }
 
 }

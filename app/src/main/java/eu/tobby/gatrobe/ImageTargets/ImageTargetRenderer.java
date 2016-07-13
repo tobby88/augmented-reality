@@ -16,7 +16,7 @@ import com.vuforia.Vuforia;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import eu.tobby.gatrobe.Tits;
+import eu.tobby.gatrobe.Booobs;
 import eu.tobby.gatrobe.interfaces.GatrobeRenderer;
 import eu.tobby.gatrobe.objects.Plane;
 import eu.tobby.gatrobe.utils.CubeShaders;
@@ -43,7 +43,7 @@ public class ImageTargetRenderer implements GatrobeRenderer {
     private Matrix44F mProjectionMatrix;
     //Rendering Plane
     private Plane plane = new Plane();
-    private Tits tits;
+    private Booobs booobs;
     private int lastID = -1;
 
     /**
@@ -51,15 +51,15 @@ public class ImageTargetRenderer implements GatrobeRenderer {
      * @param activity: current activity
      */
     public ImageTargetRenderer(Activity activity) {
-        tits = new Tits(activity);
+        booobs = new Booobs(activity);
     }
 
     /**
-     * Getter method which returns the chosen tits
-     * @return: current tits
+     * Getter method which returns the booobs
+     * @return: current booobs
      */
-    public Tits getTits() {
-        return tits;
+    public Booobs getBooobs() {
+        return booobs;
     }
 
     /**
@@ -104,7 +104,7 @@ public class ImageTargetRenderer implements GatrobeRenderer {
             float[] modelViewProjection = new float[16];
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
             lastID = result.getTrackable().getId();
-            Matrix.scaleM(modelViewProjection, 0, tits.getTiddies(lastID).getPlaneX(), tits.getTiddies(lastID).getPlaneY(), 0);
+            Matrix.scaleM(modelViewProjection, 0, booobs.getBooobObj(lastID).getPlaneX(), booobs.getBooobObj(lastID).getPlaneY(), 0);
             // activate the shader program and bind the vertex/normal/tex coords
             GLES20.glUseProgram(shaderProgramID);
             GLES20.glDisable(GLES20.GL_CULL_FACE);
@@ -117,7 +117,7 @@ public class ImageTargetRenderer implements GatrobeRenderer {
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
             Texture texture;
-            texture = tits.getTiddies(lastID).getCurrentTexture();
+            texture = booobs.getBooobObj(lastID).getCurrentTexture();
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.mTextureID[0]);
             GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
             GLES20.glUniform1i(texSampler2DHandle, 0);
@@ -144,14 +144,14 @@ public class ImageTargetRenderer implements GatrobeRenderer {
     }
 
     /**
-     * Method that gets the tits specific parameters and configures OpenGL for every tits
+     * Method that gets the specific parameters and configures OpenGL for every pic
      */
     private void setTextureSettings() {
         Texture texture;
-        for (int i = 0; i < tits.getNrOfTits(); i++) {
-            for (int j = 1; j <= tits.getTiddies(tits.getID(i)).getTitpics(); j++) {
-                tits.getTiddies(tits.getID(i)).setCurrentTitpic(j);
-                texture = tits.getTiddies(tits.getID(i)).getCurrentTexture();
+        for (int i = 0; i < booobs.getNrOfBooobs(); i++) {
+            for (int j = 1; j <= booobs.getBooobObj(booobs.getID(i)).getPics(); j++) {
+                booobs.getBooobObj(booobs.getID(i)).setCurrentPic(j);
+                texture = booobs.getBooobObj(booobs.getID(i)).getCurrentTexture();
                 // Now generate the OpenGL texture object and add settings
                 GLES20.glGenTextures(1, texture.mTextureID, 0);
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.mTextureID[0]);
@@ -159,7 +159,7 @@ public class ImageTargetRenderer implements GatrobeRenderer {
                 GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
                 GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, texture.mWidth, texture.mHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, texture.mData);
             }
-            tits.getTiddies(tits.getID(i)).setCurrentTitpic(1);
+            booobs.getBooobObj(booobs.getID(i)).setCurrentPic(1);
         }
     }
 

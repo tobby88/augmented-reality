@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -23,21 +24,19 @@ import java.util.concurrent.TimeUnit;
 
 public class GatrobeMain extends Activity {
 
-    //Vuforia-Statemachine-Intent for start different Vuforia-Tasks
+    // Vuforia-Statemachine-Intent to start different Vuforia-Tasks
     private Intent statemachine;
-    // for starting OpenCV-Task
 
     /**
      * creates the layout and callbacks for the main menu
-     * with a button for every state
+     * with a button for every state (only one button at the moment
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gatrobe_main);
 
-        Button mImageTargetButton;
-
+        final Button mImageTargetButton;
         mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
 
         // check if there is access to the camera
@@ -46,7 +45,7 @@ public class GatrobeMain extends Activity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
             // wait-time-workaround, because the permission is not granted instantly
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(1L);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -65,10 +64,25 @@ public class GatrobeMain extends Activity {
              */
             @Override
             public void onClick(View v) {
+                // color the button to dark grey and start the statemachine
+                mImageTargetButton.setBackgroundColor(Color.DKGRAY);
+                mImageTargetButton.setBackgroundColor(Color.TRANSPARENT);
+                mImageTargetButton.setBackgroundColor(Color.DKGRAY);
                 statemachine.putExtra("button", 0);
                 startActivity(statemachine);
             }
         });
+    }
+
+    /**
+     * Make button transparent again when closing the Vuforia camera activity
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final Button mImageTargetButton;
+        mImageTargetButton = (Button) findViewById(R.id.buttonImageTarget);
+        mImageTargetButton.setBackgroundColor(Color.TRANSPARENT);
     }
 
 }

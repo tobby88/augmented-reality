@@ -40,8 +40,12 @@
         android:id="@+id/buttonImageTarget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2pt"
+        android:layout_marginTop="2pt"
         android:background="#00ffffff"
-        android:text="@string/imagetarget" />
+        android:text="@string/imagetarget"
+        android:textSize="8pt"
+        android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"

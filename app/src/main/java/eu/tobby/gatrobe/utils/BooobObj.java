@@ -11,62 +11,62 @@ import java.util.Vector;
  * @author fabian
  * @version 2.0
  */
-public class Tiddies {
+public class BooobObj {
 
-    // Number of titpics for this tits
-    private final int titpics;
-    // (Marker-) ID for the tits (unique!)
+    // Number of pics for this object
+    private final int pics;
+    // (Marker-) ID for the booob-object (unique!)
     private final int id;
     // Scale factors for the resize of the rendered plane
     private final float kPlaneScaleX;
     private final float kPlaneScaleY;
     private Vector<Texture> textures = new Vector<>();
-    private int currentTitpic = 1;
+    private int currentPic = 1;
 
     /**
-     * Constructor for Tits
+     * Constructor for BooobObj
      * @param activity: current activity
      * @param id: unique id
      * @param imageSizeX: Size of Image in Scene Units in X-direction
      * @param imageSizeY: Size of Image in Scene Units in Y-direction
-     * @param titpics: Number of titpics, which can be shown
+     * @param pics: Number of pics, which can be shown
      */
-    public Tiddies(Activity activity, int id, float imageSizeX, float imageSizeY, int titpics) {
-        this.titpics = titpics;
+    public BooobObj(Activity activity, int id, float imageSizeX, float imageSizeY, int pics) {
+        this.pics = pics;
         this.id = id;
         // Calculate the resize and translation parameters
         kPlaneScaleX = imageSizeX/10.0f;
         kPlaneScaleY = imageSizeY/10.0f;
         // Load the textures
-        for (int i = 1; i <= titpics; i++) {
-            textures.add(Texture.loadTextureFromApk("tits/tits" + id + "_pic" + i + ".jpg", activity.getAssets()));
+        for (int i = 1; i <= pics; i++) {
+            textures.add(Texture.loadTextureFromApk("t/t" + id + "_p" + i + ".gat", activity.getAssets()));
         }
     }
 
     /**
-     * Setter method for the current titpic
-     * @param titpic: Number of titpic, which should be shown
+     * Setter method for the current pic
+     * @param pic: Number of pic, which should be shown
      */
-    public void setCurrentTitpic(int titpic) {
-        currentTitpic = titpic;
+    public void setCurrentPic(int pic) {
+        currentPic = pic;
     }
 
     /**
-     * Add a new titpic
+     * Add a new pic
      */
-    public void addTitpic() {
-        currentTitpic++;
-        if (currentTitpic > titpics) {
-            currentTitpic = 1;
+    public void addPic() {
+        currentPic++;
+        if (currentPic > pics) {
+            currentPic = 1;
         }
     }
 
     /**
-     * Getter method for the number of titpics
-     * @return: titpics
+     * Getter method for the number of pics
+     * @return: pics
      */
-    public int getTitpics() {
-        return titpics;
+    public int getPics() {
+        return pics;
     }
 
     /**
@@ -74,11 +74,11 @@ public class Tiddies {
      * @return: current Texture
      */
     public Texture getCurrentTexture() {
-        return textures.elementAt(currentTitpic - 1);
+        return textures.elementAt(currentPic - 1);
     }
 
     /**
-     * Getter method for the current unique ID of the Marker
+     * Getter method for the current unique ID
      * @return: current ID
      */
     public int getID() {

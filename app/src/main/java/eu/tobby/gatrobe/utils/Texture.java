@@ -12,11 +12,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import java.io.BufferedInputStream;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+//import java.io.BufferedInputStream;
 
 
 // Support class for the Vuforia samples applications.
@@ -38,8 +41,16 @@ public class Texture {
         InputStream inputStream;
         try {
             inputStream = assets.open(fileName, AssetManager.ACCESS_BUFFER);
-            BufferedInputStream bufferedStream = new BufferedInputStream(inputStream);
-            Bitmap bitMap = BitmapFactory.decodeStream(bufferedStream);
+            // Original image loader:
+            /*BufferedInputStream bufferedStream = new BufferedInputStream(inputStream);
+            Bitmap bitMap = BitmapFactory.decodeStream(bufferedStream);*/
+
+            // Decode images:
+            byte[] image = IOUtils.toByteArray(inputStream);
+            for (int i = 0; i < image.length; i++) {
+                image[i] = (byte) ~image[i];
+            }
+            Bitmap bitMap = BitmapFactory.decodeByteArray(image, 0, image.length);
             int[] data = new int[bitMap.getWidth() * bitMap.getHeight()];
             bitMap.getPixels(data, 0, bitMap.getWidth(), 0, 0, bitMap.getWidth(), bitMap.getHeight());
 
