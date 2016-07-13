@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="eu.tobby.momentanpol" >
+    package="eu.tobby.gatrobe">
 
     <uses-feature android:glEsVersion="0x00020000" />
     <uses-feature android:name="android.hardware.camera" />
@@ -11,13 +11,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/imes"
+        android:icon="@mipmap/saaleingang2"
         android:label="@string/app_name"
         android:launchMode="singleTask"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MomentanpolMain"
-            android:label="@string/title_activity_momentanpol_main"
+            android:name=".GatrobeMain"
+            android:label="@string/title_activity_gatrobe_main"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,8 +27,8 @@
 
         </activity>
         <activity
-            android:name=".MomentanpolTask"
-            android:label="@string/title_activity_momentanpol_task"
+            android:name=".GatrobeTask"
+            android:label="@string/title_activity_gatrobe_task"
             android:screenOrientation="portrait">
         </activity>
     </application>

@@ -1,11 +1,10 @@
 <resources>
-    <string name="app_name">Momentanpol</string>
+    <string name="app_name">Gatrobe</string>
 
-    <string name="title_activity_momentanpol_main">Momentanpol</string>
-    <string name="title_activity_momentanpol_task">MomentanpolTask</string>
+    <string name="title_activity_gatrobe_main">Gatrobe</string>
+    <string name="title_activity_gatrobe_task">GatrobeTask</string>
 
-    <string name="header_description">Header Logos</string>
-    <string name="framemarker">FrameMarker</string>
-    <string name="imagetarget">ImageTarget</string>
-    <string name="farben">Farberkennung</string>
+    <string name="header_description">UniLogo</string>
+    <string name="footer_description">Gatrobe-Logo</string>
+    <string name="imagetarget">Titten</string>
 </resources>

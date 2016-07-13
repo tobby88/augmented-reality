@@ -1,8 +1,5 @@
-eu.tobby.momentanpol
-eu.tobby.momentanpol.FrameMarker
-eu.tobby.momentanpol.ImageTargets
-eu.tobby.momentanpol.OpenCVMarker
-eu.tobby.momentanpol.OpenCVTask
-eu.tobby.momentanpol.interfaces
-eu.tobby.momentanpol.objects
-eu.tobby.momentanpol.utils
+eu.tobby.gatrobe
+eu.tobby.gatrobe.ImageTargets
+eu.tobby.gatrobe.interfaces
+eu.tobby.gatrobe.objects
+eu.tobby.gatrobe.utils
