@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
-    <ImageTarget name="WebDevJokeTobby" size="176.420967033 297.302" />
+    <ImageTarget name="05_BauingParty" size="297.000000 420.103333" />
+    <ImageTarget name="04_Sicherheitshinweise" size="420.000000 296.926941" />
+    <ImageTarget name="03_NSA" size="420.000000 296.926941" />
+    <ImageTarget name="02_FotografierenVerboten" size="297.000000 420.103333" />
+    <ImageTarget name="01_WebDevJokeTobby" size="176.24 297.0" />
   </Tracking>
 </QCARConfig>

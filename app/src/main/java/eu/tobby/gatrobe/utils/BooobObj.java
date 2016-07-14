@@ -5,7 +5,7 @@ import android.app.Activity;
 import java.util.Vector;
 
 /**
- * Tits class to add new tits with additional information in a single process
+ * Booob class to add new booob-objects with additional information in a single process
  * @author janna
  * @author tobby
  * @author fabian
@@ -39,7 +39,7 @@ public class BooobObj {
         kPlaneScaleY = imageSizeY/10.0f;
         // Load the textures
         for (int i = 1; i <= pics; i++) {
-            textures.add(Texture.loadTextureFromApk("t/t" + id + "_p" + i + ".gat", activity.getAssets()));
+            textures.add(Texture.loadTextureFromApk("t/t" + id + "p" + i + ".gat", activity.getAssets()));
         }
     }
 

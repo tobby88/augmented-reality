@@ -1,8 +1,32 @@
 [
   {
     "id": 1,
-    "imageSizeX": 210.224,
-    "imageSizeY": 297.302,
+    "imageSizeX": 210.0,
+    "imageSizeY": 297.0,
+    "pics": 14
+  },
+  {
+    "id": 2,
+    "imageSizeX": 297.0,
+    "imageSizeY": 420.0,
+    "pics": 12
+  },
+  {
+    "id": 3,
+    "imageSizeX": 420.0,
+    "imageSizeY": 297.0,
     "pics": 1
+  },
+  {
+    "id": 4,
+    "imageSizeX": 420.0,
+    "imageSizeY": 297.0,
+    "pics": 1
+  },
+  {
+    "id": 5,
+    "imageSizeX": 297.0,
+    "imageSizeY": 420.0,
+    "pics": 15
   }
 ]

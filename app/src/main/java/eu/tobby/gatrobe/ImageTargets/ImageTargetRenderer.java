@@ -103,7 +103,7 @@ public class ImageTargetRenderer implements GatrobeRenderer {
             // deal with the modelview and projection matrices
             float[] modelViewProjection = new float[16];
             Matrix.multiplyMM(modelViewProjection, 0, getProjectionMatrix().getData(), 0, modelViewMatrix, 0);
-            lastID = result.getTrackable().getId();
+            lastID = booobs.getNrOfBooobs() + 1 - result.getTrackable().getId();
             Matrix.scaleM(modelViewProjection, 0, booobs.getBooobObj(lastID).getPlaneX(), booobs.getBooobObj(lastID).getPlaneY(), 0);
             // activate the shader program and bind the vertex/normal/tex coords
             GLES20.glUseProgram(shaderProgramID);
